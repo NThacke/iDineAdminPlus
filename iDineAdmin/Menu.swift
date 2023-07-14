@@ -58,7 +58,7 @@ class MenuViewModel: ObservableObject {
     @Published var myItems: [MenuSection] = []
     
     func loadData() {
-        APIHelper.getBreakfast { [weak self] items in
+        APIHelper.breakfast { [weak self] items in
             DispatchQueue.main.async {
                 self?.myItems.removeAll()
                 self?.myItems = items

@@ -21,15 +21,61 @@ public class APIHelper {
         
         var classicBreakfasts = MenuSection(name: "Classics")
         
-        getItems( menuType: "breakfast", sectionType: "classics") { items in
-            breakfastItems = []
+//        getItems( menuType: "breakfast", sectionType: "classics") { items in
+//            breakfastItems = []
+//            for item in items {
+//                classicBreakfasts.append(item: item)
+//            }
+//            breakfastItems.append(classicBreakfasts)
+//            completion(breakfastItems)
+//        }
+        
+    }
+    
+    static func breakfast(completion : @escaping ([MenuSection]) -> Void ) {
+        
+        var sections = [String]() //menu sections
+        var mySections = [MenuSection]()
+        
+        getItems(menuType : "breakfast") {items in
             for item in items {
-                classicBreakfasts.append(item: item)
+                if(newSection(sections : sections, section : item.sectionType)) {
+                    //newly found section, create it and append the item
+                    sections.append(item.sectionType)
+                    var newSection = MenuSection(name : item.sectionType)
+                    newSection.append(item : item)
+                    mySections.append(newSection)
+                }
+                else {
+                    //get the section that item belongs to and append it to there
+                    if var sectionItemBelongsTo = getSection(sections : mySections, item : item) {
+                        sectionItemBelongsTo.append(item : item)
+                    }
+                }
             }
-            breakfastItems.append(classicBreakfasts)
-            completion(breakfastItems)
+            completion(mySections)
         }
         
+    }
+    
+    /**
+            This method is used to determine if a particular section is a newly found section. This is useful for getting data from the API. When we get every breakfast item, we want to be able to categroize them by sections. We don't know how many sections there are prior to this invocation -- as such,. we create new MenuSections any time that we encounter a new section.
+     */
+    static func newSection(sections : [String], section : String) -> Bool {
+        for item in sections {
+            if(item == section) {
+                return false
+            }
+        }
+        return true
+    }
+    static func getSection(sections : [MenuSection], item : MenuItem) -> MenuSection? {
+        for section in sections {
+            if(section.name == item.sectionType) {
+                return section
+            }
+        }
+        return nil
     }
     static func getLunch() -> [MenuSection] {
         return [MenuSection]()
@@ -84,11 +130,11 @@ public class APIHelper {
             task.resume()
     }
     
-    static func getItems(menuType: String, sectionType: String, completion: @escaping ([MenuItem]) -> Void) {
-        print("Inside getItems function for section \(sectionType)")
+    static func getItems(menuType: String, completion: @escaping ([MenuItem]) -> Void) {
+//        print("Inside getItems function for section \(sectionType)")
 
         // Set the API endpoint URL
-        let url = URL(string: "https://nueyl8ey42.execute-api.us-east-1.amazonaws.com/testing/menu?menuType=\(menuType)&sectionType=\(sectionType)")!
+        let url = URL(string: "https://nueyl8ey42.execute-api.us-east-1.amazonaws.com/testing/menu?menuType=\(menuType)")!
 
         // Create a URLSession instance
         let session = URLSession.shared
