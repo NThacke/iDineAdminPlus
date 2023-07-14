@@ -17,27 +17,22 @@ public class APIHelper {
     static var breakfastItems : [MenuSection] = [MenuSection]()
     
     
-    static func getBreakfast( completion : @escaping ([MenuSection]) -> Void) {
-        
-        var classicBreakfasts = MenuSection(name: "Classics")
-        
-//        getItems( menuType: "breakfast", sectionType: "classics") { items in
-//            breakfastItems = []
-//            for item in items {
-//                classicBreakfasts.append(item: item)
-//            }
-//            breakfastItems.append(classicBreakfasts)
-//            completion(breakfastItems)
-//        }
-        
-    }
-    
-    static func breakfast(completion : @escaping ([MenuSection]) -> Void ) {
-        
+    /**
+     This method returns every MenuSection belonging to the Breakfast Menu. It determines the Sections when it invokes the API. The API returns back every item in the givent Menu, and this method then filters the Sections found within each item, and appends it to the appropriate one. If it comes across a section it is unaware of, it makes a new one.
+     
+        example usage :
+            
+     retrieveMenuItems(menu : "breakfast") { items in
+            myItems = items
+     }
+     
+     */
+    static func retrieveMenuItems(menu : String, completion : @escaping ([MenuSection]) -> Void) {
         var sections = [String]() //menu sections
         var mySections = [MenuSection]()
+    
         
-        getItems(menuType : "breakfast") {items in
+        getItems(menuType : menu) {items in
             for item in items {
                 if(newSection(sections : sections, section : item.sectionType)) {
                     //newly found section, create it and append the item
@@ -47,41 +42,27 @@ public class APIHelper {
                     mySections.append(newSection)
                 }
                 else {
-                    //get the section that item belongs to and append it to there
-                    if var sectionItemBelongsTo = getSection(sections : mySections, item : item) {
-                        sectionItemBelongsTo.append(item : item)
+                    for i in 0..<mySections.count {
+                        if(mySections[i].name == item.sectionType) {
+                            mySections[i].append(item : item) //you must append an item by referencing it directly, not using a variable!
+                        }
                     }
                 }
             }
             completion(mySections)
         }
-        
     }
     
     /**
             This method is used to determine if a particular section is a newly found section. This is useful for getting data from the API. When we get every breakfast item, we want to be able to categroize them by sections. We don't know how many sections there are prior to this invocation -- as such,. we create new MenuSections any time that we encounter a new section.
      */
-    static func newSection(sections : [String], section : String) -> Bool {
+    private static func newSection(sections : [String], section : String) -> Bool {
         for item in sections {
             if(item == section) {
                 return false
             }
         }
         return true
-    }
-    static func getSection(sections : [MenuSection], item : MenuItem) -> MenuSection? {
-        for section in sections {
-            if(section.name == item.sectionType) {
-                return section
-            }
-        }
-        return nil
-    }
-    static func getLunch() -> [MenuSection] {
-        return [MenuSection]()
-    }
-    static func getDinner() -> [MenuSection] {
-        return [MenuSection]()
     }
     
     static func putItem(item : MenuItem) throws {
@@ -130,7 +111,7 @@ public class APIHelper {
             task.resume()
     }
     
-    static func getItems(menuType: String, completion: @escaping ([MenuItem]) -> Void) {
+    private static func getItems(menuType: String, completion: @escaping ([MenuItem]) -> Void) {
 //        print("Inside getItems function for section \(sectionType)")
 
         // Set the API endpoint URL

@@ -14,11 +14,9 @@ enum Type {
     case dinner
 }
 
-var loaded = false
-
-struct Menu : View {
+struct BreakfastMenu : View {
     
-    @StateObject var viewModel = MenuViewModel()
+    @StateObject var viewModel : MenuViewModel = MenuViewModel(menu : "breakfast")
     
     @State var refresh : Bool = false;
     
@@ -57,12 +55,13 @@ struct Menu : View {
 class MenuViewModel: ObservableObject {
     @Published var myItems: [MenuSection] = []
     
+    @Published var menu : String = ""
+    
     func loadData() {
-        APIHelper.breakfast { [weak self] items in
+        APIHelper.retrieveMenuItems(menu : menu) { [weak self] items in
             DispatchQueue.main.async {
                 self?.myItems.removeAll()
                 self?.myItems = items
-                loaded = true
             }
         }
     }
@@ -74,11 +73,15 @@ class MenuViewModel: ObservableObject {
         }
         return nil
     }
+    
+    init(menu : String) {
+        self.menu = menu
+    }
 }
 
 struct Breakfast_Previews: PreviewProvider {
     static var previews: some View {
-        Menu()
+        BreakfastMenu()
     }
 }
 

@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-let breakfastMenu = Menu()
-var lunchMenu = Menu()
+let breakfastMenu = BreakfastMenu()
+let lunchMenu = LunchMenu()
+let dinnerMenu = DinnerMenu()
 
 enum ButtonState {
     case breakfast
@@ -55,7 +56,7 @@ struct ContentView: View {
                         lunchMenu
                     }
                     else if buttonState == .dinner {
-                        Text("Dinner")
+                        dinnerMenu
                     }
                     else if buttonState == .add {
                         let adder = AddMenuItemPrompt();
