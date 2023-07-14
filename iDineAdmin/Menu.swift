@@ -29,6 +29,8 @@ struct Menu : View {
                     ForEach(section.items) {item in
                         ItemRow(item : item)
                     }
+                    .onDelete{
+                        offsets in deleteItem(at : offsets, section: section)}
                 }
             }
         }.onAppear(perform: {
@@ -38,6 +40,17 @@ struct Menu : View {
             viewModel.loadData()
         }
         
+    }
+    
+    func deleteItem(at offsets : IndexSet, section: MenuSection) {
+        if let index = offsets.first {
+            if let mySection = viewModel.getSection(name: section.name) {
+                let id = mySection.items[index].id
+                APIHelper.deleteItem(id : id) {
+                    viewModel.loadData()
+                }
+            }
+        }
     }
 }
 
@@ -52,7 +65,14 @@ class MenuViewModel: ObservableObject {
                 loaded = true
             }
         }
-        
+    }
+    func getSection(name : String) -> MenuSection? {
+        for item in myItems {
+            if(item.name == name) {
+                return item
+            }
+        }
+        return nil
     }
 }
 

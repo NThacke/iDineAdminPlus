@@ -134,4 +134,49 @@ public class APIHelper {
             return []
         }
     }
+    
+    /**
+                This method deletes the item with the specified ID from the DynamoDB database that is backing the restaurant menu.
+                
+                 This method is a completion handler, which enables one to invoke this method, and then run code once it has been completed.
+                 
+                 For example,
+                 
+                 APIHelper.deletItem(id : "1234") {
+                    //code to run after deleting the item (perhaps just a refresh method)
+                    refresh()
+                 }
+     
+     */
+    static func deleteItem(id : String, completion : @escaping () -> Void) {
+        
+        print("Inside delete function in APIHelper.")
+        // Set the API endpoint URL
+        let url = URL(string: "https://nueyl8ey42.execute-api.us-east-1.amazonaws.com/testing/menu?id=\(id)")!
+
+        // Create a URLSession instance
+        let session = URLSession.shared
+        
+        var request = URLRequest(url : url)
+        request.httpMethod = "DELETE"
+        
+
+        // Create a data task
+        let task = session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                completion() // Call the completion handler with an empty array
+            }
+
+            // Handle the API response
+            if let httpResponse = response as? HTTPURLResponse {
+                print("Status code: \(httpResponse.statusCode)")
+                completion()
+            } else {
+                completion() // Call the completion handler with an empty array
+            }
+        }
+        // Start the data task
+        task.resume()
+    }
 }
