@@ -8,6 +8,10 @@
 import Foundation
 import SwiftUI
 
+/**
+ This struct is used as the View for adding a new menu item. When a user is adding a new menu item, they are viewing this View
+ */
+
 struct AddMenuItemPrompt : View {
     
     @State var name : String = ""
@@ -19,6 +23,9 @@ struct AddMenuItemPrompt : View {
     
     @State var closed  = false
     @State var inValid = false
+    
+    @State private var selectedImage : UIImage?
+    @State private var showingPhotoPicker = false
     
     
     var body : some View {
@@ -46,7 +53,12 @@ struct AddMenuItemPrompt : View {
                     }
                     HStack {//figure out a good import source for images
                         Text("Image")
-                        
+                        Button("Select") {
+                            showingPhotoPicker = true
+                        }
+                        if let image = selectedImage {
+                            Image(uiImage : image).resizable().frame(width : 50, height : 50)
+                        }
                     }
                     HStack {
                         Text("Menu Type")
@@ -64,6 +76,9 @@ struct AddMenuItemPrompt : View {
                     }
                 }
             }
+            .sheet(isPresented : $showingPhotoPicker) {
+                PhotoPickerView(selectedImage : $selectedImage)
+            }
         }.popover(isPresented: $closed) {
             Text("Fantastic! That'll be added to the menu shortly.")
             Button("OK", action : {
@@ -71,7 +86,8 @@ struct AddMenuItemPrompt : View {
             })
         }
         Button("OK") {
-            inValid = !invokeAPI()
+            let _ = print("Clicked okay!")
+            inValid = !self.invokeAPI()
         }
         .popover(isPresented : $inValid) {
             Text("Oops! Seems like you forgot one or more required entries!")
@@ -80,32 +96,41 @@ struct AddMenuItemPrompt : View {
         
     }
     
+    /**
+    @returns a View of an Image which shows a red exclamation mark
+     */
     func warning() -> some View {
         Image(systemName: "exclamationmark.circle").foregroundColor(Color.red)
     }
     
+    func reiszeImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.draw(in: CGRectMake(0, 0, newSize.width, newSize.height))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+    /**
+    @returns true if the required  textfields (name, price, menuType, and menuSection)  are all non empty
+     */
     func valid() -> Bool {
-//        if (!name.isEmpty && !price.isEmpty && !menuType.isEmpty && !sectionType.isEmpty) {
-//            return true
-//        }
-//        else {
-//            return false
-//        }
         return !name.isEmpty && !price.isEmpty && !menuType.isEmpty && !sectionType.isEmpty
     }
+    /**
+    @returns true if one or more required texteiflds (name, price, menuType and menuSection) are empty
+     */
     func notValid() -> Bool {
         return !valid()
     }
-    func getMenuType() -> String {
-        return self.menuType
-    }
-    func getSectionType() -> String {
-        return self.sectionType
-    }
     
+    /**
+    This method sends the entered information in the textfields over to the database which stores the menu items. It does so by invoking an API Put Request
+     */
     func invokeAPI() -> Bool {
-        print("Inside invokeAPI")
-        print(valid())
+        
+        let _ = print("Inside invokeAPI")
+        print(notValid())
         
         if(!notValid()) {
             let name = name
@@ -113,7 +138,17 @@ struct AddMenuItemPrompt : View {
             let description = description
             let menuType = menuType.lowercased()
             let sectionType = sectionType.lowercased()
-            let image = image
+            
+            if let selectedImage = selectedImage {
+                print("Selected an image")
+                let resized = reiszeImage(image: selectedImage, scaledToSize: CGSize(width: 50, height:50))
+                if let data = resized.pngData()?.base64EncodedString() {
+                    self.image = data
+                }
+            }
+            else {
+                print("Selected image is null")
+            }
             
             let item = MenuItem(name: name, type : menuType, section: sectionType, image : image, price : price, description : description )
             
@@ -130,13 +165,14 @@ struct AddMenuItemPrompt : View {
     }
     
     /**
-            Clears all internal fields so that the prompt is an empty prompt.
+    Clears all internal fields so that the prompt is an empty prompt.
      */
     func clear() {
         self.name = ""
         self.price = ""
         self.description = ""
         self.image = ""
+        self.selectedImage = nil
         self.menuType = ""
         self.sectionType = ""
         

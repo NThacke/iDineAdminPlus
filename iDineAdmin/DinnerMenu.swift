@@ -8,6 +8,10 @@
 import Foundation
 import SwiftUI
 
+/**
+ This struct serves as the View for when a user is viewing the Dinner menu
+ */
+
 struct DinnerMenu : View {
     
     @StateObject var viewModel : MenuViewModel = MenuViewModel(menu : "dinner")
@@ -34,6 +38,9 @@ struct DinnerMenu : View {
         
     }
     
+    /**
+        This method deletes the given item from the data set. This method is only meant to be invoked internally from the onDelete() modifier on a ForEach loop.
+     */
     func deleteItem(at offsets : IndexSet, section: MenuSection) {
         if let index = offsets.first {
             if let mySection = viewModel.getSection(name: section.name) {

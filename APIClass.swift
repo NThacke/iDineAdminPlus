@@ -75,6 +75,8 @@ public class APIHelper {
 
             var request = URLRequest(url: url)
             request.httpMethod = "PUT"
+        
+        print("Image has \(item.image.count) characters")
                 
             let requestBody = [
                 "id": item.id,
@@ -130,7 +132,7 @@ public class APIHelper {
 
             // Handle the API response
             if let httpResponse = response as? HTTPURLResponse {
-                print("Status code: \(httpResponse.statusCode)")
+//                print("Status code: \(httpResponse.statusCode)")
 
                 if let data = data {
                     let items = process(data: data)
@@ -148,12 +150,12 @@ public class APIHelper {
         task.resume()
     }
     private static func process(data: Data ) -> [MenuItem] {
-        print("Inside process function")
-        print(data)
+//        print("Inside process function")
+//        print(data)
         do {
             let decoder = JSONDecoder()
             let jsonData = try decoder.decode([MenuItem].self, from: data)
-            print("JSON DATA : \(jsonData)")
+//            print("JSON DATA : \(jsonData)")
             return jsonData
         } catch {
 //            print("Error decoding JSON: \(error.localizedDescription)")
@@ -163,16 +165,17 @@ public class APIHelper {
     }
     
     /**
-                This method deletes the item with the specified ID from the DynamoDB database that is backing the restaurant menu.
+    
+     This method deletes the item with the specified ID from the DynamoDB database that is backing the restaurant menu.
                 
-                 This method is a completion handler, which enables one to invoke this method, and then run code once it has been completed.
+            This method is a completion handler, which enables one to invoke this method, and then run code once it has been completed.
                  
-                 For example,
+            For example,
                  
-                 APIHelper.deletItem(id : "1234") {
-                    //code to run after deleting the item (perhaps just a refresh method)
-                    refresh()
-                 }
+            APIHelper.deletItem(id : "1234") {
+                //code to run after deleting the item (perhaps just a refresh method)
+                refresh()
+            }
      
      */
     static func deleteItem(id : String, completion : @escaping () -> Void) {

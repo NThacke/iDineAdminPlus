@@ -17,9 +17,9 @@
 		A4C3B7552A5F2B0E009915BE /* ItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7542A5F2B0E009915BE /* ItemRow.swift */; };
 		A4C3B7572A5F2C57009915BE /* APIClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7562A5F2C57009915BE /* APIClass.swift */; };
 		A4C3B7592A5F5020009915BE /* AddMenuItemPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7582A5F5020009915BE /* AddMenuItemPrompt.swift */; };
-		A4C3B75B2A60B7D7009915BE /* Booter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B75A2A60B7D7009915BE /* Booter.swift */; };
 		A4C3B75D2A61E04C009915BE /* LunchMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B75C2A61E04C009915BE /* LunchMenu.swift */; };
 		A4C3B75F2A61E1E5009915BE /* DinnerMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B75E2A61E1E5009915BE /* DinnerMenu.swift */; };
+		A4C3B7612A630714009915BE /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7602A630714009915BE /* PhotoPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,9 +34,9 @@
 		A4C3B7542A5F2B0E009915BE /* ItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRow.swift; sourceTree = "<group>"; };
 		A4C3B7562A5F2C57009915BE /* APIClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClass.swift; sourceTree = "<group>"; };
 		A4C3B7582A5F5020009915BE /* AddMenuItemPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMenuItemPrompt.swift; sourceTree = "<group>"; };
-		A4C3B75A2A60B7D7009915BE /* Booter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booter.swift; sourceTree = "<group>"; };
 		A4C3B75C2A61E04C009915BE /* LunchMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchMenu.swift; sourceTree = "<group>"; };
 		A4C3B75E2A61E1E5009915BE /* DinnerMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DinnerMenu.swift; sourceTree = "<group>"; };
+		A4C3B7602A630714009915BE /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,8 +73,8 @@
 			children = (
 				A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */,
 				A4C3B7422A5F2931009915BE /* ContentView.swift */,
-				A4C3B75A2A60B7D7009915BE /* Booter.swift */,
 				A4C3B74E2A5F2A32009915BE /* Menu.swift */,
+				A4C3B7602A630714009915BE /* PhotoPicker.swift */,
 				A4C3B75C2A61E04C009915BE /* LunchMenu.swift */,
 				A4C3B75E2A61E1E5009915BE /* DinnerMenu.swift */,
 				A4C3B7542A5F2B0E009915BE /* ItemRow.swift */,
@@ -165,10 +165,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4C3B7572A5F2C57009915BE /* APIClass.swift in Sources */,
+				A4C3B7612A630714009915BE /* PhotoPicker.swift in Sources */,
 				A4C3B75F2A61E1E5009915BE /* DinnerMenu.swift in Sources */,
 				A4C3B7592A5F5020009915BE /* AddMenuItemPrompt.swift in Sources */,
 				A4C3B74F2A5F2A32009915BE /* Menu.swift in Sources */,
-				A4C3B75B2A60B7D7009915BE /* Booter.swift in Sources */,
 				A4C3B7432A5F2931009915BE /* ContentView.swift in Sources */,
 				A4C3B75D2A61E04C009915BE /* LunchMenu.swift in Sources */,
 				A4C3B7512A5F2A6D009915BE /* MenuSection.swift in Sources */,
