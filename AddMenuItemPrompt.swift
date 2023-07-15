@@ -33,6 +33,9 @@ struct AddMenuItemPrompt : View {
     @State var restrictions : [String] = [MenuItem.GLUTEN_FREE, MenuItem.VEGAN, MenuItem.VEGETARIAN]
     
     
+    @State var showRestrictionInfo = false
+    
+    
     var body : some View {
         
         List {
@@ -84,30 +87,27 @@ struct AddMenuItemPrompt : View {
             .sheet(isPresented : $showingPhotoPicker) {
                 PhotoPickerView(selectedImage : $selectedImage)
             }
-        }.popover(isPresented: $closed) {
-            Text("Fantastic! That'll be added to the menu shortly.")
-            Button("OK", action : {
-                self.closed = false
-            })
-        }
-            List {
-                Section("Restrictions") {
-                    Menu("Select a Restriction") {
-                        ForEach(restrictions, id : \.self) {r in
-                            Button(action : {
-                                self.selection = r
-                            }) {
-                                Text(r)
-                            }
+            
+            if showRestrictionInfo {Section("Restrictions are used to accomdate those with dietary needs") {}
+            }
+            Section(header: SectionHeaderView(title: "Restrictions", action : showInfo)) {
+                Menu("Select a Restriction") {
+                    ForEach(restrictions, id : \.self) {r in
+                        Button(action : {
+                            self.selection = r
+                        }) {
+                            Text(r)
                         }
                     }
-                    .onChange(of : selection) { selection in
-                        //add chosen restriction to list of chosen restrictions, and remove it from the possible selections
-                        chosenRestrictions.append(selection)
-                        restrictions.remove(at : restrictions.firstIndex(of: selection)!)
-                    }
                 }
-                if(!chosenRestrictions.isEmpty) {
+                .onChange(of : selection) { selection in
+                    //add chosen restriction to list of chosen restrictions, and remove it from the possible selections
+                    chosenRestrictions.append(selection)
+                    restrictions.remove(at : restrictions.firstIndex(of: selection)!)
+                }
+            }
+            if(!chosenRestrictions.isEmpty) {
+                Section("Restrictions") {
                     ForEach(chosenRestrictions, id : \.self) {r in
                         Text(r)
                     }
@@ -120,6 +120,12 @@ struct AddMenuItemPrompt : View {
                     })
                 }
             }
+        }.popover(isPresented: $closed) {
+            Text("Fantastic! That'll be added to the menu shortly.")
+            Button("OK", action : {
+                self.closed = false
+            })
+        }
         
         Button("OK") {
             let _ = print("Clicked okay!")
@@ -132,6 +138,9 @@ struct AddMenuItemPrompt : View {
         
     }
     
+    func showInfo() {
+        self.showRestrictionInfo.toggle()
+    }
     /**
     @returns a View of an Image which shows a red exclamation mark
      */
