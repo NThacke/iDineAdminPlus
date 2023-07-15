@@ -27,7 +27,7 @@ struct ContentView: View {
     @State private var refresh = false
     
     var breakfastItems : [MenuSection] = [MenuSection]();
-
+    
     
     var body: some View {
         
@@ -63,14 +63,14 @@ struct ContentView: View {
                         
                         VStack {
                             adder
-//                            Button("OK", action : {
-//                                showingPopover = !adder.isValid();
-//                                adder.invokeAPI();
-////                                invokeAPI()
-//                            })
+                            //                            Button("OK", action : {
+                            //                                showingPopover = !adder.isValid();
+                            //                                adder.invokeAPI();
+                            ////                                invokeAPI()
+                            //                            })
                         }
                         
-        
+                        
                     }
                 }
             }
@@ -135,16 +135,7 @@ struct ContentView: View {
         }
         .padding()
     }
-    
-    func invokeAPI() {
-        let item = MenuItem.example()
-        do {
-            try APIHelper.putItem(item : item)}
-            catch {
-                
-            }
-        }
-    }
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

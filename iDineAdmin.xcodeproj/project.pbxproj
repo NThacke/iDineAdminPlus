@@ -20,6 +20,7 @@
 		A4C3B75D2A61E04C009915BE /* LunchMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B75C2A61E04C009915BE /* LunchMenu.swift */; };
 		A4C3B75F2A61E1E5009915BE /* DinnerMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B75E2A61E1E5009915BE /* DinnerMenu.swift */; };
 		A4C3B7612A630714009915BE /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7602A630714009915BE /* PhotoPicker.swift */; };
+		A4C3B7632A632890009915BE /* RestrictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7622A632890009915BE /* RestrictionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		A4C3B75C2A61E04C009915BE /* LunchMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchMenu.swift; sourceTree = "<group>"; };
 		A4C3B75E2A61E1E5009915BE /* DinnerMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DinnerMenu.swift; sourceTree = "<group>"; };
 		A4C3B7602A630714009915BE /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		A4C3B7622A632890009915BE /* RestrictionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				A4C3B75C2A61E04C009915BE /* LunchMenu.swift */,
 				A4C3B75E2A61E1E5009915BE /* DinnerMenu.swift */,
 				A4C3B7542A5F2B0E009915BE /* ItemRow.swift */,
+				A4C3B7622A632890009915BE /* RestrictionView.swift */,
 				A4C3B7502A5F2A6D009915BE /* MenuSection.swift */,
 				A4C3B7522A5F2AAB009915BE /* MenuItem.swift */,
 				A4C3B7442A5F2933009915BE /* Assets.xcassets */,
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4C3B7572A5F2C57009915BE /* APIClass.swift in Sources */,
+				A4C3B7632A632890009915BE /* RestrictionView.swift in Sources */,
 				A4C3B7612A630714009915BE /* PhotoPicker.swift in Sources */,
 				A4C3B75F2A61E1E5009915BE /* DinnerMenu.swift in Sources */,
 				A4C3B7592A5F5020009915BE /* AddMenuItemPrompt.swift in Sources */,

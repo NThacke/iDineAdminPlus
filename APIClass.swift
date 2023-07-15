@@ -85,7 +85,8 @@ public class APIHelper {
                 "sectionType": item.sectionType,
                 "image" : item.image,
                 "description" : item.description,
-                "price": item.price
+                "price": item.price,
+                "restrictions" : item.restrictions
             ] as [String : String]
             
             do {
@@ -114,7 +115,7 @@ public class APIHelper {
     }
     
     private static func getItems(menuType: String, completion: @escaping ([MenuItem]) -> Void) {
-//        print("Inside getItems function for section \(sectionType)")
+        print("Inside getItems")
 
         // Set the API endpoint URL
         let url = URL(string: "https://nueyl8ey42.execute-api.us-east-1.amazonaws.com/testing/menu?menuType=\(menuType)")!

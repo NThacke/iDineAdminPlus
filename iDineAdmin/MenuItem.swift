@@ -18,6 +18,10 @@ struct MenuItem : Identifiable, Equatable, Codable {
     static let classic = "classics"
     static let grilled = "grilled"
     
+    static let GLUTEN_FREE = "Gluten Free"
+    static let VEGETARIAN = "Vegetarian"
+    static let VEGAN = "Vegan"
+    
     
     var id : String
     var name : String
@@ -26,6 +30,8 @@ struct MenuItem : Identifiable, Equatable, Codable {
     var image : String
     var price : String
     var description : String
+    var restrictions : String
+    
         // Equatable protocol implementation
        public static func == (lhs: MenuItem, rhs: MenuItem) -> Bool {
            return lhs.name == rhs.name
@@ -38,7 +44,7 @@ struct MenuItem : Identifiable, Equatable, Codable {
             Type: The type of menu item (breakfast, lunch, or dinner)
             Image: the image (path) of the image that this menu item should refer to as
      */
-    init(name: String, type: String, section: String, image: String, price : String, description: String) {
+    init(name: String, type: String, section: String, image: String, price : String, description: String, restrictions: String) {
         self.id = UUID().uuidString
         self.name = name;
         self.menuType = type;
@@ -46,9 +52,11 @@ struct MenuItem : Identifiable, Equatable, Codable {
         self.price = price;
         self.description = description;
         self.sectionType = section
+        self.restrictions = restrictions
     }
     
     static func example() -> MenuItem {
-        return MenuItem(name : "Pancakes", type : "breakfast", section:MenuItem.classic, image : "pancakes", price : "5.00", description: "")
+        let r = GLUTEN_FREE + "," + VEGAN + "," + VEGETARIAN
+        return MenuItem(name : "Pancakes", type : "breakfast", section:MenuItem.classic, image : "pancakes", price : "5.00", description: "Fluffy and our syrup comes from Maple Syrup", restrictions : r)
     }
 }

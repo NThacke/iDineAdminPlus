@@ -15,9 +15,19 @@ struct ItemRow : View {
         HStack {
             
             Image(uiImage : restoreImageFromBase64String(string : item.image) ?? defaultImage()).resizable().frame(width: 50, height:50).cornerRadius(100)
-            VStack {
-                Text(item.name);
-                Text(item.description)
+            
+            VStack(alignment : .leading) {
+                if(item.description.isEmpty) {
+                    Text(item.name)
+                    RestrictionView(item : item)
+                }
+                else {
+                    VStack (alignment : .leading) {
+                        Text(item.name)
+                        Text(item.description).foregroundColor(Color.gray).italic()
+                    }
+                    RestrictionView(item : item)
+                }
             }
             Spacer()
             Text("$\(item.price)");

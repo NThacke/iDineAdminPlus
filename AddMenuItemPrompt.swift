@@ -27,6 +27,11 @@ struct AddMenuItemPrompt : View {
     @State private var selectedImage : UIImage?
     @State private var showingPhotoPicker = false
     
+    @State private var selection = ""
+    
+    @State var chosenRestrictions : [String] = []
+    @State var restrictions : [String] = [MenuItem.GLUTEN_FREE, MenuItem.VEGAN, MenuItem.VEGETARIAN]
+    
     
     var body : some View {
         
@@ -85,6 +90,37 @@ struct AddMenuItemPrompt : View {
                 self.closed = false
             })
         }
+            List {
+                Section("Restrictions") {
+                    Menu("Select a Restriction") {
+                        ForEach(restrictions, id : \.self) {r in
+                            Button(action : {
+                                self.selection = r
+                            }) {
+                                Text(r)
+                            }
+                        }
+                    }
+                    .onChange(of : selection) { selection in
+                        //add chosen restriction to list of chosen restrictions, and remove it from the possible selections
+                        chosenRestrictions.append(selection)
+                        restrictions.remove(at : restrictions.firstIndex(of: selection)!)
+                    }
+                }
+                if(!chosenRestrictions.isEmpty) {
+                    ForEach(chosenRestrictions, id : \.self) {r in
+                        Text(r)
+                    }
+                    .onDelete(perform : { offsets in
+                        //remove the restriction from chosen restrictions, and append it onto the possible restrictions
+                        if let index = offsets.first {
+                            let item = chosenRestrictions.remove(at : index)
+                            restrictions.append(item)
+                        }
+                    })
+                }
+            }
+        
         Button("OK") {
             let _ = print("Clicked okay!")
             inValid = !self.invokeAPI()
@@ -131,6 +167,7 @@ struct AddMenuItemPrompt : View {
         
         let _ = print("Inside invokeAPI")
         print(notValid())
+    
         
         if(!notValid()) {
             let name = name
@@ -138,6 +175,7 @@ struct AddMenuItemPrompt : View {
             let description = description
             let menuType = menuType.lowercased()
             let sectionType = sectionType.lowercased()
+            let restrictions = retrieveRestrictions()
             
             if let selectedImage = selectedImage {
                 print("Selected an image")
@@ -150,10 +188,10 @@ struct AddMenuItemPrompt : View {
                 print("Selected image is null")
             }
             
-            let item = MenuItem(name: name, type : menuType, section: sectionType, image : image, price : price, description : description )
+            let item = MenuItem(name: name, type : menuType, section: sectionType, image : image, price : price, description : description, restrictions: restrictions)
             
             do {
-                try APIHelper.putItem(item : item)
+                try APIHelper.putItem(item: item)
             }
             catch {
 
@@ -162,6 +200,14 @@ struct AddMenuItemPrompt : View {
             return true
         }
         return false
+    }
+    
+    func retrieveRestrictions() -> String {
+        var s = ""
+        for i in chosenRestrictions {
+            s += "," + i
+        }
+        return s
     }
     
     /**
