@@ -87,6 +87,8 @@ struct AddMenuItemPrompt : View {
     @State private var showingPhotoPicker = false
     
     
+    @State var showMenuTypeInfo = false
+    
     /**
         This is used to store the currently selected restriction. When a user adds a restrictions, this field gets updated. Then, it gets appended onto the chosen restrictions, and removed from the possible restrictions. When a restriction is thereafter removed, the opposite operation occurs.
      */
@@ -107,6 +109,8 @@ struct AddMenuItemPrompt : View {
      Thie field is used to denote whether the user wants to see information regarding restrictions. When the user clicsk on the info button next to the restrictions section, this field is set to true. Then, another section element appears above the restrictions, describing what restrictions are and what they are used for.
      */
     @State var showRestrictionInfo = false
+    
+//    var restrictionView = SetRestrictionView()
     
     
     var body : some View {
@@ -137,7 +141,9 @@ struct AddMenuItemPrompt : View {
             .sheet(isPresented : $showingPhotoPicker) {
                 PhotoPickerView(selectedImage : $selectedImage)
             }
-            
+            if showMenuTypeInfo {
+                Section("A menu type denotes which category an item belongs to. Options are Breakfast, Lunch or Dinner.") {}
+            }
             Section("Menu Type") {
                 HStack {
                     let menuTypes = ["Breakfast", "Lunch", "Dinner"]
@@ -160,6 +166,7 @@ struct AddMenuItemPrompt : View {
                 }
             }
             
+            
             Section("Section Type") {
                 HStack {
                     Text("Section Type")
@@ -179,9 +186,10 @@ struct AddMenuItemPrompt : View {
             if let image = selectedImage {
                 Image(uiImage : image).resizable().frame(width : 100, height : 100)
             }
+            
             if showRestrictionInfo {Section("Restrictions are used to accomdate those with dietary needs") {}
             }
-            Section(header: SectionHeaderView(title: "Restrictions", action : showInfo)) {
+            Section(header: SectionHeaderView(title: "Set Restrictions", action : toggleRestrictionInfo)) {
                 Menu("Select a Restriction") {
                     ForEach(restrictions, id : \.self) {r in
                         Button(action : {
@@ -197,6 +205,7 @@ struct AddMenuItemPrompt : View {
                     restrictions.remove(at : restrictions.firstIndex(of: selection)!)
                 }
             }
+            
             if(!chosenRestrictions.isEmpty) {
                 Section("Restrictions") {
                     ForEach(chosenRestrictions, id : \.self) {r in
@@ -211,6 +220,7 @@ struct AddMenuItemPrompt : View {
                     })
                 }
             }
+            
         }.popover(isPresented: $closed) {
             Text("Fantastic! That'll be added to the menu shortly.")
             Button("OK", action : {
@@ -229,12 +239,6 @@ struct AddMenuItemPrompt : View {
         
     }
     
-    /**
-     This function is used whenever the user clicks on the information button on the restriction section. It simply toggles the  internal boolean field 'showRestrictionInfo'
-     */
-    func showInfo() {
-        self.showRestrictionInfo.toggle()
-    }
     /**
     @returns a View of an Image which shows a red exclamation mark
      */
@@ -307,14 +311,7 @@ struct AddMenuItemPrompt : View {
         }
         return false
     }
-    
-    func retrieveRestrictions() -> String {
-        var s = ""
-        for i in chosenRestrictions {
-            s += "," + i
-        }
-        return s
-    }
+
     
     /**
     Clears all internal fields so that the prompt is an empty prompt.
@@ -328,8 +325,36 @@ struct AddMenuItemPrompt : View {
         self.menuType = ""
         self.sectionType = ""
         
+        clearRestrictions()
+        
         closed = true
         
+    }
+    
+    func clearRestrictions() {
+        
+        for item in chosenRestrictions {
+            print(item)
+            if let index = chosenRestrictions.firstIndex(of:item) {
+                chosenRestrictions.remove(at : index)
+                restrictions.append(item)
+            }
+        }
+    }
+    
+    /**
+     This function is used whenever the user clicks on the information button on the restriction section. It simply toggles the  internal boolean field 'showRestrictionInfo'
+     */
+    func toggleRestrictionInfo() {
+        self.showRestrictionInfo.toggle()
+    }
+    
+    func retrieveRestrictions() -> String {
+        var s = ""
+        for i in chosenRestrictions {
+            s += "," + i
+        }
+        return s
     }
     
     
