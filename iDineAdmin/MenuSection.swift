@@ -25,5 +25,4 @@ struct MenuSection : Identifiable {
     mutating func append(item : MenuItem) {
         items.append(item)
     }
-    
 }
