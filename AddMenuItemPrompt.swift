@@ -14,25 +14,98 @@ import SwiftUI
 
 struct AddMenuItemPrompt : View {
     
+    /**
+            The name of the new menu item
+     */
     @State var name : String = ""
+    /**
+            The price of the new menu item
+     */
     @State var price : String = ""
+    /**
+     The description of the new menu item
+     */
     @State var description : String = ""
+    /**
+     The image associated with this menu item. This is the encoded data of the image -- this is how we store the image in the database (which is not good for scale!)
+     */
     @State var image : String = ""
+    
+    /**
+     The menu type associated with this menu item. This field is either breakfast, lunch, dinner, or empty (empty only occurs when the user has not entered a value yet). This denotes which menu section the item will belong to. Breakfast items are in the breakfast menu, and so on.
+     */
     @State var menuType : String = ""
+    /**
+     The section that this item belongs to. Every menu (breakfast, lunch, or dinner) is further categorized into sections. There is no pre-defined sections -- the administrator must create their own sections.
+     
+        This program ensures that every item belonging to a particular menu and section will be sorted in the same category. For example, let us assume that there exists three menu items on the entire menu :
+     
+            Menu Type
+                Section Type A
+                        item x
+                        item y
+                Section Type B
+                        item w
+                        item z
+     
+            Breakfast
+                Classics
+                        Toast & Eggs
+                        Bacon & Eggs
+                Omeletes
+                        Western Omelete
+            
+     This shows three items in the Breakfast menu type. Beneath it, there are two sections. One section is named "Classics" and includes "Toast & Eggs" and "Bacon & Eggs". Another section is named "Omeletes", and includes a "Western Omelete" as an item.
+     
+     If a user added another menu item that was some other category, the program will create that section on the fly. If they add a new menu item for a section that already exists, it'll include it in that section.
+     */
     @State var sectionType : String = ""
     
+    
+    /**
+            This field is used to denote when the form has been submitted. If the form has been submitted, the state is "closed" in the sense that no more data can be entered. Once the state is closed (this field is true), then all of the data in the form gets created as a new menu item object, and sent into the database. Furthermore, a popup appears denoting the user that their menu item has beena added to the menu.
+     */
     @State var closed  = false
+    
+    /**
+     This field is used to denote when the current form is invalid. If required fields are not entered, this equates to true. Required fields are denoted as required, but they are : "name", "price", "menuType", and "sectionType"
+     
+     */
     @State var inValid = false
     
+    /**
+            This is the selected image that the user has selected from their gallery. If no image has been selected, then this value equates to nil, hence the optional binding.
+     */
+    
     @State private var selectedImage : UIImage?
+    
+    /**
+            This is used to flag when the user wants to select a photo. This is used as a reference for the PhotoPicker -- when this value is true, the PhotoPicker is being displayed. Otherwise, the PhotoPicker is not displayed.
+     
+            This value turns to true when the user selects the button "Choose from gallery" under the "Image" section.
+     */
     @State private var showingPhotoPicker = false
     
+    
+    /**
+        This is used to store the currently selected restriction. When a user adds a restrictions, this field gets updated. Then, it gets appended onto the chosen restrictions, and removed from the possible restrictions. When a restriction is thereafter removed, the opposite operation occurs.
+     */
     @State private var selection = ""
     
+    /**
+            The restrictions that the user chooses to have on this new menu item.
+     */
     @State var chosenRestrictions : [String] = []
+    
+    /**
+     The possible restrictions to have on a menu item
+     */
     @State var restrictions : [String] = [MenuItem.GLUTEN_FREE, MenuItem.VEGAN, MenuItem.VEGETARIAN]
     
     
+    /**
+     Thie field is used to denote whether the user wants to see information regarding restrictions. When the user clicsk on the info button next to the restrictions section, this field is set to true. Then, another section element appears above the restrictions, describing what restrictions are and what they are used for.
+     */
     @State var showRestrictionInfo = false
     
     
@@ -59,35 +132,53 @@ struct AddMenuItemPrompt : View {
                         Text("Description")
                         TextField("\t.\t.\t.\t.\t.\t.\t.\t.", text : $description)
                     }
-                    HStack {//figure out a good import source for images
-                        Text("Image")
-                        Button("Select") {
-                            showingPhotoPicker = true
-                        }
-                        if let image = selectedImage {
-                            Image(uiImage : image).resizable().frame(width : 50, height : 50)
-                        }
-                    }
-                    HStack {
-                        Text("Menu Type")
-                        TextField("\t.\t.\t.\t.\t.\t.\t.\t.", text : $menuType)
-                        if(menuType.isEmpty) {
-                            warning()
-                        }
-                    }
-                    HStack {
-                        Text("Section Type")
-                        TextField("\t.\t.\t.\t.\t.\t.\t.\t.", text : $sectionType)
-                        if(sectionType.isEmpty) {
-                            warning()
-                        }
-                    }
                 }
             }
             .sheet(isPresented : $showingPhotoPicker) {
                 PhotoPickerView(selectedImage : $selectedImage)
             }
             
+            Section("Menu Type") {
+                HStack {
+                    let menuTypes = ["Breakfast", "Lunch", "Dinner"]
+                    Menu("Choose") {
+                        ForEach(menuTypes, id : \.self) {type in
+                            Button(action : {
+                                self.menuType = type
+                            }) {
+                                Text(type)
+                            }
+                        }
+                    }
+                    Spacer()
+                    Text(menuType)
+                    Spacer()
+                    Spacer()
+                    if(menuType.isEmpty) {
+                        warning()
+                    }
+                }
+            }
+            
+            Section("Section Type") {
+                HStack {
+                    Text("Section Type")
+                    TextField("\t.\t.\t.\t.\t.\t.\t.\t.", text : $sectionType)
+                    if(sectionType.isEmpty) {
+                        warning()
+                    }
+                }
+            }
+            Section("Image") {
+                VStack(alignment : .center) {
+                    Button("Choose from gallery") {
+                        showingPhotoPicker = true
+                    }
+                }
+            }
+            if let image = selectedImage {
+                Image(uiImage : image).resizable().frame(width : 100, height : 100)
+            }
             if showRestrictionInfo {Section("Restrictions are used to accomdate those with dietary needs") {}
             }
             Section(header: SectionHeaderView(title: "Restrictions", action : showInfo)) {
@@ -138,6 +229,9 @@ struct AddMenuItemPrompt : View {
         
     }
     
+    /**
+     This function is used whenever the user clicks on the information button on the restriction section. It simply toggles the  internal boolean field 'showRestrictionInfo'
+     */
     func showInfo() {
         self.showRestrictionInfo.toggle()
     }
@@ -148,6 +242,9 @@ struct AddMenuItemPrompt : View {
         Image(systemName: "exclamationmark.circle").foregroundColor(Color.red)
     }
     
+    /**
+     This functon resized the given image into the given scaled size and returns the resized image back.
+     */
     func reiszeImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
         image.draw(in: CGRectMake(0, 0, newSize.width, newSize.height))
