@@ -33,10 +33,9 @@ struct AccountLogin : View {
                     Spacer()
                     ZStack {
                         RoundedRectangle(cornerRadius: 10).frame(width:150, height:50).foregroundColor(Color.blue)
-                        
+
                         Button("Create Account") {
                             createAccount = true
-                            print(createAccount)
                         }.foregroundColor(Color.white)
                     }
                     
