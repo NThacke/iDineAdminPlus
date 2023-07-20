@@ -73,7 +73,7 @@ struct ContentView : View {
                         }
             ).background(            NavigationLink(destination: MenuView(), isActive: $loginSuccessful, label : {
                 EmptyView()}
-            ))
+                                                   ))
             
         }
     }

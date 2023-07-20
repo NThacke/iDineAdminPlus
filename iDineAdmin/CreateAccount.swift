@@ -170,8 +170,8 @@ struct CreateAccount : View {
                 .background(
                     NavigationLink(destination: MenuView(), isActive: $loginSuccess) {
                         EmptyView()
-                    })
-        }
+                    }).navigationBarBackButtonHidden(true)
+        }.navigationBarBackButtonHidden(true)
     }
     
     /**
@@ -227,7 +227,8 @@ struct CreateAccount : View {
             "salt" : salt,
             "password" : hashed_salted_password,
             "restaurantName" : restaurantName,
-            "restaurantLocation" : location
+            "restaurantLocation" : location,
+            "visible" : "false"
         ] as [String : String]
         
         //encode the body as json data

@@ -74,7 +74,7 @@ struct MenuView: View {
                     }
                 }
             }
-        }
+        }.navigationBarBackButtonHidden(true)
     }
     
     func dinner() -> some View {
