@@ -20,6 +20,9 @@ enum ButtonState {
 }
 
 struct MenuView: View {
+    
+    var manager : Manager;
+    
     @State private var buttonState : ButtonState = .unselected
     
     @State private var showingPopover = false
@@ -75,6 +78,10 @@ struct MenuView: View {
                 }
             }
         }.navigationBarBackButtonHidden(true)
+    }
+    
+    init(manager : Manager) {
+        self.manager = manager
     }
     
     func dinner() -> some View {
@@ -139,6 +146,6 @@ struct MenuView: View {
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView()
+        MenuView(manager : Manager.example())
     }
 }

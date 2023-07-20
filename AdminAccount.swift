@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class AdminAccount {
+class AdminAccount : Codable {
     
     //The ID of this account
     var id : String
@@ -28,13 +28,27 @@ class AdminAccount {
     //The layout style of this restaurant's menu
     var layoutStyle : String
     
+    var visibility : String
     
-    init(id : String, restaurantName : String, restaurantLocation : String, email : String, restaurantImage : String, layoutStyle : String) {
+    
+    init(id : String, restaurantName : String, restaurantLocation : String, email : String, restaurantImage : String, layoutStyle : String, visibility : String) {
         self.id = id
         self.restaurantName = restaurantName
         self.restaurantLocation = restaurantLocation
         self.email = email
         self.restaurantImage = restaurantImage
         self.layoutStyle = layoutStyle
+        self.visibility = visibility
+    }
+    
+    static func example() -> AdminAccount {
+        return AdminAccount(
+            id : "A904844B-6537-4A57-8710-EE5317B6687D",
+            restaurantName : "Example",
+            restaurantLocation : "Example",
+            email : "example@gmail.com",
+            restaurantImage : "image",
+            layoutStyle : "1",
+        visibility: "false");
     }
 }

@@ -16,7 +16,7 @@ struct CreateAccount : View {
     /**
             The email associated with the newly created account.
      */
-    @State var email : String = ""
+    @State var email : String = "email@gmail.com"
     
     /**
                     The password of the newly created account.
@@ -196,9 +196,9 @@ struct CreateAccount : View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the entire available space
                     .edgesIgnoringSafeArea(.top) //
                     .background(
-                        NavigationLink(destination: MenuView(), isActive: $loginSuccess) {
+                        NavigationLink(destination: MenuView(manager : Manager.example()), isActive: $loginSuccess) {
                             EmptyView()
-                        }).background(NavigationLink(destination : ContentView(), isActive : $cancel) {EmptyView()})
+                        }).background(NavigationLink(destination : ContentView(manager : Manager.example()), isActive : $cancel) {EmptyView()})
             }
         }.navigationBarBackButtonHidden(true)
     }
@@ -257,6 +257,7 @@ struct CreateAccount : View {
             "password" : hashed_salted_password,
             "restaurantName" : restaurantName,
             "restaurantLocation" : location,
+            "restaurantImage" : "empty",
             "visible" : "false"
         ] as [String : String]
         

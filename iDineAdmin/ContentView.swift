@@ -14,7 +14,7 @@ import SwiftUI
 
 struct ContentView : View {
     
-    @State var email : String = ""
+    @State var email : String = "email@gmail.com"
     @State var password : String = ""
     
     @State var loginSuccessful = false
@@ -27,6 +27,8 @@ struct ContentView : View {
     @State var emptyEmail = false
     
     @State var emptyPassword = false
+    
+    var manager : Manager
     
     var body : some View {
         NavigationView {
@@ -93,7 +95,7 @@ struct ContentView : View {
                         NavigationLink(destination: CreateAccount(), isActive: $createAccount) {
                             EmptyView()
                         }
-            ).background(            NavigationLink(destination: MenuView(), isActive: $loginSuccessful, label : {
+            ).background(            NavigationLink(destination: MenuView(manager : Manager(email : email)), isActive: $loginSuccessful, label : {
                 EmptyView()}
                                                    ))
             
@@ -117,7 +119,9 @@ struct ContentView : View {
             }
         }
     }
-    
+    func createManager(completion : (Manager) -> Void) {
+        
+    }
     func nonEmptyEntries() -> Bool {
         if email.isEmpty {
             emptyEmail = true
@@ -219,6 +223,6 @@ struct ContentView : View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(manager : Manager.example())
     }
 }
