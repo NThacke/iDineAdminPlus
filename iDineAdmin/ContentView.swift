@@ -73,9 +73,9 @@ struct ContentView : View {
                         }
             ).background(            NavigationLink(destination: MenuView(), isActive: $loginSuccessful, label : {
                 EmptyView()}
-            ))
+                                                   ))
             
-        }
+        }.navigationBarBackButtonHidden(true)
     }
     
     func login() {
