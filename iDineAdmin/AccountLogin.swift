@@ -59,12 +59,12 @@ struct AccountLogin : View {
                             login()
                         }.foregroundColor(Color.white)
                     }
-                    if(loading) {
-                        // This is the loading icon (indeterminate spinner)
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                    }
                     Spacer()
+                }
+                if(loading) {
+                    // This is the loading icon (indeterminate spinner)
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
                 }
             }
             .background(
