@@ -62,115 +62,144 @@ struct CreateAccount : View {
     
     @State var loginSuccess = false
     
+    @State var cancel = false
+    
     
     var body : some View {
         NavigationView {
-            VStack (alignment : .center) {
-                
-                //overall header
-                HStack {
-                    Text("Create Account").bold(true)
-                    Spacer()
-                }
-                
-                //account info header
-                HStack {
-                    Text("Account Info").padding()
-                    Spacer()
-                }
-                
-                //show a red outline along with text if email exists
-                if(emailExists) {
-                    Text("Email already exists").foregroundColor(Color.gray)
-                    TextField("Email", text : $email).padding().onChange(of: email, perform: {s in
-                        emailExists = false
-                    }).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding()
-                }
-                else if(invalidEmail) {
-                    TextField("Email", text : $email).padding().onChange(of: email, perform: {s in
-                        invalidEmail = false
-                    }).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding()
-                }
-                //otherwise (email does not exist) just show normal email
-                else {
-                    TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                }
-                
-                //password
-                if(invalidPassword) {
-                    SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: password) { newValue in
-                        invalidPassword = false
+            Group {
+                VStack (alignment : .center) {
+                    
+                    Group {
+                        //overall header
+                        Spacer() //used to place entire view in correct position
+                        HStack {
+                            Text("Create Account").bold(true)
+                            Spacer()
+                        }
+                        
+                        //account info header
+                        HStack {
+                            Text("Account Info").padding()
+                            Spacer()
+                        }
                     }
-                }
-                else {
-                    SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                }
-                
-                //resturant info header
-                HStack {
-                    //text
-                    Text("Restaurant Info").padding()
-                    Spacer()
-                    //info button
-                    Button(action : {
-                        restaurantInfo.toggle()
-                    }) {
-                        Image(systemName : "info.circle")
+                    
+                    Group {
+                        //show a red outline along with text if email exists
+                        if(emailExists) {
+                            Text("Email already exists").foregroundColor(Color.gray)
+                            TextField("Email", text : $email).padding().onChange(of: email, perform: {s in
+                                emailExists = false
+                            }).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding()
+                        }
+                        else if(invalidEmail) {
+                            TextField("Email", text : $email).padding().onChange(of: email, perform: {s in
+                                invalidEmail = false
+                            }).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding()
+                        }
+                        //otherwise (email does not exist) just show normal email
+                        else {
+                            TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                        }
+                        
+                        //password
+                        if(invalidPassword) {
+                            SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: password) { newValue in
+                                invalidPassword = false
+                            }
+                        }
+                        else {
+                            SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                        }
                     }
-                }
-                
-                //display info if user selected to
-                if(restaurantInfo) {
-                    ScrollView {
-                        Text("To put a restaurant on this app, you need a name and a location to begin with. These can be changed later. However, only one restaurant may be associated with an account.").foregroundColor(Color.gray).frame(width: .infinity, height:100)
+                    
+                    Group {
+                        //resturant info header
+                        HStack {
+                            //text
+                            Text("Restaurant Info").padding()
+                            Spacer()
+                            //info button
+                            Button(action : {
+                                restaurantInfo.toggle()
+                            }) {
+                                Image(systemName : "info.circle")
+                            }
+                        }
                     }
-                }
-                
-                //name textfield
-                if(invalidName) {
-                    TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: restaurantName, perform: {s in
-                        invalidName = false
-                    })
-                }
-                else {
-                    TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                }
-                
-                //location textfield
-                if(invalidLocation) {
-                    // red
-                    TextField("Restaurant Location", text : $location).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: location) { newValue in
-                        invalidLocation = false
+                    
+                    Group {
+                        //display info if user selected to
+                        if(restaurantInfo) {
+                            ScrollView {
+                                Text("To put a restaurant on this app, you need a name and a location to begin with. These can be changed later. However, only one restaurant may be associated with an account.").foregroundColor(Color.gray)
+                            }
+                        }
+                        
+                        //name textfield
+                        if(invalidName) {
+                            TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: restaurantName, perform: {s in
+                                invalidName = false
+                            })
+                        }
+                        else {
+                            TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                        }
+                        
+                        //location textfield
+                        if(invalidLocation) {
+                            // red
+                            TextField("Restaurant Location", text : $location).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: location) { newValue in
+                                invalidLocation = false
+                            }
+                        }
+                        else {
+                            //blue
+                            TextField("Restaurant Location", text : $location).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                        }
                     }
-                }
-                else {
-                    //blue
-                    TextField("Restaurant Location", text : $location).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                }
-                
-                
-                //OK button is a ZStack with rectangle on top of button
-                ZStack {
-                    RoundedRectangle(cornerRadius : 10).foregroundColor(Color.blue).frame(width: 50, height:50)
-                    Button("OK", action : {
-                        create()
-                    }).foregroundColor(Color.white)
-                }
-                
-                if(loading) {
-                    // This is the loading icon (indeterminate spinner)
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                }
-                
-                
-            }.padding()
-                .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the entire available space
-                .edgesIgnoringSafeArea(.top) //
-                .background(
-                    NavigationLink(destination: MenuView(), isActive: $loginSuccess) {
-                        EmptyView()
-                    }).navigationBarBackButtonHidden(true)
+                    
+                    
+                    Group {
+                        //OK button is a ZStack with rectangle on top of button
+                        ZStack {
+                            RoundedRectangle(cornerRadius : 10).foregroundColor(Color.blue).frame(width: 50, height:50)
+                            Button("OK", action : {
+                                create()
+                            }).foregroundColor(Color.white)
+                        }
+                        ZStack {
+                            RoundedRectangle(cornerRadius : 10).foregroundColor(Color.red).frame(width: 75, height:50)
+                            Button("Cancel", action : {
+                                cancel = true
+                            }).foregroundColor(Color.white)
+                        }
+                    }
+                    
+                    if(loading) {
+                        // This is the loading icon (indeterminate spinner)
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                    }
+                    
+                    Group {
+                        //Used to place the entire View in the correct position
+                        Spacer()
+                        Spacer()
+                        Spacer()
+                    }
+                    
+                    
+                    
+                }.padding()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the entire available space
+                    .edgesIgnoringSafeArea(.top) //
+                    .background(
+                        NavigationLink(destination: MenuView(), isActive: $loginSuccess) {
+                            EmptyView()
+                        }).background(NavigationLink(destination : ContentView(), isActive : $cancel) {EmptyView()})
+            }
         }.navigationBarBackButtonHidden(true)
     }
     

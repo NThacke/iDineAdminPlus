@@ -75,7 +75,7 @@ struct ContentView : View {
                 EmptyView()}
                                                    ))
             
-        }
+        }.navigationBarBackButtonHidden(true)
     }
     
     func login() {
