@@ -284,14 +284,15 @@ struct CreateAccount : View {
 
         return randomString
     }
-    
-    func sha256Hash(_ input: String) -> String {
-        let inputData = Data(input.utf8)
-        let hashedData = SHA256.hash(data: inputData)
-        let hashedString = hashedData.compactMap { String(format: "%02x", $0) }.joined()
-        return hashedString
-    }
 }
+
+func sha256Hash(_ input: String) -> String {
+    let inputData = Data(input.utf8)
+    let hashedData = SHA256.hash(data: inputData)
+    let hashedString = hashedData.compactMap { String(format: "%02x", $0) }.joined()
+    return hashedString
+}
+
 struct CreateAccount_Previews: PreviewProvider {
     static var previews: some View {
         CreateAccount()
