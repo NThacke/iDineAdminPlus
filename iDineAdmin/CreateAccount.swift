@@ -168,7 +168,7 @@ struct CreateAccount : View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the entire available space
                 .edgesIgnoringSafeArea(.top) //
                 .background(
-                    NavigationLink(destination: ContentView(), isActive: $loginSuccess) {
+                    NavigationLink(destination: MenuView(), isActive: $loginSuccess) {
                         EmptyView()
                     })
         }
@@ -183,7 +183,9 @@ struct CreateAccount : View {
             self.loading = true
             self.invokeAPI() {
                 self.loading = false
-                loginSuccess = true
+                if(!emailExists) {
+                    loginSuccess = true
+                }
             }
         }
     }
@@ -194,7 +196,7 @@ struct CreateAccount : View {
     func validEntries() -> Bool {
         invalidName = restaurantName.isEmpty
         invalidEmail = email.isEmpty
-        invalidLocation = email.isEmpty
+        invalidLocation = location.isEmpty
         invalidPassword = password.isEmpty
         
         return !(email.isEmpty || password.isEmpty || restaurantName.isEmpty || location.isEmpty)

@@ -11,6 +11,7 @@
 		A46693962A68763B00849E37 /* AccountLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46693952A68763B00849E37 /* AccountLogin.swift */; };
 		A46693982A687B6C00849E37 /* CreateAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46693972A687B6C00849E37 /* CreateAccount.swift */; };
 		A466939A2A688C4700849E37 /* AdminAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46693992A688C4700849E37 /* AdminAccount.swift */; };
+		A466939C2A68B88900849E37 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A466939B2A68B88900849E37 /* MenuView.swift */; };
 		A4C3B7412A5F2931009915BE /* iDineAdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */; };
 		A4C3B7432A5F2931009915BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7422A5F2931009915BE /* ContentView.swift */; };
 		A4C3B7452A5F2933009915BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4C3B7442A5F2933009915BE /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 		A46693952A68763B00849E37 /* AccountLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLogin.swift; sourceTree = "<group>"; };
 		A46693972A687B6C00849E37 /* CreateAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccount.swift; sourceTree = "<group>"; };
 		A46693992A688C4700849E37 /* AdminAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminAccount.swift; sourceTree = "<group>"; };
+		A466939B2A68B88900849E37 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		A4C3B73D2A5F2931009915BE /* iDineAdmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iDineAdmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iDineAdminApp.swift; sourceTree = "<group>"; };
 		A4C3B7422A5F2931009915BE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				A46693952A68763B00849E37 /* AccountLogin.swift */,
 				A46693972A687B6C00849E37 /* CreateAccount.swift */,
 				A4C3B7422A5F2931009915BE /* ContentView.swift */,
+				A466939B2A68B88900849E37 /* MenuView.swift */,
 				A4C3B74E2A5F2A32009915BE /* Menu.swift */,
 				A4C3B7602A630714009915BE /* PhotoPicker.swift */,
 				A4C3B75C2A61E04C009915BE /* LunchMenu.swift */,
@@ -195,6 +198,7 @@
 				A46693942A6875C300849E37 /* LayoutSelector.swift in Sources */,
 				A4C3B75D2A61E04C009915BE /* LunchMenu.swift in Sources */,
 				A4C3B7512A5F2A6D009915BE /* MenuSection.swift in Sources */,
+				A466939C2A68B88900849E37 /* MenuView.swift in Sources */,
 				A4C3B7552A5F2B0E009915BE /* ItemRow.swift in Sources */,
 				A4C3B7412A5F2931009915BE /* iDineAdminApp.swift in Sources */,
 				A4C3B7532A5F2AAB009915BE /* MenuItem.swift in Sources */,
@@ -255,7 +259,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -309,7 +313,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -327,6 +331,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iDineAdmin/Preview Content\"";
+				DEVELOPMENT_TEAM = 6UCB36P6KH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -355,6 +360,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iDineAdmin/Preview Content\"";
+				DEVELOPMENT_TEAM = 6UCB36P6KH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

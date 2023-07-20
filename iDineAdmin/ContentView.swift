@@ -1,139 +1,184 @@
 //
-//  ContentView.swift
+//  AccountLogin.swift
 //  iDineAdmin
 //
-//  Created by Nick Thacke on 7/12/23.
+//  Created by Nick Thacke on 7/19/23.
 //
 
+/**
+ This view is the inital view that the user sees on boot up. This view prompts the user to login or to create an account if they do not have an account.
+ */
+import Foundation
 import SwiftUI
 
-let breakfastMenu = BreakfastMenu()
-let lunchMenu = LunchMenu()
-let dinnerMenu = DinnerMenu()
 
-enum ButtonState {
-    case breakfast
-    case lunch
-    case dinner
-    case add
-    case unselected
-}
-
-struct ContentView: View {
-    @State private var buttonState : ButtonState = .unselected
+struct ContentView : View {
     
-    @State private var showingPopover = false
+    @State var email : String = ""
+    @State var password : String = ""
     
-    @State private var refresh = false
+    @State var loginSuccessful = false
+    @State var createAccount = false
     
-    var breakfastItems : [MenuSection] = [MenuSection]();
+    @State var error = false
     
+    @State var loading = false
     
-    var body: some View {
-        
-        VStack {
-            VStack {
-                HStack {
-                    Spacer()
-                    Spacer()
-                }
-                logo()
+    var body : some View {
+        NavigationView {
+            VStack (alignment : .center) {
+                Image(systemName : "globe").padding()
                 
-                Spacer()
-                HStack {
-                    breakfast()
-                    lunch()
-                    dinner()
-                    addMenuItem()
+                if(error) {
+                    Text("Either email or password are incorrect.").foregroundColor(Color.red)
+                }
+                TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding().onChange(of: email) { newValue in
+                    error = false
                 }
                 
-                NavigationView {
+                SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding().onChange(of: password) { newValue in
+                    error = false
+                }
+                
+                HStack {
+                    Spacer()
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10).frame(width:150, height:50).foregroundColor(Color.blue)
+
+                        Button("Create Account") {
+                            createAccount = true
+                        }.foregroundColor(Color.white)
+                    }
                     
-                    if buttonState == .breakfast {
-                        breakfastMenu
-                    }
-                    else if buttonState == .lunch {
-                        lunchMenu
-                    }
-                    else if buttonState == .dinner {
-                        dinnerMenu
-                    }
-                    else if buttonState == .add {
-                        let adder = AddMenuItemPrompt();
+                    Spacer()
+                    
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10).frame(width:75, height:50).foregroundColor(Color.blue)
                         
-                        VStack {
-                            adder
-                            //                            Button("OK", action : {
-                            //                                showingPopover = !adder.isValid();
-                            //                                adder.invokeAPI();
-                            ////                                invokeAPI()
-                            //                            })
+                        Button("Login") {
+                            login()
+                        }.foregroundColor(Color.white)
+                    }
+                    Spacer()
+                }
+                if(loading) {
+                    // This is the loading icon (indeterminate spinner)
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                }
+            }
+            .background(
+                        NavigationLink(destination: CreateAccount(), isActive: $createAccount) {
+                            EmptyView()
                         }
-                        
-                        
-                    }
+            ).background(            NavigationLink(destination: MenuView(), isActive: $loginSuccessful, label : {
+                EmptyView()}
+            ))
+            
+        }
+    }
+    
+    func login() {
+        email = email.lowercased()
+        loading = true
+        getSalt() { s in
+            let salt = s
+            print("salt is \(salt)")
+            let saltedHashedPassword = sha256Hash(password+salt)
+            attemptLogin(email : email, password : saltedHashedPassword) {
+                loading = false
+                if(!error) {
+                    loginSuccessful = true
                 }
             }
         }
     }
     
-    func dinner() -> some View {
-        Button("Dinner", action : {
-            buttonState = .dinner
-        })
-        .foregroundColor(buttonState == .dinner ? Color.black : Color.blue)
-    }
-    
-    func addMenuItem() -> some View {
-        Button("Add Menu Item", action : {
-            buttonState = .add
-        })
-        .foregroundColor(buttonState == .add ? Color.black : Color.blue)
-    }
-    
-    /**
-     This method is used to return a view which displays a button.
-     Using this instead of directly inserting the view into the callee location enables modular use as well as encourages code readability.
-     */
-    func lunch() -> some View {
-        Button("Lunch", action : {
-            buttonState = .lunch
-        })
-        .foregroundColor(buttonState == .lunch ? Color.black : Color.blue)
-    }
-    /**
-     This method is used to return a view which displays a button.
-     Using this instead of directly inserting the view into the callee location enables modular use as well as encourages code readability.
-     */
-    func breakfast() -> some View {
-        Button("Breakfast", action : {
-            buttonState = .breakfast
-        })
-        .foregroundColor(buttonState == .breakfast ? Color.black : Color.blue)
-    }
-    /**
-     This method is used to return a view which displays the logo..
-     Using this instead of directly inserting the view into the callee location enables modular use as well as encourages code readability.
-     */
-    func logo() -> some View {
-        Image(systemName: "fork.knife.circle")
-            .resizable()
-            .padding()
-            .frame(width:100, height:100)
-    }
-    /**
-     This method is used to return a view which displays a button.
-     Using this instead of directly inserting the view into the callee location enables modular use as well as encourages code readability.
-     */
-    func cartButton() -> some View {
-        Button(action : {
-            
-        }) {
-            Image(systemName: "cart.circle")
-                .resizable()
-                .frame(width: 25, height:25)
+    func attemptLogin(email : String, password : String, completion : @escaping () -> Void) {
+        
+        let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account?email=\(email)&password=\(password)")!
+
+        // Create a URLSession instance
+        let session = URLSession.shared
+
+        // Create a data task
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                completion() // Call the completion handler with an empty array
+                return
+            }
+
+            // Handle the API response
+            if let httpResponse = response as? HTTPURLResponse {
+                
+                if(httpResponse.statusCode != 200) {
+                    self.error = true
+                    completion()
+                }
+                else {
+                    self.error = false
+                    completion()
+                }
+            } else {
+                completion() // Call the completion handler with an empty array
+            }
         }
-        .padding()
+
+        // Start the data task
+        task.resume()
+    }
+    
+    func getSalt(completion : @escaping (String) -> Void) {
+        let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/salt?email=\(email)")!
+
+        // Create a URLSession instance
+        let session = URLSession.shared
+
+        // Create a data task
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                completion("") // Call the completion handler with an empty array
+                return
+            }
+
+            // Handle the API response
+            if let httpResponse = response as? HTTPURLResponse {
+                
+                if(httpResponse.statusCode != 200) {
+                    self.error = true
+                }
+
+                if let data = data {
+                    let item = process(data: data)
+                    
+                    completion(item) // Call the completion handler with the received items
+                } else {
+                    completion("") // Call the completion handler with an empty array
+                }
+            } else {
+                completion("") // Call the completion handler with an empty array
+            }
+        }
+
+        // Start the data task
+        task.resume()
+    }
+    
+    private func process(data: Data ) -> String {
+//        print("Inside process function")
+//        print(data)
+        do {
+            let decoder = JSONDecoder()
+            let jsonData = try decoder.decode(String.self, from: data)
+//            print("JSON DATA : \(jsonData)")
+            return jsonData
+        } catch {
+//            print("Error decoding JSON: \(error.localizedDescription)")
+            print(String(describing: error))
+            return ""
+        }
     }
 }
 
