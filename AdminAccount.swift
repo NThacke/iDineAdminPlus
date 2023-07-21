@@ -47,8 +47,8 @@ class AdminAccount : Codable {
     static func example() -> AdminAccount {
         return AdminAccount(
             id : "A904844B-6537-4A57-8710-EE5317B6687D",
-            restaurantName : "Example",
-            restaurantLocation : "Example",
+            restaurantName : "Example Name",
+            restaurantLocation : "Example Location",
             email : "example@gmail.com",
             restaurantImage : exampleImage(),
             layoutStyle : "1",
