@@ -213,7 +213,10 @@ struct CreateAccount : View {
             self.invokeAPI() {
                 self.loading = false
                 if(!emailExists) {
-                    loginSuccess = true
+                    Manager.getAccountInfo(email: email) {acc in
+                        Manager.account = acc!;
+                        loginSuccess = true
+                    }
                 }
             }
         }
@@ -248,6 +251,10 @@ struct CreateAccount : View {
         
         //lowercase email
         email = email.lowercased()
+        
+        
+        let basicImage = AdminAccount.example().image()
+        let imageAsString = AdminAccount.imageToString(image: basicImage!)!
             
         //create a body for the JSON data
         let requestBody = [
@@ -257,6 +264,8 @@ struct CreateAccount : View {
             "password" : hashed_salted_password,
             "restaurantName" : restaurantName,
             "restaurantLocation" : location,
+            "restaurantImage" : imageAsString,
+            "layoutStyle" : "0",
             "visible" : "false"
         ] as [String : String]
         

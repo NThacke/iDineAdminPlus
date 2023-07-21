@@ -8,7 +8,10 @@
 import Foundation
 import SwiftUI
 
-class AdminAccount {
+class AdminAccount : Codable {
+    
+    static let visible : String = "true"
+    static let invisible : String = "false"
     
     //The ID of this account
     var id : String
@@ -23,18 +26,79 @@ class AdminAccount {
     var email : String
     
     //The restaurant image associated with this account that is used throughout the app (client)
-    var restaurantImage : String
+    private var restaurantImage : String
     
     //The layout style of this restaurant's menu
     var layoutStyle : String
     
+    var visible : String
     
-    init(id : String, restaurantName : String, restaurantLocation : String, email : String, restaurantImage : String, layoutStyle : String) {
+    
+    init(id : String, restaurantName : String, restaurantLocation : String, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
         self.id = id
         self.restaurantName = restaurantName
         self.restaurantLocation = restaurantLocation
         self.email = email
         self.restaurantImage = restaurantImage
         self.layoutStyle = layoutStyle
+        self.visible = visible
+    }
+    
+    static func example() -> AdminAccount {
+        return AdminAccount(
+            id : "EA878AD2-F77F-4096-878E-30489CE43D98",
+            restaurantName : "Example Name",
+            restaurantLocation : "Example Location",
+            email : "example@gmail.com",
+            restaurantImage : exampleImage(),
+            layoutStyle : "1",
+        visible: "false");
+    }
+    
+    func image() -> UIImage? {
+        return restoreImageFromBase64String(string: restaurantImage)
+    }
+    
+    func setImage(image : UIImage) {
+        restaurantImage = AdminAccount.imageToString(image : image)!
+    }
+    
+    static func imageToString(image: UIImage) -> String? {
+        print("Inside imageToString")
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+            return imageData.base64EncodedString()
+        }
+        return nil
+    }
+    
+    /**
+     This functon resized the given image into the given scaled size and returns the resized image back.
+     */
+    static func reiszeImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.draw(in: CGRectMake(0, 0, newSize.width, newSize.height))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+    private func restoreImageFromBase64String(string : String) -> UIImage? {
+        if let imageData = Data(base64Encoded: string) {
+            let image = UIImage(data: imageData)
+            return image
+        }
+        return nil
+    }
+    
+    private static func exampleImage() -> String {
+        let image = UIImage(systemName : "fork.knife.circle")!
+        return imageToString(image : image)!
+    }
+    
+    func visibility() -> Bool {
+        if(visible == "true") {
+            return true
+        }
+        return false
     }
 }

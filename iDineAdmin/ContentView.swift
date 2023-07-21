@@ -24,6 +24,10 @@ struct ContentView : View {
     
     @State var loading = false
     
+    @State var emptyEmail = false
+    
+    @State var emptyPassword = false
+    
     var body : some View {
         NavigationView {
             VStack (alignment : .center) {
@@ -32,12 +36,30 @@ struct ContentView : View {
                 if(error) {
                     Text("Either email or password are incorrect.").foregroundColor(Color.red)
                 }
-                TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding().onChange(of: email) { newValue in
-                    error = false
+                
+                if(emptyEmail) {
+                    TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: email) { newValue in
+                        error = false
+                        emptyEmail = false
+                        
+                    }
+                }
+                else {
+                    TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding().onChange(of: email) { newValue in
+                        error = false
+                    }
                 }
                 
-                SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding().onChange(of: password) { newValue in
-                    error = false
+                if(emptyPassword) {
+                    SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: password) { newValue in
+                        error = false
+                        emptyPassword = false
+                    }
+                }
+                else {
+                    SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding().onChange(of: password) { newValue in
+                        error = false
+                    }
                 }
                 
                 HStack {
@@ -79,19 +101,34 @@ struct ContentView : View {
     }
     
     func login() {
-        email = email.lowercased()
-        loading = true
-        getSalt() { s in
-            let salt = s
-            print("salt is \(salt)")
-            let saltedHashedPassword = sha256Hash(password+salt)
-            attemptLogin(email : email, password : saltedHashedPassword) {
-                loading = false
-                if(!error) {
-                    loginSuccessful = true
+        if(nonEmptyEntries()) {
+            email = email.lowercased()
+            loading = true
+            getSalt() { s in
+                let salt = s
+                print("salt is \(salt)")
+                let saltedHashedPassword = sha256Hash(password+salt)
+                attemptLogin(email : email, password : saltedHashedPassword) {
+                    loading = false
+                    if(!error) {
+                        Manager.getAccountInfo(email: email) {acc in
+                            Manager.account = acc!
+                            loginSuccessful = true
+                        }
+                    }
                 }
             }
         }
+    }
+    func nonEmptyEntries() -> Bool {
+        if email.isEmpty {
+            emptyEmail = true
+        }
+        if password.isEmpty {
+            emptyPassword = true
+        }
+        
+        return !email.isEmpty && !password.isEmpty
     }
     
     func attemptLogin(email : String, password : String, completion : @escaping () -> Void) {

@@ -20,6 +20,7 @@ enum ButtonState {
 }
 
 struct MenuView: View {
+    
     @State private var buttonState : ButtonState = .unselected
     
     @State private var showingPopover = false
@@ -28,53 +29,58 @@ struct MenuView: View {
     
     var breakfastItems : [MenuSection] = [MenuSection]();
     
+    @State private var viewAccount = false
+    
     
     var body: some View {
         
-        VStack {
+        NavigationView {
             VStack {
-                HStack {
-                    Spacer()
-                    Spacer()
-                }
-                logo()
-                
-                Spacer()
-                HStack {
-                    breakfast()
-                    lunch()
-                    dinner()
-                    addMenuItem()
-                }
-                
-                NavigationView {
+                VStack {
                     
-                    if buttonState == .breakfast {
-                        breakfastMenu
-                    }
-                    else if buttonState == .lunch {
-                        lunchMenu
-                    }
-                    else if buttonState == .dinner {
-                        dinnerMenu
-                    }
-                    else if buttonState == .add {
-                        let adder = AddMenuItemPrompt();
-                        
-                        VStack {
-                            adder
-                            //                            Button("OK", action : {
-                            //                                showingPopover = !adder.isValid();
-                            //                                adder.invokeAPI();
-                            ////                                invokeAPI()
-                            //                            })
+                    HStack {
+                        Spacer()
+                        Button(action : {
+                            viewAccount = true
+                        }) {
+                            Image(systemName : "person.crop.circle")
                         }
+                    }
+                    logo()
+                    
+                    Spacer()
+                    HStack {
+                        breakfast()
+                        lunch()
+                        dinner()
+                        addMenuItem()
+                    }
+                    
+                    NavigationView {
                         
-                        
+                        if buttonState == .breakfast {
+                            breakfastMenu
+                        }
+                        else if buttonState == .lunch {
+                            lunchMenu
+                        }
+                        else if buttonState == .dinner {
+                            dinnerMenu
+                        }
+                        else if buttonState == .add {
+                            let adder = AddMenuItemPrompt();
+                            VStack {
+                                adder
+                            }
+                        }
                     }
                 }
-            }
+            }.padding()
         }.navigationBarBackButtonHidden(true)
+            .background(NavigationLink(destination : AccountView(), isActive : $viewAccount, label : {
+                EmptyView()
+            }))
+            
     }
     
     func dinner() -> some View {
