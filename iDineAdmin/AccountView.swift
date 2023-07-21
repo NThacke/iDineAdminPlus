@@ -21,7 +21,7 @@ private class ChangeTracker {
     /**
         The image associated with this account. This is what users see as they scroll against all other restaurants. It is essentially the "logo" of the restaaurant.
      */
-    @State static var restaurantImage : UIImage = Manager.account.image()!
+//    @State static var restaurantImage : UIImage = AccountView.image!
     
     /**
      The visibility of the restaurant. If this field is set to AdminAccount.visible, it signifies that the admin of this restaurant wants the restaurant to be visible to clients using the app.
@@ -46,6 +46,10 @@ private class ChangeTracker {
 }
 
 struct AccountView : View {
+    
+    @State var selectPhoto = false
+    
+    @State var image : UIImage?
     
     var body :  some View {
         
@@ -89,10 +93,15 @@ struct AccountView : View {
                             Spacer()
                         }
                         HStack {
-                            Image(uiImage : ChangeTracker.restaurantImage)
+                            if let myImage = image {
+                                Image(uiImage : myImage).resizable().frame(width : 50, height : 50)
+                            }
+                            else {
+                                Image(systemName: "tuningfork")
+                            }
                             Spacer()
                             Button("Select from Gallery") {
-                                
+                                selectPhoto = true
                             }
                         }.padding()
                             .overlay(RoundedRectangle(cornerRadius : 10).stroke(Color.blue))
@@ -145,8 +154,12 @@ struct AccountView : View {
             
             Spacer() //Ensures that the entire vstack is tight to the top of the screen
         }.padding()
+            .sheet(isPresented : $selectPhoto) {
+                PhotoPickerView(selectedImage: $image)
+        }
     }
 }
+
 
 
 struct AccountView_Previews: PreviewProvider {

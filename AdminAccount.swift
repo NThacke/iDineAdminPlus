@@ -73,7 +73,7 @@ class AdminAccount : Codable {
     /**
      This functon resized the given image into the given scaled size and returns the resized image back.
      */
-    func reiszeImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+    static func reiszeImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
         image.draw(in: CGRectMake(0, 0, newSize.width, newSize.height))
         let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
