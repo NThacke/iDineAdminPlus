@@ -28,17 +28,17 @@ class AdminAccount : Codable {
     //The layout style of this restaurant's menu
     var layoutStyle : String
     
-    var visibility : String
+    var visible : String
     
     
-    init(id : String, restaurantName : String, restaurantLocation : String, email : String, restaurantImage : String, layoutStyle : String, visibility : String) {
+    init(id : String, restaurantName : String, restaurantLocation : String, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
         self.id = id
         self.restaurantName = restaurantName
         self.restaurantLocation = restaurantLocation
         self.email = email
         self.restaurantImage = restaurantImage
         self.layoutStyle = layoutStyle
-        self.visibility = visibility
+        self.visible = visible
     }
     
     static func example() -> AdminAccount {
@@ -49,6 +49,6 @@ class AdminAccount : Codable {
             email : "example@gmail.com",
             restaurantImage : "image",
             layoutStyle : "1",
-        visibility: "false");
+        visible: "false");
     }
 }

@@ -11,7 +11,7 @@ import SwiftUI
 struct iDineAdminApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(manager : Manager.example())
+            ContentView()
         }
     }
 }

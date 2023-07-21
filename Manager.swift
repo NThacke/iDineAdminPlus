@@ -10,24 +10,10 @@ import Foundation
 
 class Manager {
     
-    var account : AdminAccount
+    static var account : AdminAccount = AdminAccount.example()
     
-    init(account : AdminAccount) {
-        self.account = account
-    }
     
-    /**
-            Creates a new manager from the given email. This function calls an API to gather information regarding this account's email.
-     */
-    init(email : String) {
-        self.account = AdminAccount.example()
-        getInfo(email : email) {acc in
-            self.account = acc!
-        }
-        
-    }
-    
-    func getInfo(email : String, completion : @escaping (AdminAccount?) -> Void) {
+    static func getAccountInfo(email : String, completion : @escaping (AdminAccount?) -> Void) {
         // Set the API endpoint URL
         print(email)
         let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/info?email=\(email)")!
@@ -45,7 +31,7 @@ class Manager {
 
             // Handle the API response
             if let httpResponse = response as? HTTPURLResponse {
-                print("Status code: \(httpResponse.statusCode)")
+//                print("Status code: \(httpResponse.statusCode)")
 
                 if let data = data {
                     let item = self.process(data: data)
@@ -63,8 +49,7 @@ class Manager {
         task.resume()
     }
     
-    func process(data : Data) -> AdminAccount? {
-        print("Inside process function in Manager")
+    private static func process(data : Data) -> AdminAccount? {
               do {
                   let decoder = JSONDecoder()
                   let jsonData = try decoder.decode(AdminAccount.self, from: data)
@@ -73,13 +58,6 @@ class Manager {
                   print(String(describing: error))
                   return nil
               }
-    }
-    
-    static func example() -> Manager {
-        
-        let account = AdminAccount.example()
-        
-        return Manager(account : account);
     }
     
 }
