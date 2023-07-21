@@ -46,6 +46,8 @@ struct MenuView: View {
                             Image(systemName : "person.crop.circle")
                         }
                     }
+                    
+                    Text(Manager.account.restaurantName).bold()
                     logo()
                     
                     Spacer()
