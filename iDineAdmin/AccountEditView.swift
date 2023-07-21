@@ -57,7 +57,7 @@ struct AccountEditView : View {
      This variable is used to track the selected image. For unknown (?) reasons, this cannot be stored in the ChangeTracker class -- various bugs occur if that is used. Instead, we must keep track of the image locally.
      */
     
-    @State var image : UIImage?
+    @State var image : UIImage? = Manager.account.image()
     
     
     @State var visiblity = false
@@ -233,14 +233,9 @@ struct AccountEditView : View {
     
     func submit(completion : @escaping () -> Void) {
         print("Inside submit function")
-        print("Name : \(restaurantName)")
-        print("Location : \(restaurantLocation)")
         
-//        let imageString = AdminAccount.imageToString(image: image!)!
-        
-//        print("Image : \(imageString)")
-//        print("Layout Style : \(layoutStyle)")
-//        print("Visible : \(visible)")
+        let resized = AdminAccount.reiszeImage(image: self.image!, scaledToSize: CGSize(width: 50, height:50)) //must be resized so that the string representation is not too large
+        let myImage = AdminAccount.imageToString(image: resized)!
         
         
         guard let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/update") else {
@@ -258,9 +253,9 @@ struct AccountEditView : View {
             "id": Manager.account.id,
             "restaurantName": restaurantName,
             "restaurantLocation" : restaurantLocation,
-            "restaurantImage" : "empty",
-            "layoutStyle" : "0",
-            "visible" : "false"
+            "restaurantImage" : myImage,
+            "layoutStyle" : layoutStyle,
+            "visible" : visible
         ] as [String : String]
             
         print("Successfuly created body")

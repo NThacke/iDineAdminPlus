@@ -251,6 +251,10 @@ struct CreateAccount : View {
         
         //lowercase email
         email = email.lowercased()
+        
+        
+        let basicImage = AdminAccount.example().image()
+        let imageAsString = AdminAccount.imageToString(image: basicImage!)!
             
         //create a body for the JSON data
         let requestBody = [
@@ -260,7 +264,7 @@ struct CreateAccount : View {
             "password" : hashed_salted_password,
             "restaurantName" : restaurantName,
             "restaurantLocation" : location,
-            "restaurantImage" : "empty",
+            "restaurantImage" : imageAsString,
             "layoutStyle" : "0",
             "visible" : "false"
         ] as [String : String]
