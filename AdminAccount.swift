@@ -46,7 +46,7 @@ class AdminAccount : Codable {
     
     static func example() -> AdminAccount {
         return AdminAccount(
-            id : "A904844B-6537-4A57-8710-EE5317B6687D",
+            id : "EA878AD2-F77F-4096-878E-30489CE43D98",
             restaurantName : "Example Name",
             restaurantLocation : "Example Location",
             email : "example@gmail.com",
@@ -93,5 +93,12 @@ class AdminAccount : Codable {
     private static func exampleImage() -> String {
         let image = UIImage(systemName : "fork.knife.circle")!
         return imageToString(image : image)!
+    }
+    
+    func visibility() -> Bool {
+        if(visible == "true") {
+            return true
+        }
+        return false
     }
 }

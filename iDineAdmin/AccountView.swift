@@ -19,8 +19,12 @@ struct AccountView : View {
         NavigationView {
             VStack {
                 Group {
+                    HStack {
+                        Text("Account").bold()
+                        Spacer()
+                    }
                     if let image = Manager.account.image() {
-                        Image(uiImage: image)
+                        Image(uiImage: image).resizable().frame(width: 75, height : 75)
                     }
                     Rectangle().frame(width: 250, height: 1.5).foregroundColor(Color.blue)
                     Text(Manager.account.email).foregroundColor(Color.gray)

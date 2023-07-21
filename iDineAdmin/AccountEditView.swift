@@ -60,15 +60,20 @@ struct AccountEditView : View {
     @State var image : UIImage? = Manager.account.image()
     
     
-    @State var visiblity = false
+    @State var visiblity = Manager.account.visibility()
     
     var body :  some View {
         
         NavigationView {
             VStack {
                 Group {
+                    
+                    HStack {
+                        Text("Edit Account").bold()
+                        Spacer()
+                    }
                     if let image = Manager.account.image() {
-                        Image(uiImage: image)
+                        Image(uiImage: image).resizable().frame(width: 75, height : 75)
                     }
                     Rectangle().frame(width: 250, height: 1.5).foregroundColor(Color.blue)
                     Text(Manager.account.email).foregroundColor(Color.gray)
@@ -279,9 +284,11 @@ struct AccountEditView : View {
             if let httpResponse = response as? HTTPURLResponse {
                 print("Status Code: \(httpResponse.statusCode)")
                 if(httpResponse.statusCode == 200) {
-//                    Manager.account.setImage(image: image!)
+                    Manager.account.setImage(image: resized)
                     Manager.account.restaurantName = self.restaurantName
                     Manager.account.restaurantLocation = self.restaurantLocation
+                    Manager.account.layoutStyle = self.layoutStyle
+                    Manager.account.visible = self.visible
                 }
                 completion()
             }
