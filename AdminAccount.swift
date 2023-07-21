@@ -64,6 +64,7 @@ class AdminAccount : Codable {
     }
     
     static func imageToString(image: UIImage) -> String? {
+        print("Inside imageToString")
         if let imageData = image.jpegData(compressionQuality: 1.0) {
             return imageData.base64EncodedString()
         }

@@ -199,7 +199,23 @@ struct AccountEditView : View {
                     EmptyView()
                 })
                 .popover(isPresented : $submit) {
-                    Text("are you sure?")
+                    
+                    Text("Are you sure you want to submit these changes? These changes will be reflected across the app to customers.")
+                    
+                    HStack {
+                        
+                        Button("Cancel") {
+                            submit = false
+                        }
+                        Spacer()
+                        
+                        Button("OK") {
+                            submit() {
+                                submit = false
+                                confirm = true
+                            }
+                        }
+                    }
                 }
         }.navigationBarBackButtonHidden(true)
     }
@@ -213,6 +229,70 @@ struct AccountEditView : View {
         else {
             visible = AdminAccount.invisible
         }
+    }
+    
+    func submit(completion : @escaping () -> Void) {
+        print("Inside submit function")
+        print("Name : \(restaurantName)")
+        print("Location : \(restaurantLocation)")
+        
+//        let imageString = AdminAccount.imageToString(image: image!)!
+        
+//        print("Image : \(imageString)")
+//        print("Layout Style : \(layoutStyle)")
+//        print("Visible : \(visible)")
+        
+        
+        guard let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/update") else {
+            print("Invalid URL")
+            return
+        }
+        print("Vaid URL")
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+    
+        
+        var requestBody : [String : String]
+        
+        requestBody = [
+            "id": Manager.account.id,
+            "restaurantName": restaurantName,
+            "restaurantLocation" : restaurantLocation,
+            "restaurantImage" : "empty",
+            "layoutStyle" : "0",
+            "visible" : "false"
+        ] as [String : String]
+            
+        print("Successfuly created body")
+        do {
+            let jsonData = try JSONEncoder().encode(requestBody)
+            request.httpBody = jsonData
+        } catch {
+            print("Error encoding JSON: \(error)")
+            return
+        }
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error)")
+                completion()
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                print("Status Code: \(httpResponse.statusCode)")
+                if(httpResponse.statusCode == 200) {
+//                    Manager.account.setImage(image: image!)
+                    Manager.account.restaurantName = self.restaurantName
+                    Manager.account.restaurantLocation = self.restaurantLocation
+                }
+                completion()
+            }
+        }
+        
+        task.resume()
     }
 }
 
