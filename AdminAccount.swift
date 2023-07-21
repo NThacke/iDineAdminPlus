@@ -10,6 +10,9 @@ import SwiftUI
 
 class AdminAccount : Codable {
     
+    static let visible : String = "true"
+    static let invisible : String = "false"
+    
     //The ID of this account
     var id : String
     
