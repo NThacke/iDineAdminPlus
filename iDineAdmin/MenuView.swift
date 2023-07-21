@@ -122,7 +122,7 @@ struct MenuView: View {
      Using this instead of directly inserting the view into the callee location enables modular use as well as encourages code readability.
      */
     func logo() -> some View {
-        Image(systemName: "fork.knife.circle")
+        Image(uiImage : Manager.account.image()!)
             .resizable()
             .padding()
             .frame(width:100, height:100)
