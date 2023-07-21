@@ -29,6 +29,7 @@
 		A4C3B7612A630714009915BE /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7602A630714009915BE /* PhotoPicker.swift */; };
 		A4C3B7632A632890009915BE /* RestrictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7622A632890009915BE /* RestrictionView.swift */; };
 		A4C3B7652A634CD1009915BE /* SectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7642A634CD1009915BE /* SectionViewHeader.swift */; };
+		A4CA01BE2A6AE8D900C01405 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CA01BD2A6AE8D900C01405 /* AccountView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		A4C3B7602A630714009915BE /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		A4C3B7622A632890009915BE /* RestrictionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictionView.swift; sourceTree = "<group>"; };
 		A4C3B7642A634CD1009915BE /* SectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionViewHeader.swift; sourceTree = "<group>"; };
+		A4CA01BD2A6AE8D900C01405 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				A46693972A687B6C00849E37 /* CreateAccount.swift */,
 				A4C3B7422A5F2931009915BE /* ContentView.swift */,
 				A466939B2A68B88900849E37 /* MenuView.swift */,
+				A4CA01BD2A6AE8D900C01405 /* AccountView.swift */,
 				A4C3B74E2A5F2A32009915BE /* Menu.swift */,
 				A4C3B7602A630714009915BE /* PhotoPicker.swift */,
 				A4C3B75C2A61E04C009915BE /* LunchMenu.swift */,
@@ -209,6 +212,7 @@
 				A466939C2A68B88900849E37 /* MenuView.swift in Sources */,
 				A4C3B7552A5F2B0E009915BE /* ItemRow.swift in Sources */,
 				A4C3B7412A5F2931009915BE /* iDineAdminApp.swift in Sources */,
+				A4CA01BE2A6AE8D900C01405 /* AccountView.swift in Sources */,
 				A4C3B7532A5F2AAB009915BE /* MenuItem.swift in Sources */,
 				A46693982A687B6C00849E37 /* CreateAccount.swift in Sources */,
 			);

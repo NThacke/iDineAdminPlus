@@ -23,7 +23,7 @@ class AdminAccount : Codable {
     var email : String
     
     //The restaurant image associated with this account that is used throughout the app (client)
-    var restaurantImage : String
+    private var restaurantImage : String
     
     //The layout style of this restaurant's menu
     var layoutStyle : String
@@ -47,8 +47,47 @@ class AdminAccount : Codable {
             restaurantName : "Example",
             restaurantLocation : "Example",
             email : "example@gmail.com",
-            restaurantImage : "image",
+            restaurantImage : exampleImage(),
             layoutStyle : "1",
         visible: "false");
+    }
+    
+    func image() -> UIImage? {
+        return restoreImageFromBase64String(string: restaurantImage)
+    }
+    
+    func setImage(image : UIImage) {
+        restaurantImage = AdminAccount.imageToString(image : image)!
+    }
+    
+    static func imageToString(image: UIImage) -> String? {
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+            return imageData.base64EncodedString()
+        }
+        return nil
+    }
+    
+    /**
+     This functon resized the given image into the given scaled size and returns the resized image back.
+     */
+    func reiszeImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.draw(in: CGRectMake(0, 0, newSize.width, newSize.height))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+    private func restoreImageFromBase64String(string : String) -> UIImage? {
+        if let imageData = Data(base64Encoded: string) {
+            let image = UIImage(data: imageData)
+            return image
+        }
+        return nil
+    }
+    
+    private static func exampleImage() -> String {
+        let image = UIImage(systemName : "fork.knife.circle")!
+        return imageToString(image : image)!
     }
 }
