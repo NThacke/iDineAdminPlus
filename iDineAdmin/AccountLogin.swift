@@ -33,6 +33,9 @@ struct AccountLogin : View {
     var body : some View {
         NavigationView {
             VStack (alignment : .center) {
+                
+                Text(current.state ?? "nil")
+                
                 Image(systemName : "globe").padding()
                 
                 if(error) {
@@ -70,11 +73,8 @@ struct AccountLogin : View {
                         RoundedRectangle(cornerRadius: 10).frame(width:150, height:50).foregroundColor(Color.blue)
 
                         Button("Create Account") {
-//                            createAccount = true
-                            print("Current state is \(current.state)")
-                            current.state = ProgramState.CreateAccount
-                            print("Changing current state to \(ProgramState.CreateAccount)")
-                            print("Current state is \(current.state)")
+                            current.state = AppState.CreateAccount
+                            
                         }.foregroundColor(Color.white)
                     }
                     
@@ -84,10 +84,7 @@ struct AccountLogin : View {
                         RoundedRectangle(cornerRadius: 10).frame(width:75, height:50).foregroundColor(Color.blue)
                         
                         Button("Login") {
-                            print("Current state is \(current.state)")
-                            current.state = ProgramState.AccountLogin
-                            print("Changing current state to \(ProgramState.AccountLogin)")
-                            print("Current state is \(current.state)")
+                            current.state = AppState.AccountLogin
                         }.foregroundColor(Color.white)
                     }
                     Spacer()

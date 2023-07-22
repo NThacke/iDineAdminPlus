@@ -10,6 +10,7 @@
  */
 import Foundation
 import SwiftUI
+import Combine
 
 
 enum ProgramState {
@@ -21,24 +22,33 @@ enum ProgramState {
 
 class AppState : ObservableObject {
     
-    @Published var state : ProgramState? {
-        didSet {
-            objectWillChange.send()
-        }
-    }
+    static let AccountLogin = "AccountLogin"
+    
+    static let CreateAccount = "CreateAccount"
+    
+    @Published var state : String?
+    
+    @Published var refresh = false
     
 }
+    
 struct ContentView : View {
     
     @EnvironmentObject private var current : AppState
     
     var body : some View {
         
-        switch(current.state) {
-            case .AccountLogin : AccountLogin()
-            case .CreateAccount : CreateAccount()
+        VStack {
             
-        case nil : AccountLogin()
+            
+            Text(current.state ?? "nil").frame(width : 0, height : 0)
+            
+            switch(current.state) {
+            case AppState.AccountLogin : AccountLogin()
+            case AppState.CreateAccount : CreateAccount()
+                
+            default : AccountLogin()
+            }
         }
     }
     
@@ -46,7 +56,10 @@ struct ContentView : View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    
+    static let current : AppState = AppState()
+    
     static var previews: some View {
-        ContentView().environmentObject(AppState())
+        ContentView().environmentObject(current)
     }
 }
