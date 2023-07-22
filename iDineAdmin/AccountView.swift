@@ -78,7 +78,7 @@ struct AccountView : View {
                 
             }
             Spacer() //Ensures that the entire vstack is tight to the top of the screen
-        }.padding()
+            }.padding()
     }
 }
 

@@ -44,12 +44,12 @@ struct MenuView: View {
                         Button(action : {
                             current.state = AppState.AccountView
                         }) {
-                            Image(systemName : "person.crop.circle")
+                            Image(systemName : "person.crop.circle").resizable().frame(width: 25, height:25)
                         }
                     }
                     
                     Text(Manager.account.restaurantName).bold()
-                    logo().animation(.easeInOut(duration : 1.0))
+                    logo()
                     
                     Spacer()
                     HStack {
@@ -59,7 +59,7 @@ struct MenuView: View {
                         addMenuItem()
                     }
                     
-                    NavigationView {
+                    VStack {
                         
                         if buttonState == .breakfast {
                             breakfastMenu
@@ -76,6 +76,7 @@ struct MenuView: View {
                                 adder
                             }
                         }
+                        Spacer()
                     }
                 }
             }.padding().animation(.easeInOut(duration : 1.0))
