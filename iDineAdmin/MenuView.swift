@@ -40,6 +40,10 @@ struct MenuView: View {
                 VStack {
                     
                     HStack {
+                        
+                        Button("Logout") {
+                            current.state = AppState.AccountLogin
+                        }
                         Spacer()
                         Button(action : {
                             current.state = AppState.AccountView
