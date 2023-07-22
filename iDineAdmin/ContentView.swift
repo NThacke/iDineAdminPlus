@@ -10,217 +10,73 @@
  */
 import Foundation
 import SwiftUI
+import Combine
 
 
+/**
+ This class is used to store the current state of the app and to pass the state throughout every View. There should only be one instance of this object within the app, invoked by the iDineAdminApp struct.
+ 
+ For example,
+ 
+ ContentView().environmentObject(AppState()))
+ 
+ will instantiate a ContentView struct, and pass the environment object as a newly instantiated AppState object. Then, any views invoked within ContentView will inherit the EnvironmentObject.
+ 
+ To modify the current state, a View would only need to perform the following :
+ 
+ current.state = AppState.$myChosenState
+ 
+ Note that this assumes that the View has an EnvironmentObject field, such as :
+ 
+ @EnvironmentObject private var current : AppState
+ */
+class AppState : ObservableObject {
+    /**
+        The AccountLogin View's internal representation.
+     */
+    static let AccountLogin = "AccountLogin"
+    static let CreateAccount = "CreateAccount"
+    static let MenuView = "MenuView"
+    static let AccountView = "AccountView"
+    static let AccountEditView = "AccountEditView"
+    
+    @Published var state : String?
+}
+
+/**
+    This View serves as the view which displays the appropriate View to the user dependent upon the state of the app.
+        
+ The EnvironmentObject current : AppState contains the current state of the app. Whenever the state field changes, this view sees the change and then appropriately invokes the correct view to display to the user.
+ */
+    
 struct ContentView : View {
     
-    @State var email : String = ""
-    @State var password : String = ""
-    
-    @State var loginSuccessful = false
-    @State var createAccount = false
-    
-    @State var error = false
-    
-    @State var loading = false
-    
-    @State var emptyEmail = false
-    
-    @State var emptyPassword = false
+    @EnvironmentObject private var current : AppState
     
     var body : some View {
-        NavigationView {
-            VStack (alignment : .center) {
-                Image(systemName : "globe").padding()
-                
-                if(error) {
-                    Text("Either email or password are incorrect.").foregroundColor(Color.red)
-                }
-                
-                if(emptyEmail) {
-                    TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: email) { newValue in
-                        error = false
-                        emptyEmail = false
-                        
-                    }
-                }
-                else {
-                    TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding().onChange(of: email) { newValue in
-                        error = false
-                    }
-                }
-                
-                if(emptyPassword) {
-                    SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: password) { newValue in
-                        error = false
-                        emptyPassword = false
-                    }
-                }
-                else {
-                    SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding().onChange(of: password) { newValue in
-                        error = false
-                    }
-                }
-                
-                HStack {
-                    Spacer()
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10).frame(width:150, height:50).foregroundColor(Color.blue)
-
-                        Button("Create Account") {
-                            createAccount = true
-                        }.foregroundColor(Color.white)
-                    }
-                    
-                    Spacer()
-                    
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10).frame(width:75, height:50).foregroundColor(Color.blue)
-                        
-                        Button("Login") {
-                            login()
-                        }.foregroundColor(Color.white)
-                    }
-                    Spacer()
-                }
-                if(loading) {
-                    // This is the loading icon (indeterminate spinner)
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                }
-            }
-            .background(
-                        NavigationLink(destination: CreateAccount(), isActive: $createAccount) {
-                            EmptyView()
-                        }
-            ).background(            NavigationLink(destination: MenuView(), isActive: $loginSuccessful, label : {
-                EmptyView()}
-                                                   ))
+        VStack {
+            Text(current.state ?? "nil").frame(width : 0, height : 0) //Purpose : Ensures refreshing of this View whenever the current.state changes.
             
-        }.navigationBarBackButtonHidden(true)
-    }
-    
-    func login() {
-        if(nonEmptyEntries()) {
-            email = email.lowercased()
-            loading = true
-            getSalt() { s in
-                let salt = s
-                print("salt is \(salt)")
-                let saltedHashedPassword = sha256Hash(password+salt)
-                attemptLogin(email : email, password : saltedHashedPassword) {
-                    loading = false
-                    if(!error) {
-                        Manager.getAccountInfo(email: email) {acc in
-                            Manager.account = acc!
-                            loginSuccessful = true
-                        }
-                    }
-                }
-            }
-        }
-    }
-    func nonEmptyEntries() -> Bool {
-        if email.isEmpty {
-            emptyEmail = true
-        }
-        if password.isEmpty {
-            emptyPassword = true
-        }
-        
-        return !email.isEmpty && !password.isEmpty
-    }
-    
-    func attemptLogin(email : String, password : String, completion : @escaping () -> Void) {
-        
-        let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account?email=\(email)&password=\(password)")!
-
-        // Create a URLSession instance
-        let session = URLSession.shared
-
-        // Create a data task
-        let task = session.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-                completion() // Call the completion handler with an empty array
-                return
-            }
-
-            // Handle the API response
-            if let httpResponse = response as? HTTPURLResponse {
+            switch(current.state) {
+                case AppState.AccountLogin : AccountLogin()
+                case AppState.CreateAccount : CreateAccount()
+                case AppState.MenuView : MenuView()
+                case AppState.AccountView : AccountView()
+                case AppState.AccountEditView : AccountEditView()
                 
-                if(httpResponse.statusCode != 200) {
-                    self.error = true
-                    completion()
-                }
-                else {
-                    self.error = false
-                    completion()
-                }
-            } else {
-                completion() // Call the completion handler with an empty array
+                default : AccountLogin()
             }
         }
-
-        // Start the data task
-        task.resume()
     }
     
-    func getSalt(completion : @escaping (String) -> Void) {
-        let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/salt?email=\(email)")!
-
-        // Create a URLSession instance
-        let session = URLSession.shared
-
-        // Create a data task
-        let task = session.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-                completion("") // Call the completion handler with an empty array
-                return
-            }
-
-            // Handle the API response
-            if let httpResponse = response as? HTTPURLResponse {
-                
-                if(httpResponse.statusCode != 200) {
-                    self.error = true
-                }
-
-                if let data = data {
-                    let item = process(data: data)
-                    
-                    completion(item) // Call the completion handler with the received items
-                } else {
-                    completion("") // Call the completion handler with an empty array
-                }
-            } else {
-                completion("") // Call the completion handler with an empty array
-            }
-        }
-
-        // Start the data task
-        task.resume()
-    }
     
-    private func process(data: Data ) -> String {
-//        print("Inside process function")
-//        print(data)
-        do {
-            let decoder = JSONDecoder()
-            let jsonData = try decoder.decode(String.self, from: data)
-//            print("JSON DATA : \(jsonData)")
-            return jsonData
-        } catch {
-//            print("Error decoding JSON: \(error.localizedDescription)")
-            print(String(describing: error))
-            return ""
-        }
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
+    
+    static let current : AppState = AppState()
+    
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(current)
     }
 }

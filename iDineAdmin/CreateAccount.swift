@@ -13,6 +13,8 @@ import CryptoKit
 
 struct CreateAccount : View {
     
+    @EnvironmentObject var current : AppState
+    
     /**
             The email associated with the newly created account.
      */
@@ -66,7 +68,7 @@ struct CreateAccount : View {
     
     
     var body : some View {
-        NavigationView {
+        
             Group {
                 VStack (alignment : .center) {
                     
@@ -172,7 +174,8 @@ struct CreateAccount : View {
                         ZStack {
                             RoundedRectangle(cornerRadius : 10).foregroundColor(Color.red).frame(width: 75, height:50)
                             Button("Cancel", action : {
-                                cancel = true
+//                                cancel = true
+                                current.state = AppState.AccountLogin
                             }).foregroundColor(Color.white)
                         }
                     }
@@ -195,12 +198,7 @@ struct CreateAccount : View {
                 }.padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the entire available space
                     .edgesIgnoringSafeArea(.top) //
-                    .background(
-                        NavigationLink(destination: MenuView(), isActive: $loginSuccess) {
-                            EmptyView()
-                        }).background(NavigationLink(destination : ContentView(), isActive : $cancel) {EmptyView()})
             }
-        }.navigationBarBackButtonHidden(true)
     }
     
     /**
@@ -336,6 +334,6 @@ func sha256Hash(_ input: String) -> String {
 
 struct CreateAccount_Previews: PreviewProvider {
     static var previews: some View {
-        CreateAccount()
+        CreateAccount().environmentObject(AppState())
     }
 }

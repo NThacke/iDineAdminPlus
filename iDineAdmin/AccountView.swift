@@ -10,13 +10,9 @@ import SwiftUI
 
 struct AccountView : View {
     
-    @State var edit = false
-    
-    @State var cancel = false
+    @EnvironmentObject var current : AppState
     
     var body :  some View {
-        
-        NavigationView {
             VStack {
                 Group {
                     HStack {
@@ -67,7 +63,7 @@ struct AccountView : View {
                     ZStack { //Back button
                         RoundedRectangle(cornerRadius: 10).frame(width:100, height: 50).foregroundColor(Color.blue)
                         Button("Back") {
-                            cancel = true
+                            current.state = AppState.MenuView
                         }.foregroundColor(Color.white)
                     }
                     Spacer()
@@ -75,23 +71,14 @@ struct AccountView : View {
                     ZStack { //Edit button
                         RoundedRectangle(cornerRadius: 10).frame(width:100, height: 50).foregroundColor(Color.blue)
                         Button("Edit") {
-                            edit = true
+                            current.state = AppState.AccountEditView
                         }.foregroundColor(Color.white)
                     }
                 }
                 
             }
-            
-            
             Spacer() //Ensures that the entire vstack is tight to the top of the screen
-        }.padding()
-            .background(NavigationLink(destination : MenuView(), isActive : $cancel) {
-                EmptyView()
-            })
-            .background(NavigationLink(destination : AccountEditView(), isActive : $edit) {
-                EmptyView()
-            })
-        }.navigationBarBackButtonHidden(true)
+            }.padding()
     }
 }
 
