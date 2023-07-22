@@ -21,6 +21,8 @@ enum ButtonState {
 
 struct MenuView: View {
     
+    @EnvironmentObject var current : AppState
+    
     @State private var buttonState : ButtonState = .unselected
     
     @State private var showingPopover = false
@@ -34,21 +36,20 @@ struct MenuView: View {
     
     var body: some View {
         
-        NavigationView {
             VStack {
                 VStack {
                     
                     HStack {
                         Spacer()
                         Button(action : {
-                            viewAccount = true
+                            current.state = AppState.AccountView
                         }) {
                             Image(systemName : "person.crop.circle")
                         }
                     }
                     
                     Text(Manager.account.restaurantName).bold()
-                    logo()
+                    logo().animation(.easeInOut(duration : 1.0))
                     
                     Spacer()
                     HStack {
@@ -77,12 +78,7 @@ struct MenuView: View {
                         }
                     }
                 }
-            }.padding()
-        }.navigationBarBackButtonHidden(true)
-            .background(NavigationLink(destination : AccountView(), isActive : $viewAccount, label : {
-                EmptyView()
-            }))
-            
+            }.padding().animation(.easeInOut(duration : 1.0))
     }
     
     func dinner() -> some View {

@@ -11,6 +11,8 @@ import SwiftUI
 
 struct AccountEditView : View {
     
+    @EnvironmentObject var current : AppState
+    
     /**
      The visibility of the restaurant. If this field is set to AdminAccount.visible, it signifies that the admin of this restaurant wants the restaurant to be visible to clients using the app.
      */
@@ -63,8 +65,6 @@ struct AccountEditView : View {
     @State var visiblity = Manager.account.visibility()
     
     var body :  some View {
-        
-        NavigationView {
             VStack {
                 Group {
                     
@@ -178,7 +178,7 @@ struct AccountEditView : View {
                         ZStack { //Cancel button
                             RoundedRectangle(cornerRadius: 10).frame(width:100, height: 50).foregroundColor(Color.red)
                             Button("CANCEL") {
-                                cancel = true
+                                current.state = AppState.AccountView
                             }.foregroundColor(Color.white)
                         }
                         Spacer()
@@ -197,12 +197,6 @@ struct AccountEditView : View {
                 .sheet(isPresented : $selectPhoto) {
                     PhotoPickerView(selectedImage: $image)
                 }
-                .background(NavigationLink(destination : AccountView(), isActive : $cancel) {
-                    EmptyView()
-                })
-                .background(NavigationLink(destination : MenuView(), isActive : $confirm) {
-                    EmptyView()
-                })
                 .popover(isPresented : $submit) {
                     
                     Text("Are you sure you want to submit these changes? These changes will be reflected across the app to customers.")
@@ -217,12 +211,11 @@ struct AccountEditView : View {
                         Button("OK") {
                             submit() {
                                 submit = false
-                                confirm = true
+                                current.state = AppState.MenuView
                             }
                         }
                     }
                 }
-        }.navigationBarBackButtonHidden(true)
     }
     
     func toggleVisiblity() {

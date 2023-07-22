@@ -13,23 +13,19 @@ import SwiftUI
 import Combine
 
 
-enum ProgramState {
-    
-    case AccountLogin
-    case CreateAccount
-    
-}
-
 class AppState : ObservableObject {
     
     static let AccountLogin = "AccountLogin"
     
     static let CreateAccount = "CreateAccount"
     
+    static let MenuView = "MenuView"
+    
+    static let AccountView = "AccountView"
+    
+    static let AccountEditView = "AccountEditView"
+    
     @Published var state : String?
-    
-    @Published var refresh = false
-    
 }
     
 struct ContentView : View {
@@ -41,13 +37,16 @@ struct ContentView : View {
         VStack {
             
             
-            Text(current.state ?? "nil").frame(width : 0, height : 0)
+            Text(current.state ?? "nil").frame(width : 0, height : 0) //Purpose : Ensures refreshing of this View whenever the current.state changes.
             
             switch(current.state) {
             case AppState.AccountLogin : AccountLogin()
-            case AppState.CreateAccount : CreateAccount()
+                case AppState.CreateAccount : CreateAccount()
+                case AppState.MenuView : MenuView()
+                case AppState.AccountView : AccountView()
+                case AppState.AccountEditView : AccountEditView()
                 
-            default : AccountLogin()
+                default : AccountLogin()
             }
         }
     }

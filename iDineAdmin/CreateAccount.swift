@@ -68,7 +68,7 @@ struct CreateAccount : View {
     
     
     var body : some View {
-        NavigationView {
+        
             Group {
                 VStack (alignment : .center) {
                     
@@ -198,12 +198,7 @@ struct CreateAccount : View {
                 }.padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the entire available space
                     .edgesIgnoringSafeArea(.top) //
-                    .background(
-                        NavigationLink(destination: MenuView(), isActive: $loginSuccess) {
-                            EmptyView()
-                        }).background(NavigationLink(destination : ContentView(), isActive : $cancel) {EmptyView()})
             }
-        }.navigationBarBackButtonHidden(true)
     }
     
     /**

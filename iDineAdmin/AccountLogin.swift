@@ -31,10 +31,7 @@ struct AccountLogin : View {
     @State var emptyPassword = false
     
     var body : some View {
-        NavigationView {
             VStack (alignment : .center) {
-                
-                Text(current.state ?? "nil")
                 
                 Image(systemName : "globe").padding()
                 
@@ -84,7 +81,7 @@ struct AccountLogin : View {
                         RoundedRectangle(cornerRadius: 10).frame(width:75, height:50).foregroundColor(Color.blue)
                         
                         Button("Login") {
-                            current.state = AppState.AccountLogin
+                            login()
                         }.foregroundColor(Color.white)
                     }
                     Spacer()
@@ -95,15 +92,6 @@ struct AccountLogin : View {
                         .progressViewStyle(CircularProgressViewStyle())
                 }
             }
-//            .background(
-//                        NavigationLink(destination: CreateAccount(), isActive: $createAccount) {
-//                            EmptyView()
-//                        }
-//            ).background(            NavigationLink(destination: MenuView(), isActive: $loginSuccessful, label : {
-//                EmptyView()}
-//                                                   ))
-            
-        }.navigationBarBackButtonHidden(true)
     }
     
     func login() {
@@ -119,7 +107,7 @@ struct AccountLogin : View {
                     if(!error) {
                         Manager.getAccountInfo(email: email) {acc in
                             Manager.account = acc!
-                            loginSuccessful = true
+                            current.state = AppState.MenuView
                         }
                     }
                 }
