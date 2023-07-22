@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct iDineAdminApp: App {
+    
+    let current = AppState()
+    
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(current)
         }
     }
 }
