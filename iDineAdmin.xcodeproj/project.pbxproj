@@ -99,9 +99,9 @@
 			isa = PBXGroup;
 			children = (
 				A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */,
+				A4CA01C42A6CE86000C01405 /* BootupViews */,
 				A46693952A68763B00849E37 /* AccountLogin.swift */,
 				A46693972A687B6C00849E37 /* CreateAccount.swift */,
-				A4C3B7422A5F2931009915BE /* ContentView.swift */,
 				A466939B2A68B88900849E37 /* MenuView.swift */,
 				A4CA01BD2A6AE8D900C01405 /* AccountEditView.swift */,
 				A4CA01C12A6B089300C01405 /* AccountView.swift */,
@@ -125,6 +125,14 @@
 				A4C3B7472A5F2933009915BE /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A4CA01C42A6CE86000C01405 /* BootupViews */ = {
+			isa = PBXGroup;
+			children = (
+				A4C3B7422A5F2931009915BE /* ContentView.swift */,
+			);
+			path = BootupViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -198,6 +198,7 @@ struct CreateAccount : View {
                 }.padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the entire available space
                     .edgesIgnoringSafeArea(.top) //
+                    
             }
     }
     
