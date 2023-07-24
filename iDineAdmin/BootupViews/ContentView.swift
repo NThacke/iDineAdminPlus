@@ -34,13 +34,13 @@ class AppState : ObservableObject {
     /**
         The AccountLogin View's internal representation.
      */
-    static let AccountLogin = "AccountLogin"
-    static let CreateAccount = "CreateAccount"
-    static let MenuView = "MenuView"
-    static let AccountView = "AccountView"
-    static let AccountEditView = "AccountEditView"
+    static let AccountLogin = 0
+    static let CreateAccount = 1
+    static let MenuView = 2
+    static let AccountView = 3
+    static let AccountEditView = 4
     
-    @Published var state : String?
+    @Published var state : Int?
 }
 
 /**
@@ -55,7 +55,9 @@ struct ContentView : View {
     
     var body : some View {
         VStack {
-            Text(current.state ?? "nil").frame(width : 0, height : 0) //Purpose : Ensures refreshing of this View whenever the current.state changes.
+            
+            if(current.state == 0) {}
+//            Text(current.state ?? "nil").frame(width : 0, height : 0) //Purpose : Ensures refreshing of this View whenever the current.state changes.
             
             switch(current.state) {
                 case AppState.AccountLogin : AccountLogin()
@@ -66,7 +68,7 @@ struct ContentView : View {
                 
                 default : AccountLogin()
             }
-        }
+        }.animation(.easeIn)
     }
     
     
