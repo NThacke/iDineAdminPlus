@@ -56,8 +56,7 @@ struct ContentView : View {
     var body : some View {
         VStack {
             
-            if(current.state == 0) {}
-//            Text(current.state ?? "nil").frame(width : 0, height : 0) //Purpose : Ensures refreshing of this View whenever the current.state changes.
+            if(current.state == 0) {} //Used to refresh view whenever current.state changes
             
             switch(current.state) {
                 case AppState.AccountLogin : AccountLogin()
