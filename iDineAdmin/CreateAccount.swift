@@ -215,6 +215,7 @@ struct CreateAccount : View {
                     Manager.getAccountInfo(email: email) {acc in
                         Manager.account = acc!;
                         loginSuccess = true
+                        current.state = AppState.MenuView
                     }
                 }
             }
