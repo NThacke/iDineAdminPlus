@@ -9,6 +9,18 @@ import Foundation
 import SwiftUI
 
 
+/**
+ This class is used solely to communcate the location between the AddressSearchView and the AccountEditView.
+ 
+ For some reason, you cannot pass the ChangeTracker Object into the AddressSearchView without causeing the AddressSearchView to not display search results -- which is exactly why we even want it in the first place.
+ 
+ So, we communicate the Location with this. Anytime we change the location, this field is reflected, and is retrieved when submitting the changes to the server.
+ */
+class Communicator {
+    static var location : String = ""
+}
+
+
 struct AccountEditView : View {
     
     @EnvironmentObject var current : AppState
@@ -74,7 +86,7 @@ struct AccountEditView : View {
                                 Text("Restaurant Location").foregroundColor(Color.gray)
                                 Spacer()
                             }
-                            AddressSearchView(changeTracker : fields)
+                            AddressSearchView()
 //                            TextField("Restaurant Location", text : $restaurantLocation)
                                 .padding()
                                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue))
@@ -226,7 +238,7 @@ struct AccountEditView : View {
         requestBody = [
             "id": Manager.account.id,
             "restaurantName": fields.restaurantName,
-            "restaurantLocation" : fields.restaurantLocation,
+            "restaurantLocation" : Communicator.location,
             "restaurantImage" : myImage,
             "layoutStyle" : fields.layoutStyle,
             "visible" : fields.visible
