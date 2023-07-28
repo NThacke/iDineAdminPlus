@@ -93,7 +93,6 @@
 				2FF7D7A2BAC79439B68BC622 /* Pods-iDineAdmin.debug.xcconfig */,
 				3B91057003D90F84B953F815 /* Pods-iDineAdmin.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -439,6 +438,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"iDineAdmin/Preview Content\"";
 				DEVELOPMENT_TEAM = 6UCB36P6KH;
 				ENABLE_PREVIEWS = YES;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -469,6 +469,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"iDineAdmin/Preview Content\"";
 				DEVELOPMENT_TEAM = 6UCB36P6KH;
 				ENABLE_PREVIEWS = YES;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

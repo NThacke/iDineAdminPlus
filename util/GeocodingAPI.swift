@@ -100,4 +100,19 @@ public class GeocodeAPI {
         }
         task.resume()
     }
+    
+    static func fetchAddressPredictions(for query: String, completion: @escaping ([GMSAutocompletePrediction]?, Error?) -> Void) {
+        let filter = GMSAutocompleteFilter()
+        filter.type = .address // Restrict predictions to addresses only
+
+        let token = GMSAutocompleteSessionToken.init()
+        GMSPlacesClient.shared().findAutocompletePredictions(fromQuery: query, filter: filter, sessionToken: token) { (results, error) in
+            if let error = error {
+                print("Error fetching address predictions: \(error.localizedDescription)")
+                completion(nil, error)
+            } else if let results = results {
+                completion(results, nil)
+            }
+        }
+    }
 }
