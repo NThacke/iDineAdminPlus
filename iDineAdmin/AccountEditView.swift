@@ -267,7 +267,7 @@ struct AccountEditView : View {
                 if(httpResponse.statusCode == 200) {
                     Manager.account.setImage(image: resized)
                     Manager.account.restaurantName = fields.restaurantName
-                    Manager.account.restaurantLocation = fields.restaurantLocation
+                    Manager.account.restaurantLocation = Communicator.location
                     Manager.account.layoutStyle = fields.layoutStyle
                     Manager.account.visible = fields.visible
                 }
