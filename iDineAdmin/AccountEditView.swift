@@ -232,6 +232,8 @@ struct AccountEditView : View {
     func submit(completion : @escaping () -> Void) {
         print("Inside submit function")
         
+        GeocodeAPI.request(address: restaurantLocation)
+        
         let resized = AdminAccount.reiszeImage(image: self.image!, scaledToSize: CGSize(width: 50, height:50)) //must be resized so that the string representation is not too large
         let myImage = AdminAccount.imageToString(image: resized)!
         
