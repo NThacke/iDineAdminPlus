@@ -13,25 +13,7 @@ struct AccountEditView : View {
     
     @EnvironmentObject var current : AppState
     
-    /**
-     The visibility of the restaurant. If this field is set to AdminAccount.visible, it signifies that the admin of this restaurant wants the restaurant to be visible to clients using the app.
-     */
-    @State var visible : String = Manager.account.visible
-    
-    /**
-     The name of this restaurant. Yes, we give the user the option to change their name!
-     */
-    @State var restaurantName : String = Manager.account.restaurantName
-    
-    /**
-     The location of this restaurant. Yes, we give the user the option to change their locaiton!
-     */
-    @State var restaurantLocation : String = Manager.account.restaurantLocation
-    
-    /**
-     The layout style of this restaurant.
-     */
-    @State var layoutStyle : String = Manager.account.layoutStyle
+    @StateObject var fields : ChangeTracker = ChangeTracker()
     
     /**
             This variable is used to signify if the user has chosen to select a photo to view. If true, then this is used to signify to the PhotoPicker that it should be appearing
@@ -55,16 +37,7 @@ struct AccountEditView : View {
     
     @State var confirm = false
     
-    /**
-     This variable is used to track the selected image. For unknown (?) reasons, this cannot be stored in the ChangeTracker class -- various bugs occur if that is used. Instead, we must keep track of the image locally.
-     */
-    
-    @State var image : UIImage? = Manager.account.image()
-    
-    
-    @State var visiblity = Manager.account.visibility()
-    
-    let addressSearchBar = AddressSearchView()
+    @State var visibility = Manager.account.visibility()
     
     var body :  some View {
             VStack {
@@ -91,7 +64,7 @@ struct AccountEditView : View {
                                 Text("Restaurant Name").foregroundColor(Color.gray)
                                 Spacer()
                             }
-                            TextField("Restaurant Name", text : $restaurantName)
+                            TextField("Restaurant Name", text : $fields.restaurantName)
                                 .padding()
                                 .overlay(RoundedRectangle(cornerRadius : 10).stroke(Color.blue))
                         }
@@ -101,7 +74,7 @@ struct AccountEditView : View {
                                 Text("Restaurant Location").foregroundColor(Color.gray)
                                 Spacer()
                             }
-                            addressSearchBar
+                            AddressSearchView(changeTracker : fields)
 //                            TextField("Restaurant Location", text : $restaurantLocation)
                                 .padding()
                                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue))
@@ -113,7 +86,7 @@ struct AccountEditView : View {
                                 Spacer()
                             }
                             HStack {
-                                if let myImage = image {
+                                if let myImage = fields.image {
                                     Image(uiImage : myImage).resizable().frame(width : 50, height : 50)
                                 }
                                 else {
@@ -157,7 +130,7 @@ struct AccountEditView : View {
                             }
                             HStack {
                                 
-                                if(visible == "false") {
+                                if(fields.visible == "false") {
                                     Text("Not Visible")
                                 }
                                 else {
@@ -165,7 +138,7 @@ struct AccountEditView : View {
                                 }
                                 Spacer()
                                 
-                                Toggle("", isOn: $visiblity).onChange(of: visiblity) { v in
+                                Toggle("", isOn: $visibility).onChange(of: visibility) { v in
                                     toggleVisiblity()
                                 }
                                 
@@ -198,7 +171,7 @@ struct AccountEditView : View {
                 Spacer() //Ensures that the entire vstack is tight to the top of the screen
             }.padding()
                 .sheet(isPresented : $selectPhoto) {
-                    PhotoPickerView(selectedImage: $image)
+                    PhotoPickerView(selectedImage: $fields.image)
                 }
                 .popover(isPresented : $submit) {
                     
@@ -223,19 +196,19 @@ struct AccountEditView : View {
     
     func toggleVisiblity() {
         print("In toggle visilbity function")
-        print("Visiblity is set to \(visible)")
-        if(visiblity) {
-            visible = AdminAccount.visible
+        print("Visiblity is set to \(fields.visible)")
+        if(visibility) {
+            fields.visible = AdminAccount.visible
         }
         else {
-            visible = AdminAccount.invisible
+            fields.visible = AdminAccount.invisible
         }
     }
     
     func submit(completion : @escaping () -> Void) {
         print("Inside submit function")
         
-        let resized = AdminAccount.reiszeImage(image: self.image!, scaledToSize: CGSize(width: 50, height:50)) //must be resized so that the string representation is not too large
+        let resized = AdminAccount.reiszeImage(image: fields.image!, scaledToSize: CGSize(width: 50, height:50)) //must be resized so that the string representation is not too large
         let myImage = AdminAccount.imageToString(image: resized)!
         
         
@@ -252,11 +225,11 @@ struct AccountEditView : View {
         
         requestBody = [
             "id": Manager.account.id,
-            "restaurantName": restaurantName,
-            "restaurantLocation" : restaurantLocation,
+            "restaurantName": fields.restaurantName,
+            "restaurantLocation" : fields.restaurantLocation,
             "restaurantImage" : myImage,
-            "layoutStyle" : layoutStyle,
-            "visible" : visible
+            "layoutStyle" : fields.layoutStyle,
+            "visible" : fields.visible
         ] as [String : String]
             
         print("Successfuly created body")
@@ -281,10 +254,10 @@ struct AccountEditView : View {
                 print("Status Code: \(httpResponse.statusCode)")
                 if(httpResponse.statusCode == 200) {
                     Manager.account.setImage(image: resized)
-                    Manager.account.restaurantName = self.restaurantName
-                    Manager.account.restaurantLocation = self.restaurantLocation
-                    Manager.account.layoutStyle = self.layoutStyle
-                    Manager.account.visible = self.visible
+                    Manager.account.restaurantName = fields.restaurantName
+                    Manager.account.restaurantLocation = fields.restaurantLocation
+                    Manager.account.layoutStyle = fields.layoutStyle
+                    Manager.account.visible = fields.visible
                 }
                 completion()
             }
@@ -292,6 +265,17 @@ struct AccountEditView : View {
         
         task.resume()
     }
+}
+
+class ChangeTracker : ObservableObject{
+    @Published var restaurantName : String = Manager.account.restaurantName
+    @Published var restaurantLocation : String = Manager.account.restaurantLocation
+    @Published var visible : String = Manager.account.visible
+    @Published var image : UIImage? = Manager.account.image()
+    @Published var layoutStyle : String = Manager.account.layoutStyle
+    
+    
+    
 }
 
 

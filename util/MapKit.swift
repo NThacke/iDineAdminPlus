@@ -34,6 +34,8 @@ struct AddressSearchView: View {
     @State private var searchText: String = ""
     @ObservedObject private var completer = AddressSearchCompleter()
     
+    @ObservedObject private var fields : ChangeTracker
+    
     var body: some View {
         VStack {
             TextField("Search for an address...", text: $searchText, onEditingChanged: { isEditing in
@@ -68,11 +70,15 @@ struct AddressSearchView: View {
         .onChange(of: searchText) { newText in
             // Update the search results as the user types
             self.completer.updateSearchResults(for: newText)
-            Manager.account.restaurantLocation = newText
+            fields.restaurantLocation = newText
         }
     }
     
     func text() -> String {
         return self.searchText
+    }
+    
+    init(changeTracker : ChangeTracker) {
+        self.fields = changeTracker
     }
 }
