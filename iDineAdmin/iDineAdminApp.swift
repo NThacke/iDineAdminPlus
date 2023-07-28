@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import GooglePlaces
+import GoogleMaps
 
 @main
 struct iDineAdminApp: App {
     
     let current = AppState()
-    
     
     var body: some Scene {
         WindowGroup {
