@@ -6,4 +6,5 @@ platform :ios, '14.0'
 
 target 'iDineAdmin' do
   pod 'GoogleMaps', '8.1.0'
+  pod 'GooglePlaces', '~> 5.0'
 end
