@@ -64,55 +64,69 @@ To include GoogleMaps as a dependency, insert the following code into the podfil
  Now you should have the specified depencies imported.
  */
 
-public class GeocodeAPI {
-    
-    private static let API_KEY : String = "AIzaSyC9gQRohZI8dCljQhc2tjisK_OHNhSwGpM"
-    
-    static func request(address : String) {
-        
-        let baseUrl = "https://maps.googleapis.com/maps/api/geocode/json"
-        let addressQuery = address.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        let apiKeyQuery = "key=\(API_KEY)"
-        let fullUrl = "\(baseUrl)?address=\(addressQuery)&\(apiKeyQuery)"
-        guard let url = URL(string: fullUrl) else {
-            print("Invalid URL.")
-            return
-        }
+//This does not work.
 
-        // Create and send the request
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-                return
-            }
-
-            if let data = data {
-                // Parse the JSON response
-                do {
-                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        // Process the response data here
-                        print(json)
-                    }
-                } catch {
-                    print("Error parsing JSON: \(error.localizedDescription)")
-                }
-            }
-        }
-        task.resume()
-    }
-    
-    static func fetchAddressPredictions(for query: String, completion: @escaping ([GMSAutocompletePrediction]?, Error?) -> Void) {
-        let filter = GMSAutocompleteFilter()
-        filter.type = .address // Restrict predictions to addresses only
-
-        let token = GMSAutocompleteSessionToken.init()
-        GMSPlacesClient.shared().findAutocompletePredictions(fromQuery: query, filter: filter, sessionToken: token) { (results, error) in
-            if let error = error {
-                print("Error fetching address predictions: \(error.localizedDescription)")
-                completion(nil, error)
-            } else if let results = results {
-                completion(results, nil)
-            }
-        }
-    }
-}
+//class GeocodeAPI : UIViewController { //The Struggle : This was difficult.
+//    private static let API_KEY : String = "AIzaSyC9gQRohZI8dCljQhc2tjisK_OHNhSwGpM"
+//
+//    private var placesClient: GMSPlacesClient!
+//
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        print("Giving API Key")
+//        GMSServices.provideAPIKey(GeocodeAPI.API_KEY)
+//        placesClient = GMSPlacesClient.shared()
+//    }
+//
+//    func fetchAddressSuggestions(for query: String) {
+//
+//        print("Inside fetch address suggestions")
+//        GMSServices.provideAPIKey(GeocodeAPI.API_KEY)
+//        placesClient = GMSPlacesClient.shared()
+//
+//        let filter = GMSAutocompleteFilter()
+//        // You can customize the filter to only show specific types of results like cities or addresses.
+//        // filter.type = .address
+//
+//
+//        placesClient.findAutocompletePredictions(fromQuery: query, filter: filter, sessionToken: nil) { (results, error) in
+//
+//            print("In auto complete")
+//
+//            if let error = error {
+//                print("Autocomplete error: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            if let results = results {
+//                // Process the autocomplete results and display suggestions to the user.
+//                for prediction in results {
+//                    print("Place ID: \(prediction.placeID), Description: \(prediction.attributedFullText.string)")
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//class ViewController: UIViewController {
+//    private static let API_KEY : String = "AIzaSyC9gQRohZI8dCljQhc2tjisK_OHNhSwGpM"
+//
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        GMSServices.provideAPIKey(ViewController.API_KEY)
+//
+//        // Do any additional setup after loading the view.
+//        // Create a GMSCameraPosition that tells the map to display the
+//        // coordinate -33.86,151.20 at zoom level 6.
+//        let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
+//        let mapView = GMSMapView.map(withFrame: view.frame, camera: camera)
+//        view.addSubview(mapView)
+//
+//        // Creates a marker in the center of the map.
+//        let marker = GMSMarker()
+//        marker.position = CLLocationCoordinate2D(latitude: -33.86, longitude: 151.20)
+//        marker.title = "Sydney"
+//        marker.snippet = "Australia"
+//        marker.map = mapView
+//    }
+//}

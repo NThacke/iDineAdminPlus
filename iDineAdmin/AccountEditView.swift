@@ -64,6 +64,8 @@ struct AccountEditView : View {
     
     @State var visiblity = Manager.account.visibility()
     
+    let addressSearchBar = AddressSearchView()
+    
     var body :  some View {
             VStack {
                 Group {
@@ -99,7 +101,8 @@ struct AccountEditView : View {
                                 Text("Restaurant Location").foregroundColor(Color.gray)
                                 Spacer()
                             }
-                            TextField("Restaurant Location", text : $restaurantLocation)
+                            addressSearchBar
+//                            TextField("Restaurant Location", text : $restaurantLocation)
                                 .padding()
                                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue))
                         }
@@ -231,8 +234,6 @@ struct AccountEditView : View {
     
     func submit(completion : @escaping () -> Void) {
         print("Inside submit function")
-        
-        GeocodeAPI.request(address: restaurantLocation)
         
         let resized = AdminAccount.reiszeImage(image: self.image!, scaledToSize: CGSize(width: 50, height:50)) //must be resized so that the string representation is not too large
         let myImage = AdminAccount.imageToString(image: resized)!

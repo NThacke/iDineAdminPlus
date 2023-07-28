@@ -16,6 +16,7 @@
 		A466939E2A69EF8900849E37 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A466939D2A69EF8900849E37 /* Manager.swift */; };
 		A46693A02A69F67F00849E37 /* NetworkConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A466939F2A69F67F00849E37 /* NetworkConnection.swift */; };
 		A48DFA2D2A741C6D002D8F65 /* GeocodingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48DFA2C2A741C6D002D8F65 /* GeocodingAPI.swift */; };
+		A48DFA342A74598A002D8F65 /* MapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48DFA332A74598A002D8F65 /* MapKit.swift */; };
 		A4C3B7412A5F2931009915BE /* iDineAdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */; };
 		A4C3B7432A5F2931009915BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7422A5F2931009915BE /* ContentView.swift */; };
 		A4C3B7452A5F2933009915BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4C3B7442A5F2933009915BE /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 		A466939D2A69EF8900849E37 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		A466939F2A69F67F00849E37 /* NetworkConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnection.swift; sourceTree = "<group>"; };
 		A48DFA2C2A741C6D002D8F65 /* GeocodingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodingAPI.swift; sourceTree = "<group>"; };
+		A48DFA332A74598A002D8F65 /* MapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKit.swift; sourceTree = "<group>"; };
 		A4C3B73D2A5F2931009915BE /* iDineAdmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iDineAdmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iDineAdminApp.swift; sourceTree = "<group>"; };
 		A4C3B7422A5F2931009915BE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				A4C3B7562A5F2C57009915BE /* APIClass.swift */,
 				A48DFA2C2A741C6D002D8F65 /* GeocodingAPI.swift */,
+				A48DFA332A74598A002D8F65 /* MapKit.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				A4C3B7632A632890009915BE /* RestrictionView.swift in Sources */,
 				A4C3B7652A634CD1009915BE /* SectionViewHeader.swift in Sources */,
 				A4CA01C22A6B089300C01405 /* AccountView.swift in Sources */,
+				A48DFA342A74598A002D8F65 /* MapKit.swift in Sources */,
 				A4C3B7612A630714009915BE /* PhotoPicker.swift in Sources */,
 				A466939E2A69EF8900849E37 /* Manager.swift in Sources */,
 				A46693962A68763B00849E37 /* AccountLogin.swift in Sources */,
