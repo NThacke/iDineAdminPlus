@@ -67,98 +67,100 @@ struct AccountEditView : View {
                 }
                 
                 Group { //Group for restaurnt information
-                    VStack {
-                        HStack {
+                    ScrollView {
+                        VStack {
+                            HStack {
+                                Spacer()
+                            }
+                            Group { //Group for restaurant name information
+                                HStack {
+                                    Text("Restaurant Name").foregroundColor(Color.gray)
+                                    Spacer()
+                                }
+                                TextField("Restaurant Name", text : $fields.restaurantName)
+                                    .padding()
+                                    .overlay(RoundedRectangle(cornerRadius : 10).stroke(Color.blue))
+                            }
+                            
+                            Group { //Group for location information
+                                HStack {
+                                    Text("Restaurant Location").foregroundColor(Color.gray)
+                                    Spacer()
+                                }
+                                AddressSearchView()
+                                //                            TextField("Restaurant Location", text : $restaurantLocation)
+                                    .padding()
+                                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue))
+                            }
+                            
+                            Group { //Group for image information
+                                HStack {
+                                    Text("Restaurant Image").foregroundColor(Color.gray)
+                                    Spacer()
+                                }
+                                HStack {
+                                    if let myImage = fields.image {
+                                        Image(uiImage : myImage).resizable().frame(width : 50, height : 50)
+                                    }
+                                    else {
+                                        Image(systemName: "fork.knife.circle")
+                                    }
+                                    Spacer()
+                                    Button("Select from Gallery") {
+                                        selectPhoto = true
+                                    }
+                                }.padding()
+                                    .overlay(RoundedRectangle(cornerRadius : 10).stroke(Color.blue))
+                            }
+                            
+                            Group { //Group for layout style information
+                                HStack {
+                                    Text("Layout Style").foregroundColor(Color.gray)
+                                    Spacer()
+                                }
+                                HStack {
+                                    Spacer()
+                                    Button("0") {
+                                        
+                                    }
+                                    Spacer()
+                                    Button("1") {
+                                        
+                                    }
+                                    Spacer()
+                                    Button("2") {
+                                        
+                                    }
+                                    Spacer()
+                                }.padding()
+                                    .overlay(RoundedRectangle(cornerRadius : 10).stroke(Color.blue))
+                            }
+                            
+                            Group {
+                                HStack {
+                                    Text("Visibility").foregroundColor(Color.gray)
+                                    Spacer()
+                                }
+                                HStack {
+                                    
+                                    if(fields.visible == "false") {
+                                        Text("Not Visible")
+                                    }
+                                    else {
+                                        Text("Visible")
+                                    }
+                                    Spacer()
+                                    
+                                    Toggle("", isOn: $visibility).onChange(of: visibility) { v in
+                                        toggleVisiblity()
+                                    }
+                                    
+                                    
+                                }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue))
+                            }
                             Spacer()
-                        }
-                        Group { //Group for restaurant name information
-                            HStack {
-                                Text("Restaurant Name").foregroundColor(Color.gray)
-                                Spacer()
-                            }
-                            TextField("Restaurant Name", text : $fields.restaurantName)
-                                .padding()
-                                .overlay(RoundedRectangle(cornerRadius : 10).stroke(Color.blue))
-                        }
-                        
-                        Group { //Group for location information
-                            HStack {
-                                Text("Restaurant Location").foregroundColor(Color.gray)
-                                Spacer()
-                            }
-                            AddressSearchView()
-//                            TextField("Restaurant Location", text : $restaurantLocation)
-                                .padding()
-                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue))
-                        }
-                        
-                        Group { //Group for image information
-                            HStack {
-                                Text("Restaurant Image").foregroundColor(Color.gray)
-                                Spacer()
-                            }
-                            HStack {
-                                if let myImage = fields.image {
-                                    Image(uiImage : myImage).resizable().frame(width : 50, height : 50)
-                                }
-                                else {
-                                    Image(systemName: "fork.knife.circle")
-                                }
-                                Spacer()
-                                Button("Select from Gallery") {
-                                    selectPhoto = true
-                                }
-                            }.padding()
-                                .overlay(RoundedRectangle(cornerRadius : 10).stroke(Color.blue))
-                        }
-                        
-                        Group { //Group for layout style information
-                            HStack {
-                                Text("Layout Style").foregroundColor(Color.gray)
-                                Spacer()
-                            }
-                            HStack {
-                                Spacer()
-                                Button("0") {
-                                    
-                                }
-                                Spacer()
-                                Button("1") {
-                                    
-                                }
-                                Spacer()
-                                Button("2") {
-                                    
-                                }
-                                Spacer()
-                            }.padding()
-                                .overlay(RoundedRectangle(cornerRadius : 10).stroke(Color.blue))
-                        }
-                        
-                        Group {
-                            HStack {
-                                Text("Visibility").foregroundColor(Color.gray)
-                                Spacer()
-                            }
-                            HStack {
-                                
-                                if(fields.visible == "false") {
-                                    Text("Not Visible")
-                                }
-                                else {
-                                    Text("Visible")
-                                }
-                                Spacer()
-                                
-                                Toggle("", isOn: $visibility).onChange(of: visibility) { v in
-                                    toggleVisiblity()
-                                }
-                                
-                                
-                            }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue))
-                        }
-                        Spacer()
-                    }.padding()
+                        }.padding()
+                    }
                 }
                 
                 Group { //Group for cancel / submit buttons
