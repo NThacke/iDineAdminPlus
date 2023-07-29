@@ -442,7 +442,6 @@
 				DEVELOPMENT_ASSET_PATHS = "\"iDineAdmin/Preview Content\"";
 				DEVELOPMENT_TEAM = 6UCB36P6KH;
 				ENABLE_PREVIEWS = YES;
-				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -473,7 +472,6 @@
 				DEVELOPMENT_ASSET_PATHS = "\"iDineAdmin/Preview Content\"";
 				DEVELOPMENT_TEAM = 6UCB36P6KH;
 				ENABLE_PREVIEWS = YES;
-				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
