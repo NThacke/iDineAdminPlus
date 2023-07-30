@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import GooglePlaces
-import GoogleMaps
 
 @main
 struct iDineAdminApp: App {
