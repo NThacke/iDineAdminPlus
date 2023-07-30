@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6AF405B8950C817E52AB791B /* libPods-iDineAdmin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 565DF01E23BFB7930FAA16C8 /* libPods-iDineAdmin.a */; };
 		A46693942A6875C300849E37 /* LayoutSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46693932A6875C300849E37 /* LayoutSelector.swift */; };
 		A46693962A68763B00849E37 /* AccountLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46693952A68763B00849E37 /* AccountLogin.swift */; };
 		A46693982A687B6C00849E37 /* CreateAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46693972A687B6C00849E37 /* CreateAccount.swift */; };
 		A466939A2A688C4700849E37 /* AdminAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46693992A688C4700849E37 /* AdminAccount.swift */; };
 		A466939C2A68B88900849E37 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A466939B2A68B88900849E37 /* MenuView.swift */; };
 		A466939E2A69EF8900849E37 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A466939D2A69EF8900849E37 /* Manager.swift */; };
-		A48DFA2D2A741C6D002D8F65 /* GeocodingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48DFA2C2A741C6D002D8F65 /* GeocodingAPI.swift */; };
 		A48DFA342A74598A002D8F65 /* MapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48DFA332A74598A002D8F65 /* MapKit.swift */; };
 		A4C3B7412A5F2931009915BE /* iDineAdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */; };
 		A4C3B7432A5F2931009915BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7422A5F2931009915BE /* ContentView.swift */; };
@@ -36,16 +34,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2FF7D7A2BAC79439B68BC622 /* Pods-iDineAdmin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iDineAdmin.debug.xcconfig"; path = "Target Support Files/Pods-iDineAdmin/Pods-iDineAdmin.debug.xcconfig"; sourceTree = "<group>"; };
-		3B91057003D90F84B953F815 /* Pods-iDineAdmin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iDineAdmin.release.xcconfig"; path = "Target Support Files/Pods-iDineAdmin/Pods-iDineAdmin.release.xcconfig"; sourceTree = "<group>"; };
-		565DF01E23BFB7930FAA16C8 /* libPods-iDineAdmin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iDineAdmin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A46693932A6875C300849E37 /* LayoutSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutSelector.swift; sourceTree = "<group>"; };
 		A46693952A68763B00849E37 /* AccountLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLogin.swift; sourceTree = "<group>"; };
 		A46693972A687B6C00849E37 /* CreateAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccount.swift; sourceTree = "<group>"; };
 		A46693992A688C4700849E37 /* AdminAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminAccount.swift; sourceTree = "<group>"; };
 		A466939B2A68B88900849E37 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		A466939D2A69EF8900849E37 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
-		A48DFA2C2A741C6D002D8F65 /* GeocodingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodingAPI.swift; sourceTree = "<group>"; };
 		A48DFA332A74598A002D8F65 /* MapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKit.swift; sourceTree = "<group>"; };
 		A4C3B73D2A5F2931009915BE /* iDineAdmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iDineAdmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iDineAdminApp.swift; sourceTree = "<group>"; };
@@ -72,35 +66,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AF405B8950C817E52AB791B /* libPods-iDineAdmin.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3A2C475A1E31F3966F6D5807 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				565DF01E23BFB7930FAA16C8 /* libPods-iDineAdmin.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		95CE0BAF6210E0A74D9B96A2 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2FF7D7A2BAC79439B68BC622 /* Pods-iDineAdmin.debug.xcconfig */,
-				3B91057003D90F84B953F815 /* Pods-iDineAdmin.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		A48DFA2B2A741C4B002D8F65 /* util */ = {
 			isa = PBXGroup;
 			children = (
 				A4C3B7562A5F2C57009915BE /* APIClass.swift */,
-				A48DFA2C2A741C6D002D8F65 /* GeocodingAPI.swift */,
 				A48DFA332A74598A002D8F65 /* MapKit.swift */,
 			);
 			path = util;
@@ -151,8 +126,6 @@
 				A466939D2A69EF8900849E37 /* Manager.swift */,
 				A4C3B73F2A5F2931009915BE /* iDineAdmin */,
 				A4C3B73E2A5F2931009915BE /* Products */,
-				95CE0BAF6210E0A74D9B96A2 /* Pods */,
-				3A2C475A1E31F3966F6D5807 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -201,11 +174,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A4C3B74B2A5F2933009915BE /* Build configuration list for PBXNativeTarget "iDineAdmin" */;
 			buildPhases = (
-				7D3CF02F63E2DF350F4589ED /* [CP] Check Pods Manifest.lock */,
 				A4C3B7392A5F2931009915BE /* Sources */,
 				A4C3B73A2A5F2931009915BE /* Frameworks */,
 				A4C3B73B2A5F2931009915BE /* Resources */,
-				8613834B15C383AFCF8A180D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -261,48 +232,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		7D3CF02F63E2DF350F4589ED /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-iDineAdmin-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8613834B15C383AFCF8A180D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-iDineAdmin/Pods-iDineAdmin-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-iDineAdmin/Pods-iDineAdmin-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iDineAdmin/Pods-iDineAdmin-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		A4C3B7392A5F2931009915BE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -324,7 +253,6 @@
 				A46693942A6875C300849E37 /* LayoutSelector.swift in Sources */,
 				A4C3B75D2A61E04C009915BE /* LunchMenu.swift in Sources */,
 				A4C3B7512A5F2A6D009915BE /* MenuSection.swift in Sources */,
-				A48DFA2D2A741C6D002D8F65 /* GeocodingAPI.swift in Sources */,
 				A466939C2A68B88900849E37 /* MenuView.swift in Sources */,
 				A4C3B7552A5F2B0E009915BE /* ItemRow.swift in Sources */,
 				A4C3B7412A5F2931009915BE /* iDineAdminApp.swift in Sources */,
@@ -453,7 +381,6 @@
 		};
 		A4C3B74C2A5F2933009915BE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FF7D7A2BAC79439B68BC622 /* Pods-iDineAdmin.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -483,7 +410,6 @@
 		};
 		A4C3B74D2A5F2933009915BE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B91057003D90F84B953F815 /* Pods-iDineAdmin.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
