@@ -22,8 +22,6 @@ struct CreateAccount : View {
      */
     @State var email : String = ""
     
-    @State var restaurantLocation : String = ""
-    
     /**
                     The password of the newly created account.
      */
@@ -147,20 +145,20 @@ struct CreateAccount : View {
                             //location textfield
                             if(invalidLocation) {
                                 // red
-                                TextField("Restaurant Location", text : $restaurantLocation).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: location) { newValue in
+                                TextField("Restaurant Location", text : $location).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: location) { newValue in
                                     invalidLocation = false
                                 }
                                     
                                 AddressSearchView().padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).onTapGesture {
-                                    restaurantLocation = Communicator.location
+                                    location = Communicator.location
                                 }
                             }
                             else {
                                 //blue
-                                TextField("Restaurant Location", text : $restaurantLocation).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                TextField("Restaurant Location", text : $location).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                                 
                                 AddressSearchView().padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).onTapGesture {
-                                    restaurantLocation = Communicator.location
+                                    location = Communicator.location
                                 }
                             }
                     }
