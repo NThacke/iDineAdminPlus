@@ -69,7 +69,6 @@ struct AddressSearchView: View {
             // Update the search results as the user types
             self.completer.updateSearchResults(for: newText)
             Communicator.location = newText
-            print(Communicator.location)
         }
     }
     

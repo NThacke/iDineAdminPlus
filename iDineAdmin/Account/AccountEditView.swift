@@ -287,9 +287,6 @@ class ChangeTracker : ObservableObject{
     @Published var visible : String = Manager.account.visible
     @Published var image : UIImage? = Manager.account.image()
     @Published var layoutStyle : String = Manager.account.layoutStyle
-    
-    
-    
 }
 
 
