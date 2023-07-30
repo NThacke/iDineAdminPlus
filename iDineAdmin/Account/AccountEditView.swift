@@ -279,6 +279,10 @@ struct AccountEditView : View {
         
         task.resume()
     }
+    
+    init() {
+        Communicator.location = Manager.account.restaurantLocation
+    }
 }
 
 class ChangeTracker : ObservableObject{

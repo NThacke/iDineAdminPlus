@@ -322,6 +322,10 @@ struct CreateAccount : View {
 
         return randomString
     }
+    
+    init() {
+        Communicator.location = "" //Refreshes the communicator's location as other views use and can modify this. This is dangerous.
+    }
 }
 
 func sha256Hash(_ input: String) -> String {
