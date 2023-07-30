@@ -9,6 +9,10 @@ import Foundation
 import SwiftUI
 import UIKit
 
+/**
+ This struct is used as a PhotoPicker. This struct actually is a popover of the current UI that will bring the user to their gallery. Once they select a Photo, the Struct  will update the selectedImage field with the image that they selected. Then, the callee can access that field.
+ */
+
 struct PhotoPickerView: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     @Environment(\.presentationMode) private var presentationMode

@@ -13,6 +13,10 @@ enum MenuType {
     case Dinner
 }
 
+/**
+ 
+    This struct is used as a MenuItem Object. Every Item within any restaurant Menu eventually gets created as an instance of this type.
+ */
 struct MenuItem : Identifiable, Equatable, Codable {
     
     static let classic = "classics"

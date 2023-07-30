@@ -6,6 +6,11 @@
 //
 import Foundation
 
+/**
+ 
+ This struct is used as an Object for MenuSections. Every Menu Section gets instantiated as an object this type. This makes it simpler to write code for menu sections.
+ */
+
 struct MenuSection : Identifiable {
     var id : UUID
     var name : String
