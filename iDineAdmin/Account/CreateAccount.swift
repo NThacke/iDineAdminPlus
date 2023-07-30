@@ -149,8 +149,10 @@ struct CreateAccount : View {
                                 // red
                                 TextField("Restaurant Location", text : $restaurantLocation).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: location) { newValue in
                                     invalidLocation = false
+                                }
                                     
-                                    AddressSearchView().padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
+                                AddressSearchView().padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).onTapGesture {
+                                    restaurantLocation = Communicator.location
                                 }
                             }
                             else {
