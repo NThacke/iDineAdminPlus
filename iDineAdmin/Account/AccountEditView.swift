@@ -279,6 +279,10 @@ struct AccountEditView : View {
         
         task.resume()
     }
+    
+    init() {
+        Communicator.location = Manager.account.restaurantLocation
+    }
 }
 
 class ChangeTracker : ObservableObject{
@@ -287,9 +291,6 @@ class ChangeTracker : ObservableObject{
     @Published var visible : String = Manager.account.visible
     @Published var image : UIImage? = Manager.account.image()
     @Published var layoutStyle : String = Manager.account.layoutStyle
-    
-    
-    
 }
 
 

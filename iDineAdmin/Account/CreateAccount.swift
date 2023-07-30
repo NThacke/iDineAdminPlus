@@ -15,10 +15,14 @@ struct CreateAccount : View {
     
     @EnvironmentObject var current : AppState
     
+    @StateObject var fields : ChangeTracker = ChangeTracker()
+    
     /**
             The email associated with the newly created account.
      */
     @State var email : String = ""
+    
+    @State var restaurantLocation : String = ""
     
     /**
                     The password of the newly created account.
@@ -68,10 +72,8 @@ struct CreateAccount : View {
     
     
     var body : some View {
-        
             Group {
                 VStack (alignment : .center) {
-                    
                     Group {
                         //overall header
                         Spacer() //used to place entire view in correct position
@@ -79,14 +81,12 @@ struct CreateAccount : View {
                             Text("Create Account").bold(true)
                             Spacer()
                         }
-                        
                         //account info header
                         HStack {
                             Text("Account Info").padding()
                             Spacer()
                         }
                     }
-                    
                     Group {
                         //show a red outline along with text if email exists
                         if(emailExists) {
@@ -104,7 +104,6 @@ struct CreateAccount : View {
                         else {
                             TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                         }
-                        
                         //password
                         if(invalidPassword) {
                             SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: password) { newValue in
@@ -115,7 +114,6 @@ struct CreateAccount : View {
                             SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                         }
                     }
-                    
                     Group {
                         //resturant info header
                         HStack {
@@ -130,7 +128,6 @@ struct CreateAccount : View {
                             }
                         }
                     }
-                    
                     Group {
                         //display info if user selected to
                         if(restaurantInfo) {
@@ -138,7 +135,6 @@ struct CreateAccount : View {
                                 Text("To put a restaurant on this app, you need a name and a location to begin with. These can be changed later. However, only one restaurant may be associated with an account.").foregroundColor(Color.gray)
                             }
                         }
-                        
                         //name textfield
                         if(invalidName) {
                             TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: restaurantName, perform: {s in
@@ -148,21 +144,26 @@ struct CreateAccount : View {
                         else {
                             TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                         }
-                        
-                        //location textfield
-                        if(invalidLocation) {
-                            // red
-                            TextField("Restaurant Location", text : $location).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: location) { newValue in
-                                invalidLocation = false
+                            //location textfield
+                            if(invalidLocation) {
+                                // red
+                                TextField("Restaurant Location", text : $restaurantLocation).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: location) { newValue in
+                                    invalidLocation = false
+                                }
+                                    
+                                AddressSearchView().padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).onTapGesture {
+                                    restaurantLocation = Communicator.location
+                                }
                             }
-                        }
-                        else {
-                            //blue
-                            TextField("Restaurant Location", text : $location).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                        }
+                            else {
+                                //blue
+                                TextField("Restaurant Location", text : $restaurantLocation).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                
+                                AddressSearchView().padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).onTapGesture {
+                                    restaurantLocation = Communicator.location
+                                }
+                            }
                     }
-                    
-                    
                     Group {
                         //OK button is a ZStack with rectangle on top of button
                         ZStack {
@@ -192,8 +193,6 @@ struct CreateAccount : View {
                         Spacer()
                         Spacer()
                     }
-                    
-                    
                     
                 }.padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the entire available space
@@ -324,6 +323,10 @@ struct CreateAccount : View {
         }
 
         return randomString
+    }
+    
+    init() {
+        Communicator.location = "" //Refreshes the communicator's location as other views use and can modify this. This is dangerous.
     }
 }
 
