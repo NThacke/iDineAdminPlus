@@ -13,7 +13,6 @@
 		A466939A2A688C4700849E37 /* AdminAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46693992A688C4700849E37 /* AdminAccount.swift */; };
 		A466939C2A68B88900849E37 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A466939B2A68B88900849E37 /* MenuView.swift */; };
 		A466939E2A69EF8900849E37 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A466939D2A69EF8900849E37 /* Manager.swift */; };
-		A48DFA2D2A741C6D002D8F65 /* GeocodingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48DFA2C2A741C6D002D8F65 /* GeocodingAPI.swift */; };
 		A48DFA342A74598A002D8F65 /* MapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48DFA332A74598A002D8F65 /* MapKit.swift */; };
 		A4C3B7412A5F2931009915BE /* iDineAdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */; };
 		A4C3B7432A5F2931009915BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7422A5F2931009915BE /* ContentView.swift */; };
@@ -41,7 +40,6 @@
 		A46693992A688C4700849E37 /* AdminAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminAccount.swift; sourceTree = "<group>"; };
 		A466939B2A68B88900849E37 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		A466939D2A69EF8900849E37 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
-		A48DFA2C2A741C6D002D8F65 /* GeocodingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodingAPI.swift; sourceTree = "<group>"; };
 		A48DFA332A74598A002D8F65 /* MapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKit.swift; sourceTree = "<group>"; };
 		A4C3B73D2A5F2931009915BE /* iDineAdmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iDineAdmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iDineAdminApp.swift; sourceTree = "<group>"; };
@@ -74,18 +72,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		95CE0BAF6210E0A74D9B96A2 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		A48DFA2B2A741C4B002D8F65 /* util */ = {
 			isa = PBXGroup;
 			children = (
 				A4C3B7562A5F2C57009915BE /* APIClass.swift */,
-				A48DFA2C2A741C6D002D8F65 /* GeocodingAPI.swift */,
 				A48DFA332A74598A002D8F65 /* MapKit.swift */,
 			);
 			path = util;
@@ -136,7 +126,6 @@
 				A466939D2A69EF8900849E37 /* Manager.swift */,
 				A4C3B73F2A5F2931009915BE /* iDineAdmin */,
 				A4C3B73E2A5F2931009915BE /* Products */,
-				95CE0BAF6210E0A74D9B96A2 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -264,7 +253,6 @@
 				A46693942A6875C300849E37 /* LayoutSelector.swift in Sources */,
 				A4C3B75D2A61E04C009915BE /* LunchMenu.swift in Sources */,
 				A4C3B7512A5F2A6D009915BE /* MenuSection.swift in Sources */,
-				A48DFA2D2A741C6D002D8F65 /* GeocodingAPI.swift in Sources */,
 				A466939C2A68B88900849E37 /* MenuView.swift in Sources */,
 				A4C3B7552A5F2B0E009915BE /* ItemRow.swift in Sources */,
 				A4C3B7412A5F2931009915BE /* iDineAdminApp.swift in Sources */,
