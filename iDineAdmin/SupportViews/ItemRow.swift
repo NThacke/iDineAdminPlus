@@ -8,7 +8,14 @@
 import Foundation
 import SwiftUI
 
+/**
+ This View is what is used to display an Item to the client. Every Menu Item eventually gets instantiaed as an ItemRow Object, and every "Item" in any list / menu is instantiating this object.
+ */
 struct ItemRow : View {
+    
+    /**
+            The item that this ItemRow will display.
+     */
     var item : MenuItem
     
     var body : some View {

@@ -8,6 +8,9 @@
 import Foundation
 import SwiftUI
 
+/**
+ This View is waht is used to showcase the Restrictions of a particular Menu Item. This displays whether or not an item is Gluten Free, Vegan, or Vegetarian. This eventually gets invoked withiin each ItemRow struct.
+ */
 struct RestrictionView : View {
     
     let item : MenuItem
