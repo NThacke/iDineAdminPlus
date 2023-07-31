@@ -15,6 +15,7 @@
 		A466939E2A69EF8900849E37 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A466939D2A69EF8900849E37 /* Manager.swift */; };
 		A48DFA342A74598A002D8F65 /* MapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48DFA332A74598A002D8F65 /* MapKit.swift */; };
 		A48DFA532A783F2F002D8F65 /* GeocoderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48DFA522A783F2F002D8F65 /* GeocoderHelper.swift */; };
+		A48DFA552A784E71002D8F65 /* AddressFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48DFA542A784E71002D8F65 /* AddressFormView.swift */; };
 		A4C3B7412A5F2931009915BE /* iDineAdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */; };
 		A4C3B7432A5F2931009915BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7422A5F2931009915BE /* ContentView.swift */; };
 		A4C3B7452A5F2933009915BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4C3B7442A5F2933009915BE /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		A466939D2A69EF8900849E37 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		A48DFA332A74598A002D8F65 /* MapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKit.swift; sourceTree = "<group>"; };
 		A48DFA522A783F2F002D8F65 /* GeocoderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocoderHelper.swift; sourceTree = "<group>"; };
+		A48DFA542A784E71002D8F65 /* AddressFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFormView.swift; sourceTree = "<group>"; };
 		A4C3B73D2A5F2931009915BE /* iDineAdmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iDineAdmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4C3B7402A5F2931009915BE /* iDineAdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iDineAdminApp.swift; sourceTree = "<group>"; };
 		A4C3B7422A5F2931009915BE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				A4C3B7622A632890009915BE /* RestrictionView.swift */,
 				A4C3B7502A5F2A6D009915BE /* MenuSection.swift */,
 				A4C3B7522A5F2AAB009915BE /* MenuItem.swift */,
+				A48DFA542A784E71002D8F65 /* AddressFormView.swift */,
 			);
 			path = SupportViews;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				A4C3B7412A5F2931009915BE /* iDineAdminApp.swift in Sources */,
 				A4CA01BE2A6AE8D900C01405 /* AccountEditView.swift in Sources */,
 				A48DFA532A783F2F002D8F65 /* GeocoderHelper.swift in Sources */,
+				A48DFA552A784E71002D8F65 /* AddressFormView.swift in Sources */,
 				A4C3B7532A5F2AAB009915BE /* MenuItem.swift in Sources */,
 				A46693982A687B6C00849E37 /* CreateAccount.swift in Sources */,
 			);

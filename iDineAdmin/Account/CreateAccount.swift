@@ -148,23 +148,14 @@ struct CreateAccount : View {
                                     TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                                 }
                                 Group { //Location Information
-                                    VStack (alignment : .leading){
-                                        HStack {
-                                            Text("Address")
-                                            Spacer()
-                                        }.padding()
-                                        if(invalidLocation) {
-                                            Text("Check what you enterted. Our system thinks this is an incorrect address")
+                                    if(invalidLocation) {
+                                        warning()
+                                        AddressFormView(address: address).onSubmit {
+                                                invalidLocation.toggle()
                                         }
-                                        TextField("Address Line", text : $address.line).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                                        
-                                        TextField("City", text : $address.administrativeArea).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                                        
-                                        TextField("State", text : $address.locality).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                                        
-                                        TextField("Postal Code", text : $address.postalCode).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                                        
-                                        TextField("Country", text : $address.region).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                    }
+                                    else {
+                                        AddressFormView(address : address)
                                     }
                                 }
                             }
@@ -220,6 +211,14 @@ struct CreateAccount : View {
                 }
             }
         }
+    }
+    
+    func warning() -> some View {
+        HStack {
+            Image(systemName : "exclamationmark.triangle")
+            
+            Text("Our system indicates this is an invalid address. Please try again.")
+        }.padding().overlay(RoundedRectangle(cornerRadius:10).stroke(Color.black, lineWidth : 1))
     }
     
     /**
