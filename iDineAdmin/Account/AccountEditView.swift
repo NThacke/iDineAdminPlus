@@ -49,7 +49,7 @@ struct AccountEditView : View {
     
     @State var confirm = false
     
-    @State var visibility = Manager.account.visibility()
+    @State var visibility = Manager.account.details.visibility()
     
     var body :  some View {
             VStack {
@@ -59,11 +59,11 @@ struct AccountEditView : View {
                         Text("Edit Account").bold()
                         Spacer()
                     }
-                    if let image = Manager.account.image() {
+                    if let image = Manager.account.details.image() {
                         Image(uiImage: image).resizable().frame(width: 75, height : 75)
                     }
                     Rectangle().frame(width: 250, height: 1.5).foregroundColor(Color.blue)
-                    Text(Manager.account.email).foregroundColor(Color.gray)
+                    Text(Manager.account.details.email).foregroundColor(Color.gray)
                 }
                 
                 Group { //Group for restaurnt information
@@ -238,9 +238,8 @@ struct AccountEditView : View {
         var requestBody : [String : String]
         
         requestBody = [
-            "id": Manager.account.id,
+            "id": Manager.account.details.id,
             "restaurantName": fields.restaurantName,
-            "restaurantLocation" : Communicator.location,
             "restaurantImage" : myImage,
             "layoutStyle" : fields.layoutStyle,
             "visible" : fields.visible
@@ -267,11 +266,10 @@ struct AccountEditView : View {
             if let httpResponse = response as? HTTPURLResponse {
                 print("Status Code: \(httpResponse.statusCode)")
                 if(httpResponse.statusCode == 200) {
-                    Manager.account.setImage(image: resized)
-                    Manager.account.restaurantName = fields.restaurantName
-                    Manager.account.restaurantLocation = Communicator.location
-                    Manager.account.layoutStyle = fields.layoutStyle
-                    Manager.account.visible = fields.visible
+                    Manager.account.details.setImage(image: resized)
+                    Manager.account.details.restaurantName = fields.restaurantName
+                    Manager.account.details.layoutStyle = fields.layoutStyle
+                    Manager.account.details.visible = fields.visible
                 }
                 completion()
             }
@@ -279,18 +277,13 @@ struct AccountEditView : View {
         
         task.resume()
     }
-    
-    init() {
-        Communicator.location = Manager.account.restaurantLocation
-    }
 }
 
 class ChangeTracker : ObservableObject{
-    @Published var restaurantName : String = Manager.account.restaurantName
-    @Published var restaurantLocation : String = Manager.account.restaurantLocation
-    @Published var visible : String = Manager.account.visible
-    @Published var image : UIImage? = Manager.account.image()
-    @Published var layoutStyle : String = Manager.account.layoutStyle
+    @Published var restaurantName : String = Manager.account.details.restaurantName
+    @Published var visible : String = Manager.account.details.visible
+    @Published var image : UIImage? = Manager.account.details.image()
+    @Published var layoutStyle : String = Manager.account.details.layoutStyle
 }
 
 
