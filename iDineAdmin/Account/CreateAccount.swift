@@ -232,7 +232,7 @@ struct CreateAccount : View {
         invalidPassword = password.isEmpty
         
             Util.isAddressValid(address: address) { result in
-                invalidLocation = !result
+                invalidLocation = (address.line.isEmpty || address.locality.isEmpty || address.postalCode.isEmpty || address.region.isEmpty || address.administrativeArea.isEmpty) || !result
                 
                 print("\(address.line) + is an address : \(result)")
                 

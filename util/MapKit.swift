@@ -144,7 +144,8 @@ class Util {
     private static func printHelperInfo(address : Address) {
         print("The following information is the address you entered.")
         print("Address Line : \(address.line)")
-        print("City : \(address.locality)")
+        print("Town : \(address.administrativeArea)")
+        print("State : \(address.locality)")
         print("Postal Code : \(address.postalCode)")
         print("Region : \(address.region)")
     }
