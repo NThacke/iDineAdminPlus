@@ -69,6 +69,9 @@ struct CreateAccount : View {
     @State var cancel = false
     
     
+    @ObservedObject var address : Address = Address()
+    
+    
     var body : some View {
             Group {
                 VStack (alignment : .center) {
@@ -79,88 +82,90 @@ struct CreateAccount : View {
                             Text("Create Account").bold(true)
                             Spacer()
                         }
+                    }
+                    ScrollView {
                         //account info header
                         HStack {
                             Text("Account Info").padding()
                             Spacer()
                         }
-                    }
-                    Group {
-                        //show a red outline along with text if email exists
-                        if(emailExists) {
-                            Text("Email already exists").foregroundColor(Color.gray)
-                            TextField("Email", text : $email).padding().onChange(of: email, perform: {s in
-                                emailExists = false
-                            }).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding()
-                        }
-                        else if(invalidEmail) {
-                            TextField("Email", text : $email).padding().onChange(of: email, perform: {s in
-                                invalidEmail = false
-                            }).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding()
-                        }
-                        //otherwise (email does not exist) just show normal email
-                        else {
-                            TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                        }
-                        //password
-                        if(invalidPassword) {
-                            SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: password) { newValue in
-                                invalidPassword = false
+                        Group {
+                            //show a red outline along with text if email exists
+                            if(emailExists) {
+                                Text("Email already exists").foregroundColor(Color.gray)
+                                TextField("Email", text : $email).padding().onChange(of: email, perform: {s in
+                                    emailExists = false
+                                }).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding()
                             }
-                        }
-                        else {
-                            SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                        }
-                    }
-                    Group {
-                        //resturant info header
-                        HStack {
-                            //text
-                            Text("Restaurant Info").padding()
-                            Spacer()
-                            //info button
-                            Button(action : {
-                                restaurantInfo.toggle()
-                            }) {
-                                Image(systemName : "info.circle")
+                            else if(invalidEmail) {
+                                TextField("Email", text : $email).padding().onChange(of: email, perform: {s in
+                                    invalidEmail = false
+                                }).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding()
                             }
-                        }
-                    }
-                    Group {
-                        //display info if user selected to
-                        if(restaurantInfo) {
-                            ScrollView {
-                                Text("To put a restaurant on this app, you need a name and a location to begin with. These can be changed later. However, only one restaurant may be associated with an account.").foregroundColor(Color.gray)
+                            //otherwise (email does not exist) just show normal email
+                            else {
+                                TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                             }
-                        }
-                        //name textfield
-                        if(invalidName) {
-                            TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: restaurantName, perform: {s in
-                                invalidName = false
-                            })
-                        }
-                        else {
-                            TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                        }
-                            //location textfield
-                            if(invalidLocation) {
-                                // red
-                                TextField("Restaurant Location", text : $location).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: location) { newValue in
-                                    invalidLocation = false
-                                }
-                                    
-                                AddressSearchView().padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).onTapGesture {
-                                    location = Communicator.location
+                            //password
+                            if(invalidPassword) {
+                                SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: password) { newValue in
+                                    invalidPassword = false
                                 }
                             }
                             else {
-                                //blue
-                                TextField("Restaurant Location", text : $location).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
-                                
-                                AddressSearchView().padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).onTapGesture {
-                                    location = Communicator.location
+                                SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                            }
+                        }
+                        Group {
+                            //resturant info header
+                            HStack {
+                                //text
+                                Text("Restaurant Info").padding()
+                                Spacer()
+                                //info button
+                                Button(action : {
+                                    restaurantInfo.toggle()
+                                }) {
+                                    Image(systemName : "info.circle")
                                 }
                             }
+                        }
+                        Group {
+                            //display info if user selected to
+                            VStack {
+                                if(restaurantInfo) {
+                                    ScrollView {
+                                        Text("To put a restaurant on this app, you need a name and a location to begin with. These can be changed later. However, only one restaurant may be associated with an account.").foregroundColor(Color.gray)
+                                    }
+                                }
+                                //name textfield
+                                if(invalidName) {
+                                    TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: restaurantName, perform: {s in
+                                        invalidName = false
+                                    })
+                                }
+                                else {
+                                    TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                }
+                                Group { //Location Information
+                                    VStack (alignment : .leading){
+                                        HStack {
+                                            Text("Address")
+                                            Spacer()
+                                        }.padding()
+                                        TextField("Address Line", text : $address.line).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                        
+                                        TextField("City", text : $address.administrativeArea).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                        
+                                        TextField("State", text : $address.locality).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                        
+                                        TextField("Postal Code", text : $address.postalCode).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                        
+                                        TextField("Country", text : $address.region).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                    }
+                                }
+                            }
+                        }
                     }
                     Group {
                         //OK button is a ZStack with rectangle on top of button
@@ -183,13 +188,6 @@ struct CreateAccount : View {
                         // This is the loading icon (indeterminate spinner)
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
-                    }
-                    
-                    Group {
-                        //Used to place the entire View in the correct position
-                        Spacer()
-                        Spacer()
-                        Spacer()
                     }
                     
                 }.padding()
@@ -225,22 +223,19 @@ struct CreateAccount : View {
             This methods checks to see if every entry entered is valid. If not, it signals the issue to the user by presenting a pop up.
      */
     func validEntries(completion : @escaping (Bool) -> Void){
+        
         invalidName = restaurantName.isEmpty
         invalidEmail = email.isEmpty
         invalidPassword = password.isEmpty
         
-        if(!location.isEmpty) {
-            Util.isAddressValid(address: location) { result in
+            Util.isAddressValid(address: address) { result in
                 invalidLocation = !result
                 
                 print("\(location) + is an address : \(result)")
                 
                 completion(!(invalidName || invalidEmail || invalidPassword || invalidLocation))
             }
-        }
-        else {
-            invalidLocation = true
-        }
+    
         completion(!(invalidName || invalidEmail || invalidPassword || invalidLocation))
     }
     
