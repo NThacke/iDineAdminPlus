@@ -204,15 +204,17 @@ struct CreateAccount : View {
      */
     func create() {
         
-        if(validEntries()) {
-            self.loading = true
-            self.invokeAPI() {
-                self.loading = false
-                if(!emailExists) {
-                    Manager.getAccountInfo(email: email) {acc in
-                        Manager.account = acc!;
-                        loginSuccess = true
-                        current.state = AppState.MenuView
+        validEntries() { result in
+            if(result) {
+                self.loading = true
+                self.invokeAPI() {
+                    self.loading = false
+                    if(!emailExists) {
+                        Manager.getAccountInfo(email: email) {acc in
+                            Manager.account = acc!;
+                            loginSuccess = true
+                            current.state = AppState.MenuView
+                        }
                     }
                 }
             }
@@ -222,13 +224,24 @@ struct CreateAccount : View {
     /**
             This methods checks to see if every entry entered is valid. If not, it signals the issue to the user by presenting a pop up.
      */
-    func validEntries() -> Bool {
+    func validEntries(completion : @escaping (Bool) -> Void){
         invalidName = restaurantName.isEmpty
         invalidEmail = email.isEmpty
-        invalidLocation = location.isEmpty
         invalidPassword = password.isEmpty
         
-        return !(email.isEmpty || password.isEmpty || restaurantName.isEmpty || location.isEmpty)
+        if(!location.isEmpty) {
+            Util.isAddressValid(address: location) { result in
+                invalidLocation = !result
+                
+                print("\(location) + is an address : \(result)")
+                
+                completion(!(invalidName || invalidEmail || invalidPassword || invalidLocation))
+            }
+        }
+        else {
+            invalidLocation = true
+        }
+        completion(!(invalidName || invalidEmail || invalidPassword || invalidLocation))
     }
     
     func invokeAPI(completion : @escaping () -> Void) {
