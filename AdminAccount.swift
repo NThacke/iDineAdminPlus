@@ -20,7 +20,7 @@ class AdminAccount : Codable {
     var restaurantName : String
     
     //The restaurant location associated with this account
-    var restaurantLocation : String
+    var address : AccountAddress
     
     //The email associated with this account
     var email : String
@@ -34,10 +34,10 @@ class AdminAccount : Codable {
     var visible : String
     
     
-    init(id : String, restaurantName : String, restaurantLocation : String, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
+    init(id : String, restaurantName : String, address : AccountAddress, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
         self.id = id
         self.restaurantName = restaurantName
-        self.restaurantLocation = restaurantLocation
+        self.address = address
         self.email = email
         self.restaurantImage = restaurantImage
         self.layoutStyle = layoutStyle
@@ -48,7 +48,7 @@ class AdminAccount : Codable {
         return AdminAccount(
             id : "EA878AD2-F77F-4096-878E-30489CE43D98",
             restaurantName : "Example Name",
-            restaurantLocation : "Example Location",
+            address : AccountAddress(region: "US", locality: "NJ", administrativeArea: "Eatontown", postalCode: "07724", line: "24 Redwood Dr"),
             email : "example@gmail.com",
             restaurantImage : exampleImage(),
             layoutStyle : "1",
@@ -100,5 +100,21 @@ class AdminAccount : Codable {
             return true
         }
         return false
+    }
+}
+
+class AccountAddress : Codable {
+    var region : String = ""
+    var locality : String = ""
+    var administrativeArea : String = ""
+    var postalCode : String = ""
+    var line : String = ""
+    
+    init(region : String, locality : String, administrativeArea : String, postalCode : String, line : String) {
+        self.region = region
+        self.locality = locality
+        self.administrativeArea = administrativeArea
+        self.postalCode = postalCode
+        self.line = line
     }
 }

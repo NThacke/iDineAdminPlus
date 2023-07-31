@@ -49,6 +49,29 @@ class Manager {
         task.resume()
     }
     
+    static func getAccountDetails(email: String, completion: @escaping (AccountDetails?) -> Void) {
+        let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/details?email=\(email)")!
+
+        let session = URLSession.shared
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200,
+               let data = data {
+                let accountDetails = self.processAccountDetails(data: data)
+                completion(accountDetails)
+            } else {
+                completion(nil)
+            }
+        }
+
+        task.resume()
+    }
+    
     private static func process(data : Data) -> AdminAccount? {
               do {
                   let decoder = JSONDecoder()
