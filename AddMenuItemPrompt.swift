@@ -301,7 +301,7 @@ struct AddMenuItemPrompt : View {
             let item = MenuItem(name: name, type : menuType, section: sectionType, image : image, price : price, description : description, restrictions: restrictions)
             
             do {
-                try APIHelper.putItem(restaurantID: Manager.account.id, item: item)
+                try APIHelper.putItem(restaurantID: Manager.account.details.id, item: item)
             }
             catch {
 

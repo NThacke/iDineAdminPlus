@@ -52,7 +52,7 @@ struct MenuView: View {
                         }
                     }
                     
-                    Text(Manager.account.restaurantName).bold()
+                    Text(Manager.account.details.restaurantName).bold()
                     logo()
                     
                     Spacer()
@@ -125,7 +125,7 @@ struct MenuView: View {
      Using this instead of directly inserting the view into the callee location enables modular use as well as encourages code readability.
      */
     func logo() -> some View {
-        Image(uiImage : Manager.account.image()!)
+        Image(uiImage : Manager.account.details.image()!)
             .resizable()
             .padding()
             .frame(width:100, height:100)

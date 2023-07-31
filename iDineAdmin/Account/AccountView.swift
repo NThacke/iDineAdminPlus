@@ -19,11 +19,11 @@ struct AccountView : View {
                         Text("Account").bold()
                         Spacer()
                     }
-                    if let image = Manager.account.image() {
+                    if let image = Manager.account.details.image() {
                         Image(uiImage: image).resizable().frame(width: 75, height : 75).cornerRadius(100)
                     }
                     Rectangle().frame(width: 250, height: 1.5).foregroundColor(Color.blue)
-                    Text(Manager.account.email).foregroundColor(Color.gray)
+                    Text(Manager.account.details.email).foregroundColor(Color.gray)
                 }
                 
                 Group {
@@ -37,22 +37,10 @@ struct AccountView : View {
                                 Spacer()
                             }
                             HStack {
-                                Text(Manager.account.restaurantName)
+                                Text(Manager.account.details.restaurantName)
                                 Spacer()
                             }.padding()
                                 .overlay(RoundedRectangle(cornerRadius : 10).stroke(Color.blue))
-                        }
-                        
-                        Group { //Group for location information
-                            HStack {
-                                Text("Restaurant Location").foregroundColor(Color.gray)
-                                Spacer()
-                            }
-                            HStack {
-                                Text(Manager.account.restaurantLocation)
-                                Spacer()
-                            }.padding()
-                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue))
                         }
                     }
                     Spacer()
