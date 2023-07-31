@@ -88,13 +88,16 @@ class Util {
                 return
             }
             
-            if let placemark = placemarks?.first {
+            if let placemark = placemarks?.first,
+               let thoroughfare = placemark.thoroughfare,
+               let locality = placemark.locality,
+               !thoroughfare.isEmpty, !locality.isEmpty {
                 // Valid address, and you can get the coordinates if needed
                 let coordinates = placemark.location?.coordinate
                 print("Valid address at: \(coordinates?.latitude ?? 0), \(coordinates?.longitude ?? 0)")
                 completion(true)
             } else {
-                // Address couldn't be geocoded, or no placemarks were found
+                // Address couldn't be geocoded, or no valid placemarks were found
                 print("Invalid address")
                 completion(false)
             }
