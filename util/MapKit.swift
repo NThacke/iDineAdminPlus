@@ -77,26 +77,30 @@ struct AddressSearchView: View {
     }
 }
 
-
-func isAddressValid(address: String, completion: @escaping (Bool) -> Void) {
-    let geocoder = CLGeocoder()
-    
-    geocoder.geocodeAddressString(address) { (placemarks, error) in
-        if let error = error {
-            print("Geocoding error: \(error.localizedDescription)")
-            completion(false) // Address is invalid
-            return
-        }
+class Util {
+    static func isAddressValid(address: String, completion: @escaping (Bool) -> Void) {
+        let geocoder = CLGeocoder()
         
-        if let placemark = placemarks?.first {
-            // Valid address, and you can get the coordinates if needed
-            let coordinates = placemark.location?.coordinate
-            print("Valid address at: \(coordinates?.latitude ?? 0), \(coordinates?.longitude ?? 0)")
-            completion(true)
-        } else {
-            // Address couldn't be geocoded, or no placemarks were found
-            print("Invalid address")
-            completion(false)
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            if let error = error {
+                print("Geocoding error: \(error.localizedDescription)")
+                completion(false) // Address is invalid
+                return
+            }
+            
+            if let placemark = placemarks?.first,
+               let thoroughfare = placemark.thoroughfare,
+               let locality = placemark.locality,
+               !thoroughfare.isEmpty, !locality.isEmpty {
+                // Valid address, and you can get the coordinates if needed
+                let coordinates = placemark.location?.coordinate
+                print("Valid address at: \(coordinates?.latitude ?? 0), \(coordinates?.longitude ?? 0)")
+                completion(true)
+            } else {
+                // Address couldn't be geocoded, or no valid placemarks were found
+                print("Invalid address")
+                completion(false)
+            }
         }
     }
 }
