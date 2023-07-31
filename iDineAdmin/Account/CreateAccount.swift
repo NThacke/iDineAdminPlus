@@ -153,6 +153,9 @@ struct CreateAccount : View {
                                             Text("Address")
                                             Spacer()
                                         }.padding()
+                                        if(invalidLocation) {
+                                            Text("Check what you enterted. Our system thinks this is an incorrect address")
+                                        }
                                         TextField("Address Line", text : $address.line).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                                         
                                         TextField("City", text : $address.administrativeArea).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
@@ -224,6 +227,7 @@ struct CreateAccount : View {
      */
     func validEntries(completion : @escaping (Bool) -> Void){
         
+        print("Inside valid entries()")
         invalidName = restaurantName.isEmpty
         invalidEmail = email.isEmpty
         invalidPassword = password.isEmpty
@@ -231,12 +235,10 @@ struct CreateAccount : View {
             Util.isAddressValid(address: address) { result in
                 invalidLocation = !result
                 
-                print("\(location) + is an address : \(result)")
+                print("\(address.line) + is an address : \(result)")
                 
                 completion(!(invalidName || invalidEmail || invalidPassword || invalidLocation))
             }
-    
-        completion(!(invalidName || invalidEmail || invalidPassword || invalidLocation))
     }
     
     func invokeAPI(completion : @escaping () -> Void) {

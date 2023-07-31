@@ -114,20 +114,27 @@ class Util {
                 print("Status Code: \(httpResponse.statusCode)")
                 //status code
                 if(httpResponse.statusCode == 200) {
-                    //valid address
-                    completion(true)
-                    
-                }
-                
-                //body
-                if let data = data {
-                            if let bodyString = String(data: data, encoding: .utf8) {
-                                print("Response Body: \(bodyString)")
-                                
-                                // Now you can use the body data as needed
-                            }
+                    //body
+                    if let data = data {
+                        do {
+                            let decoder = JSONDecoder()
+                            let apiResponse = try decoder.decode(ApiResponse.self, from: data)
+                            
+                            let addressComplete = apiResponse.result.verdict.addressComplete
+                            print("Is Address Completed: \(addressComplete)")
+                            completion(addressComplete)
+                        } catch {
+                            print("Error decoding JSON: \(error)")
+                            completion(false)
                         }
-                completion(false)
+                    }
+                    else {
+                        completion(false)
+                    }
+                }
+                else {
+                    completion(false)
+                }
             }
         }
         
