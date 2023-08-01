@@ -82,17 +82,6 @@ struct AccountEditView : View {
                                     .overlay(RoundedRectangle(cornerRadius : 10).stroke(Color.blue))
                             }
                             
-                            Group { //Group for location information
-                                HStack {
-                                    Text("Restaurant Location").foregroundColor(Color.gray)
-                                    Spacer()
-                                }
-                                AddressSearchView()
-                                //                            TextField("Restaurant Location", text : $restaurantLocation)
-                                    .padding()
-                                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue))
-                            }
-                            
                             Group { //Group for image information
                                 HStack {
                                     Text("Restaurant Image").foregroundColor(Color.gray)
@@ -262,6 +251,8 @@ struct AccountEditView : View {
                 print("Error: \(error)")
                 completion()
             }
+            
+            print(response)
             
             if let httpResponse = response as? HTTPURLResponse {
                 print("Status Code: \(httpResponse.statusCode)")
