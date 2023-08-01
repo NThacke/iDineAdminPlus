@@ -14,38 +14,51 @@ class Manager {
     
     
     static func getAccountInfo(email : String, completion : @escaping (AdminAccount?) -> Void) {
-        // Set the API endpoint URL
-        print(email)
+        
+        getAccountDetails(email : email) { details in
+            getAccountAddress(id : details!.id) { address in
+//                let acount = AdminAccount(details : details ?? AdminAccount.example().details, address : address ?? AdminAccount.example().address)
+                let acc = AdminAccount(details : details!, address : address!)
+                print("**********************")
+                print("-----------------")
+                print("Account Details")
+                print("-----------------")
+                print("Email : \(account.details.email)")
+                print("Name : \(account.details.restaurantName)")
+                print("-----------------")
+                print("Account Address")
+                print("-----------------")
+                print("Line : \(account.address.line)")
+                print("Locality : \(account.address.locality)")
+                print("**********************")
+                completion(acc)
+            }
+        }
+    }
+    
+    static func getAccountDetails(email: String, completion: @escaping (AccountDetails?) -> Void) {
+        
+        print("Getting account details for \(email)")
         let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/info?email=\(email)")!
 
-        // Create a URLSession instance
         let session = URLSession.shared
-
-        // Create a data task
         let task = session.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
-                completion(nil) // Call the completion handler with an empty array
+                completion(nil)
                 return
             }
 
-            // Handle the API response
-            if let httpResponse = response as? HTTPURLResponse {
-//                print("Status code: \(httpResponse.statusCode)")
-
-                if let data = data {
-                    let item = self.process(data: data)
-                    
-                    completion(item) // Call the completion handler with the received items
-                } else {
-                    completion(nil) // Call the completion handler with an empty array
-                }
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200,
+               let data = data {
+                let accountDetails = self.processAccountDetails(data: data)
+                print(accountDetails!)
+                completion(accountDetails)
             } else {
-                completion(nil) // Call the completion handler with an empty array
+                completion(nil)
             }
         }
 
-        // Start the data task
         task.resume()
     }
     
@@ -58,6 +71,53 @@ class Manager {
                   print(String(describing: error))
                   return nil
               }
+    }
+    
+    static func getAccountAddress(id: String, completion: @escaping (AccountAddress?) -> Void) {
+        print("Getting account address for \(id)")
+        let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/address?id=\(id)")!
+
+        let session = URLSession.shared
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200,
+               let data = data {
+                let accountAddress = self.processAccountAddress(data: data)
+                print(accountAddress)
+                completion(accountAddress)
+            } else {
+                completion(nil)
+            }
+        }
+
+        task.resume()
+    }
+    
+    private static func processAccountDetails(data : Data) -> AccountDetails? {
+        do {
+            let decoder = JSONDecoder()
+            let jsonData = try decoder.decode(AccountDetails.self, from: data)
+            return jsonData
+        } catch {
+            print(String(describing: error))
+            return nil
+        }
+    }
+    
+    private static func processAccountAddress(data : Data) -> AccountAddress? {
+        do {
+            let decoder = JSONDecoder()
+            let jsonData = try decoder.decode(AccountAddress.self, from: data)
+            return jsonData
+        } catch {
+            print(String(describing: error))
+            return nil
+        }
     }
     
     

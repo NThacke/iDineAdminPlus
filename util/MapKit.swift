@@ -172,7 +172,7 @@ class Util {
     }
 }
 
-class Address : ObservableObject{
+class Address : ObservableObject {
     @Published var region : String = ""
     @Published var locality : String = ""
     @Published var administrativeArea : String = ""

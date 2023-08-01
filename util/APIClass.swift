@@ -31,7 +31,7 @@ public class APIHelper {
         var sections = [String]() //menu sections
         var mySections = [MenuSection]()
         
-        let restaurantID = Manager.account.id
+        let restaurantID = Manager.account.details.id
     
         
         getItems(restaurantID: restaurantID, menuType : menu) {items in

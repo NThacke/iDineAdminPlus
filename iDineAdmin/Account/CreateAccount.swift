@@ -72,6 +72,9 @@ struct CreateAccount : View {
     @ObservedObject var address : Address = Address()
     
     
+    private let id : String = UUID().uuidString
+    
+    
     var body : some View {
             Group {
                 VStack (alignment : .center) {
@@ -203,7 +206,7 @@ struct CreateAccount : View {
                     self.loading = false
                     if(!emailExists) {
                         Manager.getAccountInfo(email: email) {acc in
-                            Manager.account = acc!;
+                            Manager.account = acc!
                             loginSuccess = true
                             current.state = AppState.MenuView
                         }
@@ -242,6 +245,63 @@ struct CreateAccount : View {
     
     func invokeAPI(completion : @escaping () -> Void) {
         // Set the API endpoint URL
+        
+        putAccountDetails() {
+            putAccountAddress() {
+                completion()
+            }
+        }
+        
+    }
+    
+    func putAccountAddress(completion : @escaping () -> Void) {
+        print("Putting account address")
+        guard let url = URL(string : "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/address") else {
+            print("Invalid URL")
+            return
+        }
+        
+        //set the request method to be PUT
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        
+        //create a body for the JSON data
+        let requestBody = [
+            "id" : id,
+            "line" : address.line,
+            "postalCode" : address.postalCode,
+            "administrativeArea" : address.administrativeArea,
+            "locality" : address.locality,
+            "region" : address.region
+        ] as [String : String]
+        
+        //encode the body as json data
+        do {
+            let jsonData = try JSONEncoder().encode(requestBody)
+            request.httpBody = jsonData
+        } catch {
+            print("Error encoding JSON: \(error)")
+            return
+        }
+        
+        //idk
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        //start up the connection
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                completion()
+            }
+        }
+        task.resume()
+    }
+    
+    func putAccountDetails(completion : @escaping () -> Void) {
         guard let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account") else {
             print("Invalid URL")
             return
@@ -259,12 +319,12 @@ struct CreateAccount : View {
         email = email.lowercased()
         
         
-        let basicImage = AdminAccount.example().image()
+        let basicImage = AdminAccount.example().details.image()
         let imageAsString = AdminAccount.imageToString(image: basicImage!)!
             
         //create a body for the JSON data
         let requestBody = [
-            "id" : UUID().uuidString,
+            "id" : id,
             "email" : email,
             "salt" : salt,
             "password" : hashed_salted_password,
