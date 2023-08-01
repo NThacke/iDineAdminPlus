@@ -206,7 +206,7 @@ struct CreateAccount : View {
                     self.loading = false
                     if(!emailExists) {
                         Manager.getAccountInfo(email: email) {acc in
-                            Manager.account = acc!;
+                            Manager.account = acc!
                             loginSuccess = true
                             current.state = AppState.MenuView
                         }
