@@ -104,12 +104,14 @@ struct AccountLogin : View {
                 let saltedHashedPassword = sha256Hash(password+salt)
                 attemptLogin(email : email, password : saltedHashedPassword) {
                     loading = false
+                    print("Error : \(error)")
                     if(!error) {
                         Manager.getAccountInfo(email: email) {acc in
                             Manager.account = acc!
                             current.state = AppState.MenuView
                         }
                     }
+                    
                 }
             }
         }
