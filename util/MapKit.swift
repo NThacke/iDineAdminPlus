@@ -84,6 +84,7 @@ class Util {
     
     static func isAddressValid(address : Address, completion: @escaping (Bool) -> Void) {
         // Set the API endpoint URL
+        
         guard let url = URL(string: "https://addressvalidation.googleapis.com/v1:validateAddress?key=AIzaSyDZqxzoEgoqa2lZlyheQlit-HzFDcJa4h8") else {
             print("Invalid URL")
             return
@@ -99,7 +100,6 @@ class Util {
             request.httpBody = requestBody
         }
         
-        //idk
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         //start up the connection
