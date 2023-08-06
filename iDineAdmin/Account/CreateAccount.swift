@@ -19,8 +19,9 @@ struct CreateAccount : View {
     
     @ObservedObject var address : Address = Address()
     
-    @ObservedObject private var restaurantType : RestaurantType = RestaurantType()
+    @ObservedObject private var restaurantType : RestaurantType = RestaurantType.shared
     
+    private var restaurantTypeSelection : RestaurantTypeSelection
     
     private let id : String = UUID().uuidString
     
@@ -101,7 +102,8 @@ struct CreateAccount : View {
                                     TextField("Restaurant Name", text : $account.restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                                 }
                                 
-                                RestaurantTypeSelection().environmentObject(restaurantType)
+//                                RestaurantTypeSelection().environmentObject(restaurantType)
+                                restaurantTypeSelection.environmentObject(restaurantType)
                                 
                                 Group { //Location Information
                                     if(account.invalidLocation) {
@@ -147,6 +149,10 @@ struct CreateAccount : View {
             }
     }
     
+    init() {
+        self.restaurantTypeSelection = RestaurantTypeSelection()
+    }
+    
     /**
      Attemps to create an account. If the given email already exists, this flags the corresponding variable to be true.
      */
@@ -186,6 +192,8 @@ struct CreateAccount : View {
         account.invalidName = account.restaurantName.isEmpty
         account.invalidEmail = account.email.isEmpty
         account.invalidPassword = account.password.isEmpty
+        
+        restaurantTypeSelection.valid = restaurantType.currentSelection.isEmpty
         
             Util.isAddressValid(address: address) { result in
                 account.invalidLocation = (address.line.isEmpty || address.locality.isEmpty || address.postalCode.isEmpty || address.region.isEmpty || address.administrativeArea.isEmpty) || !result
@@ -344,10 +352,6 @@ struct CreateAccount : View {
 
         return randomString
     }
-    
-    init() {
-        Communicator.location = "" //Refreshes the communicator's location as other views use and can modify this. This is dangerous.
-    }
 }
 
 func sha256Hash(_ input: String) -> String {
@@ -401,6 +405,15 @@ private class RestaurantType : ObservableObject {
     
     @Published var label : String = "Restaurant Cuisine"
     
+    /**
+     This enables us to follow the Singleton design pattern. In particular, this allows us to reference the same object when we initalaze a RestaurantType in top-level code and pass an environment object of type RestarauntType.
+     
+     For example, when creating the CreateAccountView, we want to have both a RestaurantTypeSelection and a RestaurantType be instantiated in top-level code. However, RestaurantTypeSelection takes a RestaurantType as an environment variable. Swift won't let us initaliaze an object in top level code and also use that same object in soem other top-level code, so to circumvent this, we must use a singleton pattern. After all, we do want to reference the same object at all times, anyway.
+     
+     The work-around for the above problem is to have a singleton of RestaurantType that can be accessed statically. That way, we are initalzing the object in the RestaurntTyp, and can simply refer to that object in our top-level code for both the RestaurantType that we use in top-level code, as well as for passing as enviornment variables to our RestaurntTypeSelection.
+     */
+    static let shared = RestaurantType()
+    
     static let MEXICAN : String = "Mexican"
     static let ITALIAN : String = "Italian"
     static let INDIAN : String = "Indian"
@@ -417,6 +430,10 @@ private class RestaurantType : ObservableObject {
         label = to
     }
     
+    private init() {
+        
+    }
+    
 }
 
 /**
@@ -430,6 +447,8 @@ private struct RestaurantTypeSelection : View {
      This field is used to communicate the selection between this view and the view which invokes it (CreateAccountView)
      */
     @EnvironmentObject var restaurantType : RestaurantType
+    
+    @State var valid : Bool = true
     
     var body : some View {
         HStack {
@@ -445,6 +464,6 @@ private struct RestaurantTypeSelection : View {
                 Button(RestaurantType.THAI) {restaurantType.changeSelection(to: RestaurantType.THAI)}
             }
             Spacer()
-        }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth : 1)).padding()
+        }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(valid ? Color.blue : Color.red, lineWidth : 1)).padding()
     }
 }
