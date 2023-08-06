@@ -285,7 +285,7 @@ struct CreateAccount : View {
             "restaurantImage" : imageAsString,
             "layoutStyle" : "0",
             "visible" : "false",
-            "restaurantType" : account.restaurantType
+            "restaurantType" : restaurantType.currentSelection
         ] as [String : String]
         
         //encode the body as json data
@@ -369,7 +369,6 @@ private class CreateAccountHelper : ObservableObject {
     @Published var email : String = ""
     @Published var password : String = ""
     @Published var restaurantName : String = ""
-    @Published var restaurantType : String = ""
     @Published var restaurantInfo = false
     
     /**
@@ -420,8 +419,16 @@ private class RestaurantType : ObservableObject {
     
 }
 
+/**
+ This RestaurantTypeSelection is used as a View which offers the user to change their restaurant type's seletion. Rather than having the code within this struct be thrown into the CreateAccount struct, we simply invoke an stance of this View instead. This increases code reuse (although we do not re use this code), and more importantly, improves code readability.
+ 
+ Note that this struct takes an @EnvironmentObject field. This field is actually of type RestaurantType, and is used to communicate the selected Restaurant Type to the Create Account view. The Create Account View initalzes an instance of RestaurantType and passes it as an environment object to the RestaurantTypeSelection.
+ */
 private struct RestaurantTypeSelection : View {
     
+    /**
+     This field is used to communicate the selection between this view and the view which invokes it (CreateAccountView)
+     */
     @EnvironmentObject var restaurantType : RestaurantType
     
     var body : some View {
