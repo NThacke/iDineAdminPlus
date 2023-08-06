@@ -101,15 +101,8 @@ struct CreateAccount : View {
                                     TextField("Restaurant Name", text : $account.restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                                 }
                                 
-                                HStack {
-                                    Menu(restaurantType.label) {
-                                        Button(RestaurantType.MEXICAN) {restaurantType.changeSelection(to : RestaurantType.MEXICAN)}
-                                        Button(RestaurantType.ITALIAN) {restaurantType.changeSelection(to: RestaurantType.ITALIAN)}
-                                        
-                                        
-                                    }
-                                    Spacer()
-                                }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth : 1)).padding()
+                                RestaurantTypeSelection().environmentObject(restaurantType)
+                                
                                 Group { //Location Information
                                     if(account.invalidLocation) {
                                         warning()
@@ -407,18 +400,44 @@ private class CreateAccountHelper : ObservableObject {
 private class RestaurantType : ObservableObject {
     @Published var currentSelection : String = ""
     
-    @Published var label : String = "Restaurant Type"
+    @Published var label : String = "Restaurant Cuisine"
     
     static let MEXICAN : String = "Mexican"
     static let ITALIAN : String = "Italian"
+    static let INDIAN : String = "Indian"
+    static let THAI : String = "Thai"
+    static let FRENCH : String = "French"
+    static let CHINESE : String = "Chinese"
+    static let JAPANESE : String = "Japanese"
+    static let GREEK : String = "Greek"
+    static let SPANISH : String = "Spanish"
+    
     
     func changeSelection(to: String) {
         currentSelection = to
         label = to
     }
     
+}
+
+private struct RestaurantTypeSelection : View {
     
+    @EnvironmentObject var restaurantType : RestaurantType
     
-    
-    
+    var body : some View {
+        HStack {
+            Menu(restaurantType.label) {
+                Button(RestaurantType.CHINESE) {restaurantType.changeSelection(to : RestaurantType.CHINESE)}
+                Button(RestaurantType.FRENCH) {restaurantType.changeSelection(to: RestaurantType.FRENCH)}
+                Button(RestaurantType.GREEK) {restaurantType.changeSelection(to : RestaurantType.GREEK)}
+                Button(RestaurantType.INDIAN){restaurantType.changeSelection(to: RestaurantType.INDIAN)}
+                Button(RestaurantType.ITALIAN) {restaurantType.changeSelection(to: RestaurantType.ITALIAN)}
+                Button(RestaurantType.JAPANESE) {restaurantType.changeSelection(to: RestaurantType.JAPANESE)}
+                Button(RestaurantType.MEXICAN) {restaurantType.changeSelection(to:RestaurantType.MEXICAN)}
+                Button(RestaurantType.SPANISH) {restaurantType.changeSelection(to: RestaurantType.SPANISH)}
+                Button(RestaurantType.THAI) {restaurantType.changeSelection(to: RestaurantType.THAI)}
+            }
+            Spacer()
+        }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth : 1)).padding()
+    }
 }
