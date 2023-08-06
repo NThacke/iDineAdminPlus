@@ -17,19 +17,18 @@ class Manager {
         
         getAccountDetails(email : email) { details in
             getAccountAddress(id : details!.id) { address in
-//                let acount = AdminAccount(details : details ?? AdminAccount.example().details, address : address ?? AdminAccount.example().address)
                 let acc = AdminAccount(details : details!, address : address!)
                 print("**********************")
                 print("-----------------")
                 print("Account Details")
                 print("-----------------")
-                print("Email : \(account.details.email)")
-                print("Name : \(account.details.restaurantName)")
+                print("Email : \(acc.details.email)")
+                print("Name : \(acc.details.restaurantName)")
                 print("-----------------")
                 print("Account Address")
                 print("-----------------")
-                print("Line : \(account.address.line)")
-                print("Locality : \(account.address.locality)")
+                print("Line : \(acc.address.line)")
+                print("Locality : \(acc.address.locality)")
                 print("**********************")
                 completion(acc)
             }
