@@ -17,57 +17,7 @@ struct CreateAccount : View {
     
     @StateObject var fields : ChangeTracker = ChangeTracker()
     
-    /**
-            The email associated with the newly created account.
-     */
-    @State var email : String = ""
-    
-    /**
-                    The password of the newly created account.
-     */
-    @State var password : String = ""
-    
-    /**
-     The restaurant name associated with this account
-     */
-    
-    @State var restaurantName : String = ""
-    
-    /**
-     The restaurant location associated with this account.
-     */
-    @State var location : String = ""
-    
-    /**
-            A State variable that is used to denote if the user wishes to see information regarding restaurants.
-     */
-    @State var restaurantInfo = false
-    
-    
-    /**
-        A state variable used to signify that an email already exists.
-     */
-    @State var emailExists = false
-    
-    /**
-     This state variable is used to signify when we are loading data from an API endpoint. This is used to show loading bars.
-     */
-    @State var loading = false
-    
-    
-    @State var invalidEmail = false
-    
-    @State var invalidPassword = false
-    
-    @State var invalidName = false
-    
-    @State var invalidLocation = false
-    
-    
-    @State var loginSuccess = false
-    
-    @State var cancel = false
-    
+    @ObservedObject private var account : CreateAccountHelper = CreateAccountHelper()
     
     @ObservedObject var address : Address = Address()
     
@@ -94,29 +44,29 @@ struct CreateAccount : View {
                         }
                         Group {
                             //show a red outline along with text if email exists
-                            if(emailExists) {
+                            if(account.emailExists) {
                                 Text("Email already exists").foregroundColor(Color.gray)
-                                TextField("Email", text : $email).padding().onChange(of: email, perform: {s in
-                                    emailExists = false
+                                TextField("Email", text : $account.email).padding().onChange(of: account.email, perform: {s in
+                                    account.emailExists = false
                                 }).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding()
                             }
-                            else if(invalidEmail) {
-                                TextField("Email", text : $email).padding().onChange(of: email, perform: {s in
-                                    invalidEmail = false
+                            else if(account.invalidEmail) {
+                                TextField("Email", text : $account.email).padding().onChange(of: account.email, perform: {s in
+                                    account.invalidEmail = false
                                 }).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding()
                             }
                             //otherwise (email does not exist) just show normal email
                             else {
-                                TextField("Email", text : $email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                TextField("Email", text : $account.email).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                             }
                             //password
-                            if(invalidPassword) {
-                                SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: password) { newValue in
-                                    invalidPassword = false
+                            if(account.invalidPassword) {
+                                SecureField("Password", text : $account.password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: account.password) { newValue in
+                                    account.invalidPassword = false
                                 }
                             }
                             else {
-                                SecureField("Password", text : $password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                SecureField("Password", text : $account.password).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                             }
                         }
                         Group {
@@ -127,7 +77,7 @@ struct CreateAccount : View {
                                 Spacer()
                                 //info button
                                 Button(action : {
-                                    restaurantInfo.toggle()
+                                    account.restaurantInfo.toggle()
                                 }) {
                                     Image(systemName : "info.circle")
                                 }
@@ -136,25 +86,33 @@ struct CreateAccount : View {
                         Group {
                             //display info if user selected to
                             VStack {
-                                if(restaurantInfo) {
+                                if(account.restaurantInfo) {
                                     ScrollView {
-                                        Text("To put a restaurant on this app, you need a name and a location to begin with. These can be changed later. However, only one restaurant may be associated with an account.").foregroundColor(Color.gray)
+                                        Text("Every restaurant has a name, type, and location. You can change the name later, but you cannot change the type or address after creating an account. ").foregroundColor(Color.gray)
                                     }
                                 }
                                 //name textfield
-                                if(invalidName) {
-                                    TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: restaurantName, perform: {s in
-                                        invalidName = false
+                                if(account.invalidName) {
+                                    TextField("Restaurant Name", text : $account.restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.red, lineWidth: 1)).padding().onChange(of: account.restaurantName, perform: {s in
+                                        account.invalidName = false
                                     })
                                 }
                                 else {
-                                    TextField("Restaurant Name", text : $restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
+                                    TextField("Restaurant Name", text : $account.restaurantName).padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1)).padding()
                                 }
+                                
+                                HStack {
+                                    Menu("Restaurant Type") {
+                                        Button("Mexican") {}
+                                        Button("Italian") {}
+                                    }
+                                    Spacer()
+                                }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth : 1)).padding()
                                 Group { //Location Information
-                                    if(invalidLocation) {
+                                    if(account.invalidLocation) {
                                         warning()
                                         AddressFormView(address: address).onSubmit {
-                                                invalidLocation.toggle()
+                                            account.invalidLocation.toggle()
                                         }
                                     }
                                     else {
@@ -181,7 +139,7 @@ struct CreateAccount : View {
                         }
                     }
                     
-                    if(loading) {
+                    if(account.loading) {
                         // This is the loading icon (indeterminate spinner)
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
@@ -201,13 +159,13 @@ struct CreateAccount : View {
         
         validEntries() { result in
             if(result) {
-                self.loading = true
+                account.loading = true
                 self.invokeAPI() {
-                    self.loading = false
-                    if(!emailExists) {
-                        Manager.getAccountInfo(email: email) {acc in
+                    account.loading = false
+                    if(!account.emailExists) {
+                        Manager.getAccountInfo(email: account.email) {acc in
                             Manager.account = acc!
-                            loginSuccess = true
+                            account.loginSuccess = true
                             current.state = AppState.MenuView
                         }
                     }
@@ -230,16 +188,16 @@ struct CreateAccount : View {
     func validEntries(completion : @escaping (Bool) -> Void){
         
         print("Inside valid entries()")
-        invalidName = restaurantName.isEmpty
-        invalidEmail = email.isEmpty
-        invalidPassword = password.isEmpty
+        account.invalidName = account.restaurantName.isEmpty
+        account.invalidEmail = account.email.isEmpty
+        account.invalidPassword = account.password.isEmpty
         
             Util.isAddressValid(address: address) { result in
-                invalidLocation = (address.line.isEmpty || address.locality.isEmpty || address.postalCode.isEmpty || address.region.isEmpty || address.administrativeArea.isEmpty) || !result
+                account.invalidLocation = (address.line.isEmpty || address.locality.isEmpty || address.postalCode.isEmpty || address.region.isEmpty || address.administrativeArea.isEmpty) || !result
                 
                 print("\(address.line) + is an address : \(result)")
                 
-                completion(!(invalidName || invalidEmail || invalidPassword || invalidLocation))
+                completion(!(account.invalidName || account.invalidEmail || account.invalidPassword || account.invalidLocation))
             }
     }
     
@@ -313,10 +271,10 @@ struct CreateAccount : View {
         
         //generate salt and hash the password+salt
         let salt = generateSalt(length:16)
-        let hashed_salted_password = sha256Hash(password+salt)
+        let hashed_salted_password = sha256Hash(account.password+salt)
         
         //lowercase email
-        email = email.lowercased()
+        let email = account.email.lowercased()
         
         
         let basicImage = AdminAccount.example().details.image()
@@ -328,11 +286,11 @@ struct CreateAccount : View {
             "email" : email,
             "salt" : salt,
             "password" : hashed_salted_password,
-            "restaurantName" : restaurantName,
-            "restaurantLocation" : location,
+            "restaurantName" : account.restaurantName,
             "restaurantImage" : imageAsString,
             "layoutStyle" : "0",
-            "visible" : "false"
+            "visible" : "false",
+            "restaurantType" : account.restaurantType
         ] as [String : String]
         
         //encode the body as json data
@@ -360,18 +318,18 @@ struct CreateAccount : View {
                 //status code
                 if(httpResponse.statusCode == 400) {
                     //email already exists
-                    emailExists = true
+                    account.emailExists = true
                     
                 }
                 
                 //body
                 if let data = data {
-                            if let bodyString = String(data: data, encoding: .utf8) {
-                                print("Response Body: \(bodyString)")
-                                
-                                // Now you can use the body data as needed
-                            }
-                        }
+                    if let bodyString = String(data: data, encoding: .utf8) {
+                        print("Response Body: \(bodyString)")
+                        
+                        // Now you can use the body data as needed
+                    }
+                }
                 completion()
             }
         }
@@ -408,4 +366,42 @@ struct CreateAccount_Previews: PreviewProvider {
     static var previews: some View {
         CreateAccount().environmentObject(AppState())
     }
+}
+
+
+
+private class CreateAccountHelper : ObservableObject {
+    @Published var email : String = ""
+    @Published var password : String = ""
+    @Published var restaurantName : String = ""
+    @Published var restaurantType : String = ""
+    @Published var restaurantInfo = false
+    
+    /**
+        A state variable used to signify that an email already exists.
+     */
+    @Published var emailExists = false
+    
+    /**
+     This state variable is used to signify when we are loading data from an API endpoint. This is used to show loading bars.
+     */
+    @Published var loading = false
+    
+    
+    @Published var invalidEmail = false
+    
+    @Published var invalidPassword = false
+    
+    @Published var invalidName = false
+    
+    @Published var invalidLocation = false
+    
+    
+    @Published var loginSuccess = false
+    
+    @Published var cancel = false
+    
+    
+    
+    
 }
