@@ -15,11 +15,11 @@ struct CreateAccount : View {
     
     @EnvironmentObject var current : AppState
     
-    @StateObject var fields : ChangeTracker = ChangeTracker()
-    
     @ObservedObject private var account : CreateAccountHelper = CreateAccountHelper()
     
     @ObservedObject var address : Address = Address()
+    
+    @ObservedObject private var restaurantType : RestaurantType = RestaurantType()
     
     
     private let id : String = UUID().uuidString
@@ -102,9 +102,11 @@ struct CreateAccount : View {
                                 }
                                 
                                 HStack {
-                                    Menu("Restaurant Type") {
-                                        Button("Mexican") {}
-                                        Button("Italian") {}
+                                    Menu(restaurantType.label) {
+                                        Button(RestaurantType.MEXICAN) {restaurantType.changeSelection(to : RestaurantType.MEXICAN)}
+                                        Button(RestaurantType.ITALIAN) {restaurantType.changeSelection(to: RestaurantType.ITALIAN)}
+                                        
+                                        
                                     }
                                     Spacer()
                                 }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth : 1)).padding()
@@ -400,6 +402,21 @@ private class CreateAccountHelper : ObservableObject {
     @Published var loginSuccess = false
     
     @Published var cancel = false
+}
+
+private class RestaurantType : ObservableObject {
+    @Published var currentSelection : String = ""
+    
+    @Published var label : String = "Restaurant Type"
+    
+    static let MEXICAN : String = "Mexican"
+    static let ITALIAN : String = "Italian"
+    
+    func changeSelection(to: String) {
+        currentSelection = to
+        label = to
+    }
+    
     
     
     
