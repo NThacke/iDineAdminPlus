@@ -25,6 +25,8 @@ struct CreateAccount : View {
     
     private let id : String = UUID().uuidString
     
+    @State var isValid : Bool = true
+    
     
     var body : some View {
             Group {
@@ -193,7 +195,8 @@ struct CreateAccount : View {
         account.invalidEmail = account.email.isEmpty
         account.invalidPassword = account.password.isEmpty
         
-        restaurantTypeSelection.valid = restaurantType.currentSelection.isEmpty
+        restaurantType.valid = !restaurantType.currentSelection.isEmpty
+        
         
             Util.isAddressValid(address: address) { result in
                 account.invalidLocation = (address.line.isEmpty || address.locality.isEmpty || address.postalCode.isEmpty || address.region.isEmpty || address.administrativeArea.isEmpty) || !result
@@ -405,6 +408,8 @@ private class RestaurantType : ObservableObject {
     
     @Published var label : String = "Restaurant Cuisine"
     
+    @Published var valid : Bool = true
+    
     /**
      This enables us to follow the Singleton design pattern. In particular, this allows us to reference the same object when we initalaze a RestaurantType in top-level code and pass an environment object of type RestarauntType.
      
@@ -448,8 +453,6 @@ private struct RestaurantTypeSelection : View {
      */
     @EnvironmentObject var restaurantType : RestaurantType
     
-    @State var valid : Bool = true
-    
     var body : some View {
         HStack {
             Menu(restaurantType.label) {
@@ -464,6 +467,6 @@ private struct RestaurantTypeSelection : View {
                 Button(RestaurantType.THAI) {restaurantType.changeSelection(to: RestaurantType.THAI)}
             }
             Spacer()
-        }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(valid ? Color.blue : Color.red, lineWidth : 1)).padding()
+        }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(restaurantType.valid ? Color.blue : Color.red, lineWidth : 1)).padding()
     }
 }
