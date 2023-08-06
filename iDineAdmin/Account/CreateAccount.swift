@@ -433,6 +433,7 @@ private class RestaurantType : ObservableObject {
     func changeSelection(to: String) {
         currentSelection = to
         label = to
+        valid = true
     }
     
     private init() {
@@ -465,7 +466,7 @@ private struct RestaurantTypeSelection : View {
                 Button(RestaurantType.MEXICAN) {restaurantType.changeSelection(to:RestaurantType.MEXICAN)}
                 Button(RestaurantType.SPANISH) {restaurantType.changeSelection(to: RestaurantType.SPANISH)}
                 Button(RestaurantType.THAI) {restaurantType.changeSelection(to: RestaurantType.THAI)}
-            }
+            }.foregroundColor(restaurantType.valid ? Color.blue : Color.red)
             Spacer()
         }.padding().overlay(RoundedRectangle(cornerRadius: 10).stroke(restaurantType.valid ? Color.blue : Color.red, lineWidth : 1)).padding()
     }
